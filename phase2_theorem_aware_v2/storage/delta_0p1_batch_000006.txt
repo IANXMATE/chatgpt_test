@@ -1,0 +1,607 @@
+# Goldbach Phase-2 theorem-aware random-search record
+# Numerical candidate only; theorem guards/splits are recorded, but integrals are not interval-certified.
+{
+  "schema": "goldbach-phase2-theorem-aware-hit-v2",
+  "status": "NUMERICAL_CANDIDATE_THEOREM_GUARDED_NOT_INTERVAL_CERTIFIED",
+  "created_utc": "2026-08-13T12:44:23.444291+00:00",
+  "target": {
+    "delta": 0.1,
+    "a": 1.9,
+    "form": "1 + (2-delta)",
+    "required_margin_4D": 1e-05
+  },
+  "reproducibility": {
+    "batch_index": 6,
+    "sample_index": 36,
+    "batch_seed": 260605230,
+    "python": "3.14.6 (v3.14.6:c63aec69bd5, Jun 10 2026, 08:07:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "argv": [
+      "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_theorem_aware_v2/main.py"
+    ],
+    "manifest_path": "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_theorem_aware_v2/data/phase1_manifest_v5.json",
+    "manifest_sha256": "36f2e62c84bd0db5f38426f96e76b8314fa0ed9fb671ad4c42ff338f58be83f6",
+    "flow_path": "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_theorem_aware_v2/data/flow_blueprint.json",
+    "flow_sha256": "e29a233961e22c2f843c9569613d09ec160c80899888fd6b66f3e77c07c5887c",
+    "script_path": "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_theorem_aware_v2/main.py",
+    "script_sha256": "37366fa5c3189af7e8bbbde687b039da1886994b452adf4dfbcc34e89909e935"
+  },
+  "parameters": {
+    "a": 1.9,
+    "alpha": 0.07506763476128361,
+    "beta": 0.11772679769490248,
+    "gamma": 0.25991424551243264,
+    "epsilon": 1e-10,
+    "tau": 0.47368421042631575,
+    "delta": 0.10000000000000009
+  },
+  "evaluator_settings": {
+    "lowdim_gauss_order": 40,
+    "highdim_gauss_order": 10,
+    "linear_sieve_grid_step": 2e-05,
+    "buchstab_grid_step": 2e-05,
+    "numeric_pad_per_G": 2e-06,
+    "status": "NUMERICAL_CANDIDATE_THEOREM_GUARDED_NOT_INTERVAL_CERTIFIED"
+  },
+  "theorem_trace": {
+    "passed": true,
+    "hard_failures": [],
+    "guards": [
+      {
+        "name": "P43_a",
+        "passed": true,
+        "expression": "1.5+3ε < a < 2",
+        "value": 1.9,
+        "threshold": null,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_alpha_beta",
+        "passed": true,
+        "expression": "1/18 < alpha < beta",
+        "value": null,
+        "threshold": null,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_beta_middle",
+        "passed": true,
+        "expression": "beta < (1-3 beta)/3",
+        "value": 0.11772679769490248,
+        "threshold": 0.21560653563843082,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_middle_gamma",
+        "passed": true,
+        "expression": "(1-3 beta)/3 < gamma < 1/3",
+        "value": 0.25991424551243264,
+        "threshold": null,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_tau",
+        "passed": true,
+        "expression": "1/3 < tau=(a-1)/a-epsilon",
+        "value": 0.47368421042631575,
+        "threshold": 0.3333333333333333,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G1_linear_sieve",
+        "passed": true,
+        "expression": "alpha < 1/4  (asymptotic form of z=N^alpha <= Q^(1/2), Q~N^(1/2))",
+        "value": 0.07506763476128361,
+        "threshold": 0.25,
+        "theorem": "Lemma 2.5",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G2_linear_sieve",
+        "passed": true,
+        "expression": "beta < 1/4",
+        "value": 0.11772679769490248,
+        "threshold": 0.25,
+        "theorem": "Lemma 2.5",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G4_uniform_upper_sieve",
+        "passed": true,
+        "expression": "alpha < 1/12  (uniform s=(1/2-u)/alpha > 2 for u<=1/3)",
+        "value": 0.07506763476128361,
+        "threshold": 0.08333333333333333,
+        "theorem": "Lemma 2.5 upper bound",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": "No alternative upper estimator is registered outside this guard."
+      },
+      {
+        "name": "G5_uniform_upper_sieve",
+        "passed": true,
+        "expression": "2 alpha + gamma < 1/2",
+        "value": 0.41004951503499987,
+        "threshold": 0.5,
+        "theorem": "Lemma 2.5 upper bound",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G8_single_remaining_prime",
+        "passed": true,
+        "expression": "gamma > 1/4",
+        "value": 0.25991424551243264,
+        "threshold": 0.25,
+        "theorem": "Section 5.3 switching structure",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "hard": true,
+        "note": "Ensures the unsieved remainder cannot have two prime factors."
+      },
+      {
+        "name": "G11_buchstab_domain",
+        "passed": true,
+        "expression": "(1-4 beta)/beta > 1",
+        "value": 4.494242768681881,
+        "threshold": 1.0,
+        "theorem": "Lemma 2.1 Buchstab domain",
+        "source": "Li-Liu 2026, Lemma 2.1 (Buchstab function)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G12_buchstab_domain",
+        "passed": true,
+        "expression": "(1-3 beta-gamma)/beta > 1",
+        "value": 3.2864680682604916,
+        "threshold": 1.0,
+        "theorem": "Lemma 2.1 Buchstab domain",
+        "source": "Li-Liu 2026, Lemma 2.1 (Buchstab function)",
+        "hard": true,
+        "note": "Arguments below 3 are legal; w is evaluated dynamically."
+      }
+    ],
+    "splits": [
+      {
+        "target": "G6,G7",
+        "variable": "u+v",
+        "boundary": "u+v = 1/2 - 2 alpha",
+        "left_rule": "Lemma 2.5 lower sieve with dynamic f(s)",
+        "right_rule": "trivial lower bound S>=0",
+        "source": "Li-Liu Section 5.2; f(s)=0 for s<=2",
+        "note": "Lossless for the lower-bound certificate."
+      },
+      {
+        "target": "G9",
+        "variable": "u=t1",
+        "boundary": "u = 1/10",
+        "left_rule": "Lemma 3.5, coefficient 36/5 and extra 1/(1-u)",
+        "right_rule": "Lemma 3.1, coefficient 8",
+        "source": "Li-Liu 2026, Lemma 3.5; adapted by Wu for Goldbach, valid nu<=1/10",
+        "note": "This is a genuine theorem applicability boundary."
+      },
+      {
+        "target": "G11,G12",
+        "variable": "t1",
+        "boundary": "t1 = 1/10",
+        "left_rule": "Lemma 3.5 switched distribution factor 36/5",
+        "right_rule": "Lemma 3.1 switched distribution factor 8",
+        "source": "Li-Liu Section 5.4",
+        "note": ""
+      }
+    ],
+    "applications": [
+      {
+        "target": "G1",
+        "theorem": "Lemma 2.5 lower",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "s=1/(2alpha)=6.66066010458"
+      },
+      {
+        "target": "G2",
+        "theorem": "Lemma 2.5 lower",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "s=1/(2beta)=4.24712138434"
+      },
+      {
+        "target": "G3",
+        "theorem": "Section 5.3 switching upper bound",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "detail": "8 * integral_tau^(1/2) du/[u(1-u)]"
+      },
+      {
+        "target": "G4",
+        "theorem": "Lemma 2.5 upper",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "u in [alpha,1/3], dynamic F((1/2-u)/alpha)"
+      },
+      {
+        "target": "G5",
+        "theorem": "Lemma 2.5 upper",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "u in [alpha,gamma], dynamic F"
+      },
+      {
+        "target": "G6",
+        "theorem": "Lemma 2.5 lower + trivial S>=0 outside",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "auto-split at u+v=0.349864730477"
+      },
+      {
+        "target": "G7",
+        "theorem": "Lemma 2.5 lower + trivial S>=0 outside",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "auto-split at u+v=0.349864730477"
+      },
+      {
+        "target": "G8",
+        "theorem": "Section 5.3 switching upper",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "detail": "gamma-parametrized version of (5.39)-(5.41)"
+      },
+      {
+        "target": "G9",
+        "theorem": "Lemma 3.5 / Lemma 3.1 split",
+        "source": "Li-Liu 2026, Lemma 3.5; adapted by Wu for Goldbach, valid nu<=1/10",
+        "detail": "automatic split at u=1/10"
+      },
+      {
+        "target": "G10",
+        "theorem": "Section 5.3 switching upper",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "detail": "sqrt-remaining sieve removes a second large factor"
+      },
+      {
+        "target": "G11",
+        "theorem": "Buchstab function + theorem split at t1=1/10",
+        "source": "Li-Liu 2026, Section 5.4, equations (5.47)-(5.50)",
+        "detail": "Directly evaluates w((1-t1-t2-t3-t4)/t2); no constant omega cap."
+      },
+      {
+        "target": "G12",
+        "theorem": "Buchstab function + theorem split at t1=1/10",
+        "source": "Li-Liu 2026, Section 5.4, equations (5.47)-(5.50)",
+        "detail": "Direct dynamic w; values below u=3 remain legal."
+      }
+    ]
+  },
+  "per_G": {
+    "G1": {
+      "s": 6.660660104584468,
+      "raw_unpadded_bound": 14.958547234161987,
+      "padded_bound": 14.958545234161987,
+      "coefficient": 3.0,
+      "contribution": 44.87563570248596
+    },
+    "G2": {
+      "s": 4.24712138434094,
+      "raw_unpadded_bound": 9.424963815528642,
+      "padded_bound": 9.424961815528642,
+      "coefficient": 1.0,
+      "contribution": 9.424961815528642
+    },
+    "G3": {
+      "tau": 0.47368421042631575,
+      "raw_unpadded_bound": 0.8428841284715015,
+      "padded_bound": 0.8428861284715015,
+      "coefficient": -4.0,
+      "contribution": -3.371544513886006
+    },
+    "G4": {
+      "raw_unpadded_bound": 23.774489545092948,
+      "padded_bound": 23.774491545092946,
+      "coefficient": -1.0,
+      "contribution": -23.774491545092946
+    },
+    "G5": {
+      "raw_unpadded_bound": 18.8612985482314,
+      "padded_bound": 18.861300548231398,
+      "coefficient": -1.0,
+      "contribution": -18.861300548231398
+    },
+    "G6": {
+      "cutoff_u_plus_v": 0.3498647304774328,
+      "eligible_u_range": [
+        0.07506763476128361,
+        0.11772679769490248
+      ],
+      "outside_rule": "0 lower bound",
+      "raw_unpadded_bound": 1.4869076021416099,
+      "padded_bound": 1.4869056021416098,
+      "coefficient": 1.0,
+      "contribution": 1.4869056021416098
+    },
+    "G7": {
+      "cutoff_u_plus_v": 0.3498647304774328,
+      "eligible_u_range": [
+        0.07506763476128361,
+        0.11772679769490248
+      ],
+      "outside_rule": "0 lower bound",
+      "raw_unpadded_bound": 3.8860705535842586,
+      "padded_bound": 3.8860685535842587,
+      "coefficient": 1.0,
+      "contribution": 3.8860685535842587
+    },
+    "G8": {
+      "gamma": 0.25991424551243264,
+      "raw_unpadded_bound": 0.9048121886914265,
+      "padded_bound": 0.9048141886914265,
+      "coefficient": -2.0,
+      "contribution": -1.809628377382853
+    },
+    "G9": {
+      "pieces": [
+        {
+          "range": [
+            0.07506763476128361,
+            0.1
+          ],
+          "rule": "Lemma 3.5",
+          "value": 1.370253493206153
+        },
+        {
+          "range": [
+            0.1,
+            0.3333333333333333
+          ],
+          "rule": "Lemma 3.1",
+          "value": 3.927961608035524
+        }
+      ],
+      "raw_unpadded_bound": 5.298215101241677,
+      "padded_bound": 5.298217101241677,
+      "coefficient": -1.0,
+      "contribution": -5.298217101241677
+    },
+    "G10": {
+      "raw_unpadded_bound": 5.90024142771237,
+      "padded_bound": 5.90024342771237,
+      "coefficient": -1.0,
+      "contribution": -5.90024342771237
+    },
+    "G11": {
+      "small_t1": {
+        "range": [
+          0.07506763476128361,
+          0.1
+        ],
+        "factor": 7.2,
+        "buchstab_argument_seen": [
+          4.658929078250891,
+          9.153215351571394
+        ]
+      },
+      "large_t1": {
+        "range": [
+          0.1,
+          0.11772679769490248
+        ],
+        "factor": 8.0,
+        "buchstab_argument_seen": [
+          4.496348503791893,
+          5.949830463339771
+        ]
+      },
+      "raw_unpadded_bound": 0.0840400989378812,
+      "padded_bound": 0.0840420989378812,
+      "coefficient": -1.0,
+      "contribution": -0.0840420989378812
+    },
+    "G12": {
+      "small_t1": {
+        "range": [
+          0.07506763476128361,
+          0.1
+        ],
+        "factor": 7.2,
+        "buchstab_argument_seen": [
+          3.464522059133203,
+          8.592896806873666
+        ]
+      },
+      "large_t1": {
+        "range": [
+          0.1,
+          0.11772679769490248
+        ],
+        "factor": 8.0,
+        "buchstab_argument_seen": [
+          3.30430076346636,
+          5.76393751026866
+        ]
+      },
+      "raw_unpadded_bound": 0.5673081766028613,
+      "padded_bound": 0.5673101766028612,
+      "coefficient": -1.0,
+      "contribution": -0.5673101766028612
+    }
+  },
+  "bounds": {
+    "G1": 14.958545234161987,
+    "G2": 9.424961815528642,
+    "G3": 0.8428861284715015,
+    "G4": 23.774491545092946,
+    "G5": 18.861300548231398,
+    "G6": 1.4869056021416098,
+    "G7": 3.8860685535842587,
+    "G8": 0.9048141886914265,
+    "G9": 5.298217101241677,
+    "G10": 5.90024342771237,
+    "G11": 0.0840420989378812,
+    "G12": 0.5673101766028612
+  },
+  "contributions": {
+    "G1": 44.87563570248596,
+    "G2": 9.424961815528642,
+    "G3": -3.371544513886006,
+    "G4": -23.774491545092946,
+    "G5": -18.861300548231398,
+    "G6": 1.4869056021416098,
+    "G7": 3.8860685535842587,
+    "G8": -1.809628377382853,
+    "G9": -5.298217101241677,
+    "G10": -5.90024342771237,
+    "G11": -0.0840420989378812,
+    "G12": -0.5673101766028612
+  },
+  "margin": {
+    "margin_4D": 0.006793884652475518,
+    "margin_D": 0.0016984711631188795
+  },
+  "certificate": {
+    "coefficient_vector": {
+      "G1": 3,
+      "G2": 1,
+      "G3": -4,
+      "G4": -1,
+      "G5": -1,
+      "G6": 1,
+      "G7": 1,
+      "G8": -2,
+      "G9": -1,
+      "G10": -1,
+      "G11": -1,
+      "G12": -1
+    },
+    "paper_replay_chain": [
+      {
+        "label": "(4.19)+(4.20), before dropping S6(beta,gamma)",
+        "coefficients": {
+          "G1": 2.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 2.0,
+          "S3_beta_gamma": -1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0,
+          "S6_beta_gamma": 1.0
+        }
+      },
+      {
+        "label": "(4.21)",
+        "coefficients": {
+          "G1": 2.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 2.0,
+          "S3_beta_gamma": -1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0
+        }
+      },
+      {
+        "label": "(4.24): expand one G2",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "S3_beta_gamma": -1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0,
+          "G13": -1.0,
+          "G6": 1.0,
+          "G14": -1.0
+        }
+      },
+      {
+        "label": "(4.27): expand -S3; G13 cancels canonically",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0,
+          "G6": 1.0,
+          "G14": -1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G15": -1.0
+        }
+      },
+      {
+        "label": "(4.30): expand -S5",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "G6": 1.0,
+          "G14": -1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G15": -1.0,
+          "G10": -1.0,
+          "G16_literal": -1.0
+        }
+      },
+      {
+        "label": "paper G16 closure interpretation (source-shape warning)",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "G6": 1.0,
+          "G14": -1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G15": -1.0,
+          "G10": -1.0,
+          "G16_expected_3factor_shape": -1.0
+        }
+      },
+      {
+        "label": "(4.18): drop nonnegative closure bundle",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "G6": 1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G10": -1.0,
+          "G11": -1.0,
+          "G12": -1.0
+        }
+      }
+    ]
+  }
+}
