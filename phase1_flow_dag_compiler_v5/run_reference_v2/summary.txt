@@ -1,0 +1,27 @@
+PHASE-1 DEPTH EXPLORATION SUMMARY
+============================================================================
+         a = 1.9
+     alpha = 0.0754716981132
+      beta = 0.121212121212
+     gamma = 0.272727272727
+   epsilon = 1e-12
+       tau = 0.473684210525
+
+total nodes     = 72
+total edges     = 60
+terminal leaves = 43
+
+ROOT DEPTH SUMMARY
+----------------------------------------------------------------------------
+  G1: generated_nodes=  1, max_factor_depth= 0, max_rule_depth= 0, structural_ceiling=0
+  G2: generated_nodes=  5, max_factor_depth= 3, max_rule_depth= 1, structural_ceiling=13
+  G3: generated_nodes=  3, max_factor_depth= 2, max_rule_depth= 1, structural_ceiling=2
+  G4: generated_nodes=  1, max_factor_depth= 1, max_rule_depth= 0, structural_ceiling=1
+  G5: generated_nodes=  1, max_factor_depth= 1, max_rule_depth= 0, structural_ceiling=1
+  G6: generated_nodes=  1, max_factor_depth= 2, max_rule_depth= 0, structural_ceiling=2
+  G7: generated_nodes=  1, max_factor_depth= 2, max_rule_depth= 0, structural_ceiling=2
+  G8: generated_nodes=  3, max_factor_depth= 3, max_rule_depth= 1, structural_ceiling=3
+  G9: generated_nodes= 15, max_factor_depth= 9, max_rule_depth= 7, structural_ceiling=9
+ G10: generated_nodes=  5, max_factor_depth= 4, max_rule_depth= 2, structural_ceiling=4
+ G11: generated_nodes= 19, max_factor_depth=13, max_rule_depth= 9, structural_ceiling=13
+ G12: generated_nodes= 17, max_factor_depth=12, max_rule_depth= 8, structural_ceiling=12

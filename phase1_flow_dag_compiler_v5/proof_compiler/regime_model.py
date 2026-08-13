@@ -1,0 +1,25 @@
+def build_regime_templates():
+    return {
+        "current_unconditional_1p9": {
+            "guard": "1.5+3epsilon < a < 2",
+            "architecture": "Proposition 4.2 / Proposition 4.3 Goldbach-I",
+            "discrete_regime_binary_needed": False,
+            "notes": [
+                "Within Proposition 4.3 the stated parameter order is fixed.",
+                "Continuous source mixing and rewrite flow handle most choices."
+            ],
+        },
+        "paper_warning_example_outside_current_architecture": {
+            "source": "Section 8.2.3, Proposition 4.5 discussion",
+            "guards": [
+                "beta+gamma+2delta < 1",
+                "beta+gamma+2delta > 1",
+            ],
+            "architecture": "weighted inequality form changes",
+            "discrete_regime_binary_needed": True,
+            "notes": [
+                "This is the canonical example of a genuine OR-regime branch.",
+                "Do not model it as two simultaneously usable linear rewrites."
+            ],
+        },
+    }

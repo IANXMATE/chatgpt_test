@@ -1,0 +1,285 @@
+# Goldbach Phase-2 random-search success record
+# This file is deliberately JSON-compatible after these comment lines.
+# NUMERICAL_CANDIDATE means: candidate discovery, not interval certification.
+{
+  "schema": "goldbach-phase2-random-hit-v1",
+  "status": "NUMERICAL_CANDIDATE_NOT_INTERVAL_CERTIFIED",
+  "created_utc": "2026-08-13T12:11:48.758315+00:00",
+  "target": {
+    "delta": 0.1,
+    "a": 1.9,
+    "form": "1 + (2-delta)",
+    "required_margin_4D": 1e-05
+  },
+  "reproducibility": {
+    "batch_index": 19,
+    "sample_index": 217,
+    "batch_seed": 260605243,
+    "python": "3.14.6 (v3.14.6:c63aec69bd5, Jun 10 2026, 08:07:54) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "argv": [
+      "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_random_search_v1/main.py"
+    ],
+    "manifest_path": "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_random_search_v1/data/phase1_manifest_v5.json",
+    "manifest_sha256": "36f2e62c84bd0db5f38426f96e76b8314fa0ed9fb671ad4c42ff338f58be83f6",
+    "flow_path": "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_random_search_v1/data/flow_blueprint.json",
+    "flow_sha256": "e29a233961e22c2f843c9569613d09ec160c80899888fd6b66f3e77c07c5887c",
+    "script_path": "/Users/cuijiaxing03/iancuijiaxing_git_repo/chatgpt_test/chatgpt_test/phase2_random_search_v1/main.py",
+    "script_sha256": "85c3dc010c2f6e0f849cb707b2a72d61a12875d755d5f6bdcf26f511673f471f"
+  },
+  "parameters": {
+    "a": 1.9,
+    "alpha": 0.07741859528320753,
+    "beta": 0.11706885610485772,
+    "gamma": 0.27468657604023455,
+    "epsilon": 1e-10,
+    "tau": 0.47368421042631575
+  },
+  "parameter_guard_result": {
+    "valid": true,
+    "failure_reasons": []
+  },
+  "evaluator_settings": {
+    "quadrature": "Gauss-Legendre fixed order",
+    "quadrature_order": 40,
+    "linear_sieve_method": "method-of-steps delay differential equations",
+    "linear_sieve_grid_step": 2e-05,
+    "numeric_bound_pad_per_G": 2e-06,
+    "certification_level": "NUMERICAL_CANDIDATE_NOT_INTERVAL_CERTIFIED"
+  },
+  "certificate": {
+    "coefficient_vector": {
+      "G1": 3,
+      "G2": 1,
+      "G3": -4,
+      "G4": -1,
+      "G5": -1,
+      "G6": 1,
+      "G7": 1,
+      "G8": -2,
+      "G9": -1,
+      "G10": -1,
+      "G11": -1,
+      "G12": -1
+    },
+    "paper_replay_chain": [
+      {
+        "label": "(4.19)+(4.20), before dropping S6(beta,gamma)",
+        "coefficients": {
+          "G1": 2.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 2.0,
+          "S3_beta_gamma": -1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0,
+          "S6_beta_gamma": 1.0
+        }
+      },
+      {
+        "label": "(4.21)",
+        "coefficients": {
+          "G1": 2.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 2.0,
+          "S3_beta_gamma": -1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0
+        }
+      },
+      {
+        "label": "(4.24): expand one G2",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "S3_beta_gamma": -1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0,
+          "G13": -1.0,
+          "G6": 1.0,
+          "G14": -1.0
+        }
+      },
+      {
+        "label": "(4.27): expand -S3; G13 cancels canonically",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "S5_beta_gamma": -1.0,
+          "G6": 1.0,
+          "G14": -1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G15": -1.0
+        }
+      },
+      {
+        "label": "(4.30): expand -S5",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "G6": 1.0,
+          "G14": -1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G15": -1.0,
+          "G10": -1.0,
+          "G16_literal": -1.0
+        }
+      },
+      {
+        "label": "paper G16 closure interpretation (source-shape warning)",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "S6_alpha_1_3": 1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "G6": 1.0,
+          "G14": -1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G15": -1.0,
+          "G10": -1.0,
+          "G16_expected_3factor_shape": -1.0
+        }
+      },
+      {
+        "label": "(4.18): drop nonnegative closure bundle",
+        "coefficients": {
+          "G1": 3.0,
+          "G3": -4.0,
+          "G4": -1.0,
+          "G9": -1.0,
+          "G2": 1.0,
+          "G8": -2.0,
+          "G6": 1.0,
+          "G5": -1.0,
+          "G7": 1.0,
+          "G10": -1.0,
+          "G11": -1.0,
+          "G12": -1.0
+        }
+      }
+    ]
+  },
+  "dynamic_bounds": {
+    "G1": 14.504121820986326,
+    "G2": 9.484391337979988,
+    "G3": 0.8428861284715015,
+    "G4": 22.829952900616274,
+    "G5": 18.869897844384145,
+    "G6": 1.208708446154359,
+    "G7": 3.3062219555323584,
+    "G8": 0.5699585041230587,
+    "G9": 5.14946493663745,
+    "G10": 5.612520184940052,
+    "G11": 0.05907908601851599,
+    "G12": 0.4688715350347846
+  },
+  "contributions": {
+    "G1": 43.512365462958975,
+    "G2": 9.484391337979988,
+    "G3": -3.371544513886006,
+    "G4": -22.829952900616274,
+    "G5": -18.869897844384145,
+    "G6": 1.208708446154359,
+    "G7": 3.3062219555323584,
+    "G8": -1.1399170082461174,
+    "G9": -5.14946493663745,
+    "G10": -5.612520184940052,
+    "G11": -0.05907908601851599,
+    "G12": -0.4688715350347846
+  },
+  "margin": {
+    "margin_4D": 0.010439192862335835,
+    "margin_D": 0.0026097982155839586
+  },
+  "diagnostics": {
+    "settings": {
+      "quadrature": "Gauss-Legendre fixed order",
+      "quadrature_order": 40,
+      "linear_sieve_method": "method-of-steps delay differential equations",
+      "linear_sieve_grid_step": 2e-05,
+      "numeric_bound_pad_per_G": 2e-06,
+      "certification_level": "NUMERICAL_CANDIDATE_NOT_INTERVAL_CERTIFIED"
+    },
+    "raw_unpadded_bounds": {
+      "G1": 14.504123820986326,
+      "G2": 9.484393337979988,
+      "G3": 0.8428841284715015,
+      "G4": 22.829950900616275,
+      "G5": 18.869895844384146,
+      "G6": 1.208710446154359,
+      "G7": 3.3062239555323583,
+      "G8": 0.5699565041230588,
+      "G9": 5.14946293663745,
+      "G10": 5.612518184940051,
+      "G11": 0.05907708601851599,
+      "G12": 0.4688695350347846
+    },
+    "G11_buchstab": {
+      "small": {
+        "t1_range": [
+          0.07741859528320753,
+          0.1
+        ],
+        "omega_argument_lower": 4.687783326368856,
+        "omega_upper": 0.561522
+      },
+      "large": {
+        "t1_range": [
+          0.1,
+          0.11706885610485772
+        ],
+        "omega_argument_lower": 4.5419814737431725,
+        "omega_upper": 0.561522
+      }
+    },
+    "G12_buchstab": {
+      "small": {
+        "t1_range": [
+          0.07741859528320753,
+          0.1
+        ],
+        "omega_argument_lower": 3.341415682747227,
+        "omega_upper": 0.5615220049999999
+      },
+      "large": {
+        "t1_range": [
+          0.1,
+          0.11706885610485772
+        ],
+        "omega_argument_lower": 3.1956138301215438,
+        "omega_upper": 0.5616811227874232
+      }
+    }
+  },
+  "replay_instructions": {
+    "delta": 0.1,
+    "batch_index": 19,
+    "batch_seed": 260605243,
+    "sample_index": 217,
+    "note": "Re-run the same program with the same delta/base seed and batch index, or directly evaluate the stored parameters."
+  }
+}

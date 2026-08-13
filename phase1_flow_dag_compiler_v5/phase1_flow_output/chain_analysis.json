@@ -1,0 +1,152 @@
+{
+  "chains": [
+    {
+      "start": "S_484b02944dedc1",
+      "nodes": [
+        "S_484b02944dedc1",
+        "S_5104d2b3a05ab3",
+        "S_b636b08f1b6319",
+        "S_05a4a9cb1ade47",
+        "S_a8482feac7b369",
+        "S_88534e57352dec",
+        "S_a2aefb255907ae",
+        "S_2a84c563791e6a",
+        "S_88a4ca210692b8",
+        "S_1b6fa4e8739b9e",
+        "S_99285bacbea46d",
+        "S_8aa61c6436b6e4",
+        "S_286937ae1b465b",
+        "S_f5a53bc638bfdc",
+        "S_afc160724d45cd",
+        "S_2d63c76e145440",
+        "S_2b1919b6fed255",
+        "S_ef61ffd0bec706"
+      ],
+      "length_nodes": 18,
+      "max_factor_depth": 17,
+      "paper_aliases": [
+        "G14",
+        "G2"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    },
+    {
+      "start": "S_d3419be2e31530",
+      "nodes": [
+        "S_d3419be2e31530",
+        "S_5803ead6d26347",
+        "S_6a289a1bece375",
+        "S_592ee69a0cc0e3",
+        "S_2386fbbf59b989",
+        "S_7d7310e733517f",
+        "S_38736af057a8e8",
+        "S_cec41e24f1a07b",
+        "S_dc56d56d8775dc",
+        "S_43d0c2cac11046",
+        "S_6117941d2bfd11",
+        "S_60080513bcbf53",
+        "S_59f7917e7cfdec",
+        "S_b074ca6c11a3f6"
+      ],
+      "length_nodes": 14,
+      "max_factor_depth": 17,
+      "paper_aliases": [
+        "G11"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    },
+    {
+      "start": "S_07da6cad426c43",
+      "nodes": [
+        "S_07da6cad426c43",
+        "S_4f7fcefe914673",
+        "S_b03850a1248247",
+        "S_97f75f5eab4017",
+        "S_73c50319821e1f",
+        "S_03ca09445d58c6",
+        "S_6d97cb3f5388f4",
+        "S_1c5889619d5ace",
+        "S_abc0965763251d",
+        "S_8d56e620a6eaa7",
+        "S_b15bb673a2b977",
+        "S_543459aa603445",
+        "S_c689f8064beef3",
+        "S_f23529805002b8"
+      ],
+      "length_nodes": 14,
+      "max_factor_depth": 17,
+      "paper_aliases": [
+        "G12"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    },
+    {
+      "start": "S_8495f07a1340b3",
+      "nodes": [
+        "S_8495f07a1340b3",
+        "S_954f280c7b42cd",
+        "S_eefa04c512adf1",
+        "S_282994c9cd178c",
+        "S_cf74e455ec5da4",
+        "S_5c003d2ff62fb4",
+        "S_3c141210dc7d01",
+        "S_40b6d4e270002f",
+        "S_4d8e5829491774",
+        "S_fdf27010b9ebbd",
+        "S_6cf6c7f41099a7"
+      ],
+      "length_nodes": 11,
+      "max_factor_depth": 12,
+      "paper_aliases": [
+        "G9"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    },
+    {
+      "start": "S_5b3962ccbc004d",
+      "nodes": [
+        "S_5b3962ccbc004d",
+        "S_bf07051cca83cc",
+        "S_d255254191c651",
+        "S_d4b1d5b8e2f9d6"
+      ],
+      "length_nodes": 4,
+      "max_factor_depth": 5,
+      "paper_aliases": [
+        "G8"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    },
+    {
+      "start": "S_61286463adfd81",
+      "nodes": [
+        "S_61286463adfd81",
+        "S_306d2030a98fc2",
+        "S_2106862e476dd2",
+        "S_b080211d03670b"
+      ],
+      "length_nodes": 4,
+      "max_factor_depth": 5,
+      "paper_aliases": [
+        "G10",
+        "G16_expected_3factor_shape"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    },
+    {
+      "start": "S_2fddf384dc5a3c",
+      "nodes": [
+        "S_2fddf384dc5a3c",
+        "S_c2c210925d8054"
+      ],
+      "length_nodes": 2,
+      "max_factor_depth": 2,
+      "paper_aliases": [
+        "G3"
+      ],
+      "solver_recommendation": "Use one continuous through-flow per level with conservation; do not enumerate STOP/EXPAND bitstrings."
+    }
+  ],
+  "continuation_edge_count": 60,
+  "covered_state_count": 67
+}

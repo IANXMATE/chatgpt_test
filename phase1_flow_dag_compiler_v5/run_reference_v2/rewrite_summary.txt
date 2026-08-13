@@ -1,0 +1,26 @@
+PHASE-1 V2 REWRITE ENGINE
+==============================================================================
+
+Capabilities:
+  [x] exact region SPLIT
+  [x] canonical TermShape normalization
+  [x] merge and coefficient cancellation
+  [x] registered region inclusion / domination
+  [x] paper closure (4.31)-(4.36)
+
+Coverage certificate using the kernel displayed in (4.36):
+  OK  D14_11 <= S6.cell.A via identical_region
+  OK  D15_12 <= S6.cell.B via registered_subset
+  OK  G16.coverage_shape <= S6.cell.D.gamma via registered_subset
+
+Literal source-shape check for the kernel rendered in (4.34):
+  OK  D14_11 <= S6.cell.A via identical_region
+  OK  D15_12 <= S6.cell.B via registered_subset
+  WARN G16.majorant.rendered: No shape-compatible registered resource. This may indicate a missing rewrite rule or a source-level notation inconsistency.
+
+Canonical cancellation check:
+  cancelled groups = 1
+  CANCEL G13.from_G2 + G13.from_minus_S3 -> coefficient 0
+
+SOURCE / VERIFICATION WARNINGS:
+  * SOURCE_SHAPE_WARNING: arXiv v2 equations (4.29)/(4.34) render the G16 correction/majorant with sequence A_{p1 p2}, whereas (4.35)/(4.36) close the argument using A_{p1 p2 p3}. The engine therefore does not silently claim that the literal 4.34 shape is dominated by S6. Check the source/PDF or author errata before treating this local closure as machine-certified.

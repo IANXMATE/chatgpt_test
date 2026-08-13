@@ -1,0 +1,72 @@
+[
+  {
+    "step": "combine_two_weighted_inequalities",
+    "source": "(4.19)+(4.20)->(4.21)",
+    "relation": "inequality",
+    "output": "4D >= 2G1+2G2-4G3-G4-2G8-G9-S3(beta,gamma)-S5(beta,gamma)+S6(alpha,1/3)+error",
+    "notes": [
+      "S4(1/3)=0",
+      "S6(beta,gamma) dropped by non-negativity"
+    ]
+  },
+  {
+    "step": "expand_G2",
+    "source": "(4.22)-(4.23)",
+    "relation": "identity_up_to_error",
+    "output": "G2 = G1 - G13 + G6 - G14 + error"
+  },
+  {
+    "step": "expand_S3",
+    "source": "(4.25)-(4.26)",
+    "relation": "identity_up_to_error",
+    "output": "S3(beta,gamma) = G5 - G13 - G7 + G15 + error"
+  },
+  {
+    "step": "cancel_G13",
+    "source": "(4.24)-(4.27)",
+    "relation": "algebraic_cancellation",
+    "output": "G13 cancels, producing the next certificate state"
+  },
+  {
+    "step": "expand_S5",
+    "source": "(4.28)-(4.29)",
+    "relation": "identity_up_to_error",
+    "output": "S5(beta,gamma) = G10 + G16 + error"
+  },
+  {
+    "step": "final_domination_target",
+    "source": "(4.30)-(4.31)",
+    "relation": "inequality",
+    "output": "S6(alpha,1/3) >= G14+G15+G16-G11-G12"
+  },
+  {
+    "step": "G14_minus_G11",
+    "source": "(4.32)",
+    "relation": "buchstab_identity_up_to_error",
+    "output": "G14-G11 becomes a restricted nonnegative 3-factor state"
+  },
+  {
+    "step": "G15_minus_G12",
+    "source": "(4.33)",
+    "relation": "buchstab_identity_up_to_error",
+    "output": "G15-G12 becomes a restricted nonnegative 3-factor state"
+  },
+  {
+    "step": "dominate_G16",
+    "source": "(4.34)",
+    "relation": "upper_domination",
+    "output": "G16 is bounded by a larger 3-factor state"
+  },
+  {
+    "step": "split_S6",
+    "source": "(4.35)-(4.36)",
+    "relation": "partition_and_region_domination",
+    "output": "S6 split covers the three positive states above"
+  },
+  {
+    "step": "final_certificate",
+    "source": "(4.18)",
+    "relation": "inequality",
+    "output": "4D >= 3G1+G2-4G3-G4-G5+G6+G7-2G8-G9-G10-G11-G12+error"
+  }
+]

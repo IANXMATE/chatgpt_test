@@ -1,0 +1,56 @@
+PHASE-1 PROOF COMPILER V3
+========================================================================================
+
+REFERENCE POINT
+           a = 1.9
+       alpha = 0.0754716981132
+        beta = 0.121212121212
+       gamma = 0.272727272727
+     epsilon = 1e-10
+         tau = 0.473684210426
+
+GLOBAL COUNTS
+  canonical states              = 137
+  exact Buchstab transitions    = 67
+  candidate region splits       = 6684
+  canonical collision groups    = 5
+  blocked/frontier records      = 7
+  full-expand raw leaf terms    = 72
+  full-expand canonical leaves  = 70
+  naive all-cut cell upper bound= 1628445894324209
+
+STAGE-2 VARIABLE BLUEPRINT
+                          continuous = 6
+                       expand_binary = 67
+                    estimator_binary = 454
+                        split_binary = 6684
+                     special_rewrite = 1
+   total_declared_before_auxiliaries = 7212
+
+DEPTH BY PAPER ROOT
+    G1: reachable=  1, max-factor= 0, max-rule-depth= 0
+    G2: reachable= 36, max-factor=17, max-rule-depth=18
+    G3: reachable=  4, max-factor= 2, max-rule-depth= 2
+    G4: reachable=  1, max-factor= 1, max-rule-depth= 0
+    G5: reachable=  1, max-factor= 1, max-rule-depth= 0
+    G6: reachable=  1, max-factor= 2, max-rule-depth= 0
+    G7: reachable=  1, max-factor= 2, max-rule-depth= 0
+    G8: reachable=  8, max-factor= 5, max-rule-depth= 4
+    G9: reachable= 22, max-factor=12, max-rule-depth=11
+   G10: reachable=  8, max-factor= 5, max-rule-depth= 4
+   G11: reachable= 28, max-factor=17, max-rule-depth=14
+   G12: reachable= 28, max-factor=17, max-rule-depth=14
+
+IMPORTANT
+  Max depth above is explored over the ENTIRE linear Proposition 4.3
+  parameter domain, not only alpha=4/53,beta=4/33,gamma=3/11.
+
+  Region splits are recorded as exact split proposals rather than
+  materializing their full Cartesian product. This preserves the full
+  Stage-2 search space without creating millions of redundant Phase-1
+  nodes. Stage 2 can introduce one binary variable per proposal.
+
+SOURCE AUDIT WARNING
+  arXiv v2 (4.29)/(4.34) displays A_{p1 p2}, whereas the closing
+  comparison (4.35)/(4.36) uses A_{p1 p2 p3}. The compiler records
+  this as a blocked source-shape ambiguity and never fixes it silently.

@@ -1,0 +1,43 @@
+PHASE-1 FLOW / AND-OR-DAG COMPILER V5
+================================================================================================
+
+WHY THIS VERSION IS DIFFERENT
+  Linear identities are represented as continuous coefficient flow.
+  They do NOT create one binary variable per proof-path decision.
+  Exact canonical cancellation is also a continuous local operation.
+  Only true regime disjunctions or crossing multi-resource rewrites
+  form the combinatorial/MILP core.
+
+STRUCTURAL GRAPH
+  canonical states                  = 137
+  exact Buchstab transitions        = 67
+  continuation chains               = 7
+  lazy theorem boundaries           = 1285
+
+FLOW VARIABLES
+  source mixture                    = 2
+  rewrite allocations               = 140
+  terminal allocations              = 155
+  exact cancellation                = 143
+  bundle usage                      = 1
+  unresolved diagnostic             = 135
+
+TRUE COMBINATORIAL CORE
+  crossing bundle conflicts         = 0
+  active 1.9 regime binaries        = 0
+
+PAPER-DRIVEN DESIGN FACTS
+  * (4.19) and (4.20) are valid lower-bound certificates. Their
+    nonnegative mixture is modeled continuously; the paper used their sum.
+  * The paper expands one of two G2 copies. V5 generalizes that to a
+    continuous allocation of the G2 coefficient through the identity.
+  * Switching is upper-bound only, so sign determines terminal eligibility.
+  * S6 positive lower-bound weakness is represented as proof pressure:
+    either take the trivial X>=0 sink or use a legal structural bundle.
+  * theorem-induced split boundaries are lazy; they are materialized only
+    when a theorem whose applicability changes across the region is used.
+
+STRICT CERTIFICATION WARNING
+  The paper's G16 sequence shape changes between (4.29)/(4.34) and
+  (4.35)/(4.36). The corresponding multi-resource closure remains
+  flagged for source verification instead of being silently accepted.

@@ -1,0 +1,5097 @@
+{
+  "schema": "depth-explorer-v2",
+  "base_manifest": {
+    "schema": "depth-explorer-v1",
+    "parameters": {
+      "a": 1.9,
+      "alpha": 0.07547169811320754,
+      "beta": 0.12121212121212122,
+      "gamma": 0.2727272727272727,
+      "epsilon": 1e-12,
+      "tau": 0.4736842105253158
+    },
+    "parameter_constraints": [
+      "1.5 + 3*epsilon < a < 2",
+      "tau = (a-1)/a - epsilon",
+      "1/18 < alpha < beta",
+      "beta < (1-3*beta)/3 < gamma < 1/3 < tau"
+    ],
+    "root_certificate": {
+      "G1": 3.0,
+      "G2": 1.0,
+      "G3": -4.0,
+      "G4": -1.0,
+      "G5": -1.0,
+      "G6": 1.0,
+      "G7": 1.0,
+      "G8": -2.0,
+      "G9": -1.0,
+      "G10": -1.0,
+      "G11": -1.0,
+      "G12": -1.0
+    },
+    "roots": [
+      "G1",
+      "G2",
+      "G3",
+      "G4",
+      "G5",
+      "G6",
+      "G7",
+      "G8",
+      "G9",
+      "G10",
+      "G11",
+      "G12"
+    ],
+    "nodes": [
+      {
+        "node_id": "G1",
+        "root_term": "G1",
+        "coefficient": 3,
+        "factor_depth": 0,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [],
+        "lower_exponent_labels": [],
+        "region_constraints": [
+          "sift threshold = alpha"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": null,
+        "extra_factor_floor": null,
+        "extra_factor_floor_label": null,
+        "expansion_rule": null,
+        "proof_status": "paper_exact",
+        "source_equation": "(4.18)",
+        "analytic_oracles": [
+          "linear_sieve_lower"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [
+          "Paper-compatible exploration does not go below alpha."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 0,
+        "min_exponent_sum": 0.0
+      },
+      {
+        "node_id": "G2",
+        "root_term": "G2",
+        "coefficient": 1,
+        "factor_depth": 0,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [],
+        "lower_exponent_labels": [],
+        "region_constraints": [
+          "sift threshold = beta"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^beta",
+        "anchor_threshold": "N^alpha",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "paper_G2_chain",
+        "proof_status": "paper_exact",
+        "source_equation": "(4.22)-(4.23)",
+        "analytic_oracles": [
+          "linear_sieve_lower",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [
+          "Exact paper rewrite exposed through G1-G13-G6-G14.",
+          "Continuation beyond G14 requires a separate formal rule."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.0
+      },
+      {
+        "node_id": "G3",
+        "root_term": "G3",
+        "coefficient": -4,
+        "factor_depth": 1,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.4736842105253158
+        ],
+        "lower_exponent_labels": [
+          "tau"
+        ],
+        "region_constraints": [
+          "tau <= u1 <= 1/2"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "N^tau",
+        "extra_factor_floor": 0.4736842105253158,
+        "extra_factor_floor_label": "tau",
+        "expansion_rule": "dynamic_to_fixed_anchor",
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 2,
+        "min_exponent_sum": 0.4736842105253158
+      },
+      {
+        "node_id": "G4",
+        "root_term": "G4",
+        "coefficient": -1,
+        "factor_depth": 1,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": null,
+        "extra_factor_floor": null,
+        "extra_factor_floor_label": null,
+        "expansion_rule": null,
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "linear_sieve_upper"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 1,
+        "min_exponent_sum": 0.07547169811320754
+      },
+      {
+        "node_id": "G5",
+        "root_term": "G5",
+        "coefficient": -1,
+        "factor_depth": 1,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= gamma"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": null,
+        "extra_factor_floor": null,
+        "extra_factor_floor_label": null,
+        "expansion_rule": null,
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "linear_sieve_upper"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 1,
+        "min_exponent_sum": 0.07547169811320754
+      },
+      {
+        "node_id": "G6",
+        "root_term": "G6",
+        "coefficient": 1,
+        "factor_depth": 2,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= beta"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": null,
+        "extra_factor_floor": null,
+        "extra_factor_floor_label": null,
+        "expansion_rule": null,
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "linear_sieve_lower"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 2,
+        "min_exponent_sum": 0.1509433962264151
+      },
+      {
+        "node_id": "G7",
+        "root_term": "G7",
+        "coefficient": 1,
+        "factor_depth": 2,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.12121212121212122
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "beta"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= beta <= u2 <= gamma"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": null,
+        "extra_factor_floor": null,
+        "extra_factor_floor_label": null,
+        "expansion_rule": null,
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "linear_sieve_lower"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 2,
+        "min_exponent_sum": 0.19668381932532875
+      },
+      {
+        "node_id": "G8",
+        "root_term": "G8",
+        "coefficient": -2,
+        "factor_depth": 2,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.2727272727272727,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "gamma",
+          "gamma"
+        ],
+        "region_constraints": [
+          "gamma <= u1 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p2",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 3,
+        "min_exponent_sum": 0.5454545454545454
+      },
+      {
+        "node_id": "G9",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 2,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p2",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [
+          "u1=1/10 is an important later estimator regime boundary."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.40880503144654085
+      },
+      {
+        "node_id": "G10",
+        "root_term": "G10",
+        "coefficient": -1,
+        "factor_depth": 2,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.12121212121212122,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "beta",
+          "gamma"
+        ],
+        "region_constraints": [
+          "beta <= u1 <= gamma <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "sqrt(N/(p1*p2))",
+        "anchor_threshold": "p2",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "sqrt_to_dynamic_anchor",
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18)",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 4,
+        "min_exponent_sum": 0.3939393939393939
+      },
+      {
+        "node_id": "G11",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p2",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18), §5.4",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.3018867924528302
+      },
+      {
+        "node_id": "G12",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 0,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p2",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "paper_exact",
+        "source_equation": "definition in (4.18), §5.4",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": null,
+        "branch_kind": "root",
+        "notes": [],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.34762721555174386
+      },
+      {
+        "node_id": "G2.paper.G1",
+        "root_term": "G2",
+        "coefficient": 1,
+        "factor_depth": 0,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [],
+        "lower_exponent_labels": [],
+        "region_constraints": [
+          "sift threshold = beta"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": "N^alpha",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "paper_G2_chain",
+        "proof_status": "paper_exact",
+        "source_equation": "(4.22)-(4.23)",
+        "analytic_oracles": [
+          "linear_sieve_lower",
+          "buchstab_expand"
+        ],
+        "parent_id": "G2",
+        "branch_kind": "paper_alias_G1",
+        "notes": [
+          "Exact term from equations (4.22)-(4.23).",
+          "v1 stops at G14; further continuation needs the P(N) / P(N*p1) rewrite formalized."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.0
+      },
+      {
+        "node_id": "G2.paper.G13",
+        "root_term": "G2",
+        "coefficient": -1,
+        "factor_depth": 1,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha"
+        ],
+        "region_constraints": [
+          "sift threshold = beta"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": "N^alpha",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "paper_G2_chain",
+        "proof_status": "paper_exact",
+        "source_equation": "(4.22)-(4.23)",
+        "analytic_oracles": [
+          "linear_sieve_lower",
+          "buchstab_expand"
+        ],
+        "parent_id": "G2",
+        "branch_kind": "paper_G13",
+        "notes": [
+          "Exact term from equations (4.22)-(4.23).",
+          "v1 stops at G14; further continuation needs the P(N) / P(N*p1) rewrite formalized."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.07547169811320754
+      },
+      {
+        "node_id": "G2.paper.G6",
+        "root_term": "G2",
+        "coefficient": 1,
+        "factor_depth": 2,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "sift threshold = beta"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^alpha",
+        "anchor_threshold": "N^alpha",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "paper_G2_chain",
+        "proof_status": "paper_exact",
+        "source_equation": "(4.22)-(4.23)",
+        "analytic_oracles": [
+          "linear_sieve_lower",
+          "buchstab_expand"
+        ],
+        "parent_id": "G2",
+        "branch_kind": "paper_alias_G6",
+        "notes": [
+          "Exact term from equations (4.22)-(4.23).",
+          "v1 stops at G14; further continuation needs the P(N) / P(N*p1) rewrite formalized."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.1509433962264151
+      },
+      {
+        "node_id": "G2.paper.G14",
+        "root_term": "G2",
+        "coefficient": -1,
+        "factor_depth": 3,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "sift threshold = beta"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "N^alpha",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "paper_G2_chain",
+        "proof_status": "paper_exact",
+        "source_equation": "(4.22)-(4.23)",
+        "analytic_oracles": [
+          "linear_sieve_lower",
+          "buchstab_expand"
+        ],
+        "parent_id": "G2",
+        "branch_kind": "paper_G14",
+        "notes": [
+          "Exact term from equations (4.22)-(4.23).",
+          "v1 stops at G14; further continuation needs the P(N) / P(N*p1) rewrite formalized."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.22641509433962265
+      },
+      {
+        "node_id": "G3.B",
+        "root_term": "G3",
+        "coefficient": -4,
+        "factor_depth": 1,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.4736842105253158
+        ],
+        "lower_exponent_labels": [
+          "tau"
+        ],
+        "region_constraints": [
+          "tau <= u1 <= 1/2"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "N^tau",
+        "anchor_threshold": "N^tau",
+        "extra_factor_floor": 0.4736842105253158,
+        "extra_factor_floor_label": "tau",
+        "expansion_rule": "dynamic_to_fixed_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G3",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from p1 to N^tau.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 2,
+        "min_exponent_sum": 0.4736842105253158
+      },
+      {
+        "node_id": "G3.C",
+        "root_term": "G3",
+        "coefficient": 4,
+        "factor_depth": 2,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.4736842105253158,
+          0.4736842105253158
+        ],
+        "lower_exponent_labels": [
+          "tau",
+          "tau"
+        ],
+        "region_constraints": [
+          "tau <= u1 <= 1/2"
+        ],
+        "sieve_set": "P(N)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "N^tau",
+        "extra_factor_floor": 0.4736842105253158,
+        "extra_factor_floor_label": "tau",
+        "expansion_rule": "dynamic_to_fixed_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G3",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor N^tau and old threshold p1.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 2,
+        "min_exponent_sum": 0.9473684210506316
+      },
+      {
+        "node_id": "G8.B",
+        "root_term": "G8",
+        "coefficient": -2,
+        "factor_depth": 2,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.2727272727272727,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "gamma",
+          "gamma"
+        ],
+        "region_constraints": [
+          "gamma <= u1 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G8",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from p2 to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 3,
+        "min_exponent_sum": 0.5454545454545454
+      },
+      {
+        "node_id": "G8.C",
+        "root_term": "G8",
+        "coefficient": 2,
+        "factor_depth": 3,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.2727272727272727,
+          0.2727272727272727,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "gamma",
+          "gamma",
+          "gamma"
+        ],
+        "region_constraints": [
+          "gamma <= u1 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G8",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold p2.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 3,
+        "min_exponent_sum": 0.8181818181818181
+      },
+      {
+        "node_id": "G9.B",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 2,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from p2 to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.40880503144654085
+      },
+      {
+        "node_id": "G9.C",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 3,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold p2.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.48427672955974843
+      },
+      {
+        "node_id": "G10.B",
+        "root_term": "G10",
+        "coefficient": -1,
+        "factor_depth": 2,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.12121212121212122,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "beta",
+          "gamma"
+        ],
+        "region_constraints": [
+          "beta <= u1 <= gamma <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p2",
+        "anchor_threshold": "p2",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "sqrt_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G10",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from sqrt(N/(p1*p2)) to p2.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 4,
+        "min_exponent_sum": 0.3939393939393939
+      },
+      {
+        "node_id": "G10.C",
+        "root_term": "G10",
+        "coefficient": 1,
+        "factor_depth": 3,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.12121212121212122,
+          0.2727272727272727,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "beta",
+          "gamma",
+          "gamma"
+        ],
+        "region_constraints": [
+          "beta <= u1 <= gamma <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p2",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "sqrt_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G10",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p2 and old threshold sqrt(N/(p1*p2)).",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 4,
+        "min_exponent_sum": 0.6666666666666666
+      },
+      {
+        "node_id": "G11.B",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from p2 to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.3018867924528302
+      },
+      {
+        "node_id": "G11.C",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 5,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold p2.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.3773584905660377
+      },
+      {
+        "node_id": "G12.B",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from p2 to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.34762721555174386
+      },
+      {
+        "node_id": "G12.C",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 5,
+        "depth_from_root": 1,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold p2.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.4230989136649514
+      },
+      {
+        "node_id": "G9.C.B",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 3,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.48427672955974843
+      },
+      {
+        "node_id": "G9.C.C",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.559748427672956
+      },
+      {
+        "node_id": "G10.C.B",
+        "root_term": "G10",
+        "coefficient": 1,
+        "factor_depth": 3,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.12121212121212122,
+          0.2727272727272727,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "beta",
+          "gamma",
+          "gamma"
+        ],
+        "region_constraints": [
+          "beta <= u1 <= gamma <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p2",
+        "anchor_threshold": "p2",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "sqrt_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G10.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p2.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 4,
+        "min_exponent_sum": 0.6666666666666666
+      },
+      {
+        "node_id": "G10.C.C",
+        "root_term": "G10",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.12121212121212122,
+          0.2727272727272727,
+          0.2727272727272727,
+          0.2727272727272727
+        ],
+        "lower_exponent_labels": [
+          "beta",
+          "gamma",
+          "gamma",
+          "gamma"
+        ],
+        "region_constraints": [
+          "beta <= u1 <= gamma <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p2",
+        "extra_factor_floor": 0.2727272727272727,
+        "extra_factor_floor_label": "gamma",
+        "expansion_rule": "sqrt_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G10.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p2 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 4,
+        "min_exponent_sum": 0.9393939393939393
+      },
+      {
+        "node_id": "G11.C.B",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 5,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.3773584905660377
+      },
+      {
+        "node_id": "G11.C.C",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 6,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.4528301886792453
+      },
+      {
+        "node_id": "G12.C.B",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 5,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.4230989136649514
+      },
+      {
+        "node_id": "G12.C.C",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 6,
+        "depth_from_root": 2,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.4985706117781589
+      },
+      {
+        "node_id": "G9.C.C.B",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 4,
+        "depth_from_root": 3,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.559748427672956
+      },
+      {
+        "node_id": "G9.C.C.C",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 5,
+        "depth_from_root": 3,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.6352201257861635
+      },
+      {
+        "node_id": "G11.C.C.B",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 6,
+        "depth_from_root": 3,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.4528301886792453
+      },
+      {
+        "node_id": "G11.C.C.C",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 7,
+        "depth_from_root": 3,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.5283018867924528
+      },
+      {
+        "node_id": "G12.C.C.B",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 6,
+        "depth_from_root": 3,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.4985706117781589
+      },
+      {
+        "node_id": "G12.C.C.C",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 7,
+        "depth_from_root": 3,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.5740423098913665
+      },
+      {
+        "node_id": "G9.C.C.C.B",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 5,
+        "depth_from_root": 4,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.6352201257861635
+      },
+      {
+        "node_id": "G9.C.C.C.C",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 6,
+        "depth_from_root": 4,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.710691823899371
+      },
+      {
+        "node_id": "G11.C.C.C.B",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 7,
+        "depth_from_root": 4,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.5283018867924528
+      },
+      {
+        "node_id": "G11.C.C.C.C",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 8,
+        "depth_from_root": 4,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.6037735849056604
+      },
+      {
+        "node_id": "G12.C.C.C.B",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 7,
+        "depth_from_root": 4,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.5740423098913665
+      },
+      {
+        "node_id": "G12.C.C.C.C",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 8,
+        "depth_from_root": 4,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.649514008004574
+      },
+      {
+        "node_id": "G9.C.C.C.C.B",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 6,
+        "depth_from_root": 5,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.710691823899371
+      },
+      {
+        "node_id": "G9.C.C.C.C.C",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 7,
+        "depth_from_root": 5,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.7861635220125786
+      },
+      {
+        "node_id": "G11.C.C.C.C.B",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 8,
+        "depth_from_root": 5,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.6037735849056604
+      },
+      {
+        "node_id": "G11.C.C.C.C.C",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 9,
+        "depth_from_root": 5,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.6792452830188679
+      },
+      {
+        "node_id": "G12.C.C.C.C.B",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 8,
+        "depth_from_root": 5,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.649514008004574
+      },
+      {
+        "node_id": "G12.C.C.C.C.C",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 9,
+        "depth_from_root": 5,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.7249857061177816
+      },
+      {
+        "node_id": "G9.C.C.C.C.C.B",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 7,
+        "depth_from_root": 6,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.7861635220125786
+      },
+      {
+        "node_id": "G9.C.C.C.C.C.C",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 8,
+        "depth_from_root": 6,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.8616352201257861
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.B",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 9,
+        "depth_from_root": 6,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.6792452830188679
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 10,
+        "depth_from_root": 6,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.7547169811320754
+      },
+      {
+        "node_id": "G12.C.C.C.C.C.B",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 9,
+        "depth_from_root": 6,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.7249857061177816
+      },
+      {
+        "node_id": "G12.C.C.C.C.C.C",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 10,
+        "depth_from_root": 6,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.8004574042309891
+      },
+      {
+        "node_id": "G9.C.C.C.C.C.C.B",
+        "root_term": "G9",
+        "coefficient": -1,
+        "factor_depth": 8,
+        "depth_from_root": 7,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.8616352201257861
+      },
+      {
+        "node_id": "G9.C.C.C.C.C.C.C",
+        "root_term": "G9",
+        "coefficient": 1,
+        "factor_depth": 9,
+        "depth_from_root": 7,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.3333333333333333,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "1/3",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= 1/3 <= u2",
+          "2*u2 + u1 <= 1"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "switching_upper",
+          "piecewise_distribution_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G9.C.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 9,
+        "min_exponent_sum": 0.9371069182389937
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C.B",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 10,
+        "depth_from_root": 7,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.7547169811320754
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C.C",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 11,
+        "depth_from_root": 7,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.830188679245283
+      },
+      {
+        "node_id": "G12.C.C.C.C.C.C.B",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 10,
+        "depth_from_root": 7,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.8004574042309891
+      },
+      {
+        "node_id": "G12.C.C.C.C.C.C.C",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 11,
+        "depth_from_root": 7,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.8759291023441966
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C.C.B",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 11,
+        "depth_from_root": 8,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.830188679245283
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C.C.C",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 12,
+        "depth_from_root": 8,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.9056603773584906
+      },
+      {
+        "node_id": "G12.C.C.C.C.C.C.C.B",
+        "root_term": "G12",
+        "coefficient": 1,
+        "factor_depth": 11,
+        "depth_from_root": 8,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.8759291023441966
+      },
+      {
+        "node_id": "G12.C.C.C.C.C.C.C.C",
+        "root_term": "G12",
+        "coefficient": -1,
+        "factor_depth": 12,
+        "depth_from_root": 8,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.12121212121212122,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "beta",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= beta <= u4 <= gamma"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G12.C.C.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 12,
+        "min_exponent_sum": 0.9514008004574042
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C.C.C.B",
+        "root_term": "G11",
+        "coefficient": -1,
+        "factor_depth": 12,
+        "depth_from_root": 9,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "p1",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C.C.C.C",
+        "branch_kind": "base_lowered_threshold",
+        "notes": [
+          "Threshold lowered from q_new to p1.",
+          "STOP candidate under current paper-compatible cutoff."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.9056603773584906
+      },
+      {
+        "node_id": "G11.C.C.C.C.C.C.C.C.C",
+        "root_term": "G11",
+        "coefficient": 1,
+        "factor_depth": 13,
+        "depth_from_root": 9,
+        "lower_exponent_bounds": [
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754,
+          0.07547169811320754
+        ],
+        "lower_exponent_labels": [
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha",
+          "alpha"
+        ],
+        "region_constraints": [
+          "alpha <= u1 <= u2 <= u3 <= u4 <= beta"
+        ],
+        "sieve_set": "P(N*p1)",
+        "sift_threshold": "q_new",
+        "anchor_threshold": "p1",
+        "extra_factor_floor": 0.07547169811320754,
+        "extra_factor_floor_label": "alpha",
+        "expansion_rule": "dynamic_to_dynamic_anchor",
+        "proof_status": "identity_exact",
+        "source_equation": "Buchstab identity",
+        "analytic_oracles": [
+          "buchstab_function_upper",
+          "buchstab_expand"
+        ],
+        "parent_id": "G11.C.C.C.C.C.C.C.C",
+        "branch_kind": "buchstab_correction",
+        "notes": [
+          "New factor q is constrained between anchor p1 and old threshold q_new.",
+          "Coefficient sign flips.",
+          "Stage 2 must reconstruct the full ordered region constraints."
+        ],
+        "expandable": false,
+        "structural_max_factor_depth": 13,
+        "min_exponent_sum": 0.9811320754716981
+      }
+    ],
+    "edges": [
+      {
+        "parent": "G2",
+        "child": "G2.paper.G1",
+        "relation": "paper_alias_G1",
+        "coefficient_multiplier": 1,
+        "rule": "G2 = G1 - G13 + G6 - G14 + error",
+        "exactness": "paper_exact",
+        "notes": []
+      },
+      {
+        "parent": "G2",
+        "child": "G2.paper.G13",
+        "relation": "paper_G13",
+        "coefficient_multiplier": -1,
+        "rule": "G2 = G1 - G13 + G6 - G14 + error",
+        "exactness": "paper_exact",
+        "notes": []
+      },
+      {
+        "parent": "G2",
+        "child": "G2.paper.G6",
+        "relation": "paper_alias_G6",
+        "coefficient_multiplier": 1,
+        "rule": "G2 = G1 - G13 + G6 - G14 + error",
+        "exactness": "paper_exact",
+        "notes": []
+      },
+      {
+        "parent": "G2",
+        "child": "G2.paper.G14",
+        "relation": "paper_G14",
+        "coefficient_multiplier": -1,
+        "rule": "G2 = G1 - G13 + G6 - G14 + error",
+        "exactness": "paper_exact",
+        "notes": []
+      },
+      {
+        "parent": "G3",
+        "child": "G3.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G3",
+        "child": "G3.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G8",
+        "child": "G8.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G8",
+        "child": "G8.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9",
+        "child": "G9.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9",
+        "child": "G9.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G10",
+        "child": "G10.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G10",
+        "child": "G10.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11",
+        "child": "G11.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11",
+        "child": "G11.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12",
+        "child": "G12.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12",
+        "child": "G12.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C",
+        "child": "G9.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C",
+        "child": "G9.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G10.C",
+        "child": "G10.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G10.C",
+        "child": "G10.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C",
+        "child": "G11.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C",
+        "child": "G11.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C",
+        "child": "G12.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C",
+        "child": "G12.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C",
+        "child": "G9.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C",
+        "child": "G9.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C",
+        "child": "G11.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C",
+        "child": "G11.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C",
+        "child": "G12.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C",
+        "child": "G12.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C",
+        "child": "G9.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C",
+        "child": "G9.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C",
+        "child": "G11.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C",
+        "child": "G11.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C",
+        "child": "G12.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C",
+        "child": "G12.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C.C",
+        "child": "G9.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C.C",
+        "child": "G9.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C",
+        "child": "G11.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C",
+        "child": "G11.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C",
+        "child": "G12.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C",
+        "child": "G12.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C.C.C",
+        "child": "G9.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C.C.C",
+        "child": "G9.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C.C",
+        "child": "G12.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C.C",
+        "child": "G12.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C.C.C.C",
+        "child": "G9.C.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G9.C.C.C.C.C.C",
+        "child": "G9.C.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C.C.C",
+        "child": "G12.C.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C.C.C",
+        "child": "G12.C.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C.C.C.C",
+        "child": "G12.C.C.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G12.C.C.C.C.C.C.C",
+        "child": "G12.C.C.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C.C.C.B",
+        "relation": "base",
+        "coefficient_multiplier": 1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      },
+      {
+        "parent": "G11.C.C.C.C.C.C.C.C",
+        "child": "G11.C.C.C.C.C.C.C.C.C",
+        "relation": "correction",
+        "coefficient_multiplier": -1.0,
+        "rule": "T(high)=T(anchor)-Correction",
+        "exactness": "identity_exact",
+        "notes": []
+      }
+    ],
+    "paper_rewrite_chain": [
+      {
+        "step": "combine_two_weighted_inequalities",
+        "source": "(4.19)+(4.20)->(4.21)",
+        "relation": "inequality",
+        "output": "4D >= 2G1+2G2-4G3-G4-2G8-G9-S3(beta,gamma)-S5(beta,gamma)+S6(alpha,1/3)+error",
+        "notes": [
+          "S4(1/3)=0",
+          "S6(beta,gamma) dropped by non-negativity"
+        ]
+      },
+      {
+        "step": "expand_G2",
+        "source": "(4.22)-(4.23)",
+        "relation": "identity_up_to_error",
+        "output": "G2 = G1 - G13 + G6 - G14 + error"
+      },
+      {
+        "step": "expand_S3",
+        "source": "(4.25)-(4.26)",
+        "relation": "identity_up_to_error",
+        "output": "S3(beta,gamma) = G5 - G13 - G7 + G15 + error"
+      },
+      {
+        "step": "cancel_G13",
+        "source": "(4.24)-(4.27)",
+        "relation": "algebraic_cancellation",
+        "output": "G13 cancels, producing the next certificate state"
+      },
+      {
+        "step": "expand_S5",
+        "source": "(4.28)-(4.29)",
+        "relation": "identity_up_to_error",
+        "output": "S5(beta,gamma) = G10 + G16 + error"
+      },
+      {
+        "step": "final_domination_target",
+        "source": "(4.30)-(4.31)",
+        "relation": "inequality",
+        "output": "S6(alpha,1/3) >= G14+G15+G16-G11-G12"
+      },
+      {
+        "step": "G14_minus_G11",
+        "source": "(4.32)",
+        "relation": "buchstab_identity_up_to_error",
+        "output": "G14-G11 becomes a restricted nonnegative 3-factor state"
+      },
+      {
+        "step": "G15_minus_G12",
+        "source": "(4.33)",
+        "relation": "buchstab_identity_up_to_error",
+        "output": "G15-G12 becomes a restricted nonnegative 3-factor state"
+      },
+      {
+        "step": "dominate_G16",
+        "source": "(4.34)",
+        "relation": "upper_domination",
+        "output": "G16 is bounded by a larger 3-factor state"
+      },
+      {
+        "step": "split_S6",
+        "source": "(4.35)-(4.36)",
+        "relation": "partition_and_region_domination",
+        "output": "S6 split covers the three positive states above"
+      },
+      {
+        "step": "final_certificate",
+        "source": "(4.18)",
+        "relation": "inequality",
+        "output": "4D >= 3G1+G2-4G3-G4-G5+G6+G7-2G8-G9-G10-G11-G12+error"
+      }
+    ],
+    "warnings": []
+  },
+  "rewrite_engine": {
+    "terms": [
+      {
+        "term_id": "S6(alpha,1/3)",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_S6_alpha_third",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "guards": [],
+            "source": "(4.35)",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.35)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.35)",
+        "semantic_role": "resource",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "S6.cell.A",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_A_alpha_alpha_beta",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= beta"
+            ],
+            "guards": [],
+            "source": "(4.35)-cell-1",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= beta"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.35)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.35)",
+        "semantic_role": "resource",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "S6.cell.B",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_B_alpha_beta_third",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= beta",
+              "beta <= u3",
+              "u3 <= 1/3"
+            ],
+            "guards": [],
+            "source": "(4.35)-cell-2",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "beta <= u3",
+              "u1 <= u2",
+              "u2 <= beta",
+              "u3 <= 1/3"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.35)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.35)",
+        "semantic_role": "resource",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "S6.cell.C",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_C_cross_beta",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= beta",
+              "beta <= u2",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "guards": [],
+            "source": "(4.35)-cell-3",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "beta <= u2",
+              "u1 <= beta",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.35)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.35)",
+        "semantic_role": "resource",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "S6.cell.D",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_D_beta_beta_third",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "beta <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "guards": [],
+            "source": "(4.35)-cell-4",
+            "notes": [],
+            "canonical_constraints": [
+              "beta <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.35)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.35)",
+        "semantic_role": "resource",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "D14_11",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_A_alpha_alpha_beta",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= beta"
+            ],
+            "guards": [],
+            "source": "(4.35)-cell-1",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= u3",
+              "u3 <= beta"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.32)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.32)",
+        "semantic_role": "demand",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": [
+          "Represents G14-G11 after Buchstab rewrite, modulo O(N^(1-alpha))."
+        ]
+      },
+      {
+        "term_id": "D15_12",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_B_alpha_beta_gamma",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= u2",
+              "u2 <= beta",
+              "beta <= u3",
+              "u3 <= gamma"
+            ],
+            "guards": [
+              "gamma < 1/3"
+            ],
+            "source": "(4.33)",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "beta <= u3",
+              "u1 <= u2",
+              "u2 <= beta",
+              "u3 <= gamma"
+            ],
+            "canonical_guards": [
+              "gamma < 1/3"
+            ]
+          }
+        },
+        "provenance": [
+          "(4.33)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.33)",
+        "semantic_role": "demand",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": [
+          "Represents G15-G12 after Buchstab rewrite, modulo O(N^(1-alpha))."
+        ]
+      },
+      {
+        "term_id": "G16.majorant.rendered",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_D_gamma_sqrt",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "beta <= u1",
+              "u1 <= gamma",
+              "gamma <= u2",
+              "u2 <= u3",
+              "u3 <= (1-u1-u2)/2"
+            ],
+            "guards": [
+              "beta + gamma > 1/3"
+            ],
+            "source": "(4.34)",
+            "notes": [],
+            "canonical_constraints": [
+              "beta <= u1",
+              "gamma <= u2",
+              "u1 <= gamma",
+              "u2 <= u3",
+              "u3 <= (1-u1-u2)/2"
+            ],
+            "canonical_guards": [
+              "beta + gamma > 1/3"
+            ]
+          }
+        },
+        "provenance": [
+          "(4.34)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.34)",
+        "semantic_role": "demand",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": [
+          "Literal current arXiv v2 rendering uses A[p1*p2].",
+          "This shape does not match the A[p1*p2*p3] S6 cell kernel."
+        ]
+      },
+      {
+        "term_id": "G16.coverage_shape",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_D_gamma_sqrt",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "beta <= u1",
+              "u1 <= gamma",
+              "gamma <= u2",
+              "u2 <= u3",
+              "u3 <= (1-u1-u2)/2"
+            ],
+            "guards": [
+              "beta + gamma > 1/3"
+            ],
+            "source": "(4.34)",
+            "notes": [],
+            "canonical_constraints": [
+              "beta <= u1",
+              "gamma <= u2",
+              "u1 <= gamma",
+              "u2 <= u3",
+              "u3 <= (1-u1-u2)/2"
+            ],
+            "canonical_guards": [
+              "beta + gamma > 1/3"
+            ]
+          }
+        },
+        "provenance": [
+          "(4.36)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.36)",
+        "semantic_role": "demand",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": [
+          "This is the kernel appearing on the final RHS of (4.36).",
+          "It is intentionally NOT identified automatically with the literal (4.34) majorant because the sequence labels differ in arXiv v2."
+        ]
+      },
+      {
+        "term_id": "S6.cell.D.gamma",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1*p2*p3]",
+          "sieve_set": "P(N*p1)",
+          "threshold": "p2",
+          "outer_variables": [
+            "p1",
+            "p2",
+            "p3"
+          ],
+          "region": {
+            "name": "R_D_gamma_third",
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "constraints": [
+              "beta <= u1",
+              "u1 <= gamma",
+              "gamma <= u2",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "guards": [
+              "beta + gamma > 1/3"
+            ],
+            "source": "(4.36)-middle",
+            "notes": [],
+            "canonical_constraints": [
+              "beta <= u1",
+              "gamma <= u2",
+              "u1 <= gamma",
+              "u2 <= u3",
+              "u3 <= 1/3"
+            ],
+            "canonical_guards": [
+              "beta + gamma > 1/3"
+            ]
+          }
+        },
+        "provenance": [
+          "(4.36)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.36)",
+        "semantic_role": "resource",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "G13.from_G2",
+        "coefficient": -1,
+        "shape": {
+          "sequence": "A[p1]",
+          "sieve_set": "P(N)",
+          "threshold": "N^alpha",
+          "outer_variables": [
+            "p1"
+          ],
+          "region": {
+            "name": "R_G13",
+            "variables": [
+              "u1"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= beta"
+            ],
+            "guards": [],
+            "source": "(4.23),(4.25)",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "u1 <= beta"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.24)"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.24)",
+        "semantic_role": "intermediate",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      },
+      {
+        "term_id": "G13.from_minus_S3",
+        "coefficient": 1,
+        "shape": {
+          "sequence": "A[p1]",
+          "sieve_set": "P(N)",
+          "threshold": "N^alpha",
+          "outer_variables": [
+            "p1"
+          ],
+          "region": {
+            "name": "R_G13",
+            "variables": [
+              "u1"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= beta"
+            ],
+            "guards": [],
+            "source": "(4.23),(4.25)",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "u1 <= beta"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "provenance": [
+          "(4.25) inserted with negative sign"
+        ],
+        "proof_status": "paper_exact",
+        "source_equation": "(4.25) inserted with negative sign",
+        "semantic_role": "intermediate",
+        "expandable": false,
+        "analytic_oracles": [],
+        "notes": []
+      }
+    ],
+    "events": [
+      {
+        "event_id": "R0001",
+        "rule_type": "SPLIT",
+        "inputs": [
+          "S6(alpha,1/3)"
+        ],
+        "outputs": [
+          "S6.cell.A",
+          "S6.cell.B",
+          "S6.cell.C",
+          "S6.cell.D"
+        ],
+        "relation": "equality",
+        "source": "(4.35)",
+        "exactness": "paper_exact",
+        "notes": [
+          "Children are treated as disjoint cells."
+        ]
+      },
+      {
+        "event_id": "R0002",
+        "rule_type": "LINEAR_REWRITE",
+        "inputs": [
+          "G14",
+          "G11"
+        ],
+        "outputs": [
+          "D14_11"
+        ],
+        "relation": "G14 - G11 = D14_11 + error",
+        "source": "(4.32)",
+        "exactness": "paper_exact",
+        "notes": [
+          "Exact paper rewrite up to the stated error term."
+        ]
+      },
+      {
+        "event_id": "R0003",
+        "rule_type": "LINEAR_REWRITE",
+        "inputs": [
+          "G15",
+          "G12"
+        ],
+        "outputs": [
+          "D15_12"
+        ],
+        "relation": "G15 - G12 = D15_12 + error",
+        "source": "(4.33)",
+        "exactness": "paper_exact",
+        "notes": []
+      },
+      {
+        "event_id": "R0004",
+        "rule_type": "REGION_INCLUSION",
+        "inputs": [
+          "R_B_alpha_beta_gamma"
+        ],
+        "outputs": [
+          "R_B_alpha_beta_third"
+        ],
+        "relation": "subset",
+        "source": "(4.33)+(4.35)",
+        "exactness": "paper_exact",
+        "notes": [
+          "gamma < 1/3, so the beta..gamma third-factor cell lies in the beta..1/3 cell.",
+          "guard: gamma < 1/3"
+        ]
+      },
+      {
+        "event_id": "R0005",
+        "rule_type": "LINEAR_REWRITE",
+        "inputs": [
+          "G16"
+        ],
+        "outputs": [
+          "G16.majorant.rendered"
+        ],
+        "relation": "G16 <= G16.majorant.rendered",
+        "source": "(4.34)",
+        "exactness": "paper_exact",
+        "notes": []
+      },
+      {
+        "event_id": "R0006",
+        "rule_type": "REGION_INCLUSION",
+        "inputs": [
+          "R_D_gamma_third"
+        ],
+        "outputs": [
+          "R_D_beta_beta_third"
+        ],
+        "relation": "subset",
+        "source": "(4.36)",
+        "exactness": "paper_exact",
+        "notes": [
+          "Restricting u1<=gamma and u2>=gamma shrinks S6 cell D."
+        ]
+      },
+      {
+        "event_id": "R0007",
+        "rule_type": "REGION_INCLUSION",
+        "inputs": [
+          "R_D_gamma_sqrt"
+        ],
+        "outputs": [
+          "R_D_gamma_third"
+        ],
+        "relation": "subset",
+        "source": "(4.36)",
+        "exactness": "paper_exact",
+        "notes": [
+          "beta+gamma>1/3 implies (1-u1-u2)/2 < 1/3 on this region.",
+          "guard: beta + gamma > 1/3"
+        ]
+      },
+      {
+        "event_id": "R0008",
+        "rule_type": "CANONICAL_CANCEL",
+        "inputs": [
+          "G13.from_G2",
+          "G13.from_minus_S3"
+        ],
+        "outputs": [],
+        "relation": "sum coefficients = 0",
+        "source": "(4.24)-(4.27)",
+        "exactness": "paper_exact",
+        "notes": [
+          "Canonical shape equality reproduces the G13 cancellation."
+        ]
+      }
+    ],
+    "subset_facts": [
+      {
+        "small": "R_B_alpha_beta_gamma",
+        "large": "R_B_alpha_beta_third",
+        "guard": "gamma < 1/3",
+        "source": "(4.33)+(4.35)",
+        "reason": "gamma < 1/3, so the beta..gamma third-factor cell lies in the beta..1/3 cell."
+      },
+      {
+        "small": "R_D_gamma_third",
+        "large": "R_D_beta_beta_third",
+        "guard": null,
+        "source": "(4.36)",
+        "reason": "Restricting u1<=gamma and u2>=gamma shrinks S6 cell D."
+      },
+      {
+        "small": "R_D_gamma_sqrt",
+        "large": "R_D_gamma_third",
+        "guard": "beta + gamma > 1/3",
+        "source": "(4.36)",
+        "reason": "beta+gamma>1/3 implies (1-u1-u2)/2 < 1/3 on this region."
+      }
+    ]
+  },
+  "regions": {
+    "R_S6_alpha_third": {
+      "name": "R_S6_alpha_third",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "alpha <= u1",
+        "u1 <= u2",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "guards": [],
+      "source": "(4.35)",
+      "notes": [],
+      "canonical_constraints": [
+        "alpha <= u1",
+        "u1 <= u2",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "canonical_guards": []
+    },
+    "R_A_alpha_alpha_beta": {
+      "name": "R_A_alpha_alpha_beta",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "alpha <= u1",
+        "u1 <= u2",
+        "u2 <= u3",
+        "u3 <= beta"
+      ],
+      "guards": [],
+      "source": "(4.35)-cell-1",
+      "notes": [],
+      "canonical_constraints": [
+        "alpha <= u1",
+        "u1 <= u2",
+        "u2 <= u3",
+        "u3 <= beta"
+      ],
+      "canonical_guards": []
+    },
+    "R_B_alpha_beta_third": {
+      "name": "R_B_alpha_beta_third",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "alpha <= u1",
+        "u1 <= u2",
+        "u2 <= beta",
+        "beta <= u3",
+        "u3 <= 1/3"
+      ],
+      "guards": [],
+      "source": "(4.35)-cell-2",
+      "notes": [],
+      "canonical_constraints": [
+        "alpha <= u1",
+        "beta <= u3",
+        "u1 <= u2",
+        "u2 <= beta",
+        "u3 <= 1/3"
+      ],
+      "canonical_guards": []
+    },
+    "R_C_cross_beta": {
+      "name": "R_C_cross_beta",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "alpha <= u1",
+        "u1 <= beta",
+        "beta <= u2",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "guards": [],
+      "source": "(4.35)-cell-3",
+      "notes": [],
+      "canonical_constraints": [
+        "alpha <= u1",
+        "beta <= u2",
+        "u1 <= beta",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "canonical_guards": []
+    },
+    "R_D_beta_beta_third": {
+      "name": "R_D_beta_beta_third",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "beta <= u1",
+        "u1 <= u2",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "guards": [],
+      "source": "(4.35)-cell-4",
+      "notes": [],
+      "canonical_constraints": [
+        "beta <= u1",
+        "u1 <= u2",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "canonical_guards": []
+    },
+    "R_B_alpha_beta_gamma": {
+      "name": "R_B_alpha_beta_gamma",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "alpha <= u1",
+        "u1 <= u2",
+        "u2 <= beta",
+        "beta <= u3",
+        "u3 <= gamma"
+      ],
+      "guards": [
+        "gamma < 1/3"
+      ],
+      "source": "(4.33)",
+      "notes": [],
+      "canonical_constraints": [
+        "alpha <= u1",
+        "beta <= u3",
+        "u1 <= u2",
+        "u2 <= beta",
+        "u3 <= gamma"
+      ],
+      "canonical_guards": [
+        "gamma < 1/3"
+      ]
+    },
+    "R_D_gamma_sqrt": {
+      "name": "R_D_gamma_sqrt",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "beta <= u1",
+        "u1 <= gamma",
+        "gamma <= u2",
+        "u2 <= u3",
+        "u3 <= (1-u1-u2)/2"
+      ],
+      "guards": [
+        "beta + gamma > 1/3"
+      ],
+      "source": "(4.34)",
+      "notes": [],
+      "canonical_constraints": [
+        "beta <= u1",
+        "gamma <= u2",
+        "u1 <= gamma",
+        "u2 <= u3",
+        "u3 <= (1-u1-u2)/2"
+      ],
+      "canonical_guards": [
+        "beta + gamma > 1/3"
+      ]
+    },
+    "R_D_gamma_third": {
+      "name": "R_D_gamma_third",
+      "variables": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "constraints": [
+        "beta <= u1",
+        "u1 <= gamma",
+        "gamma <= u2",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "guards": [
+        "beta + gamma > 1/3"
+      ],
+      "source": "(4.36)-middle",
+      "notes": [],
+      "canonical_constraints": [
+        "beta <= u1",
+        "gamma <= u2",
+        "u1 <= gamma",
+        "u2 <= u3",
+        "u3 <= 1/3"
+      ],
+      "canonical_guards": [
+        "beta + gamma > 1/3"
+      ]
+    }
+  },
+  "canonical_reduction_demo": {
+    "reduced": [],
+    "cancellations": [
+      {
+        "canonical_key": "('A[p1]', 'P(N)', 'N^alpha', ('p1',), (('u1',), ('alpha <= u1', 'u1 <= beta'), ()))",
+        "members": [
+          "G13.from_G2",
+          "G13.from_minus_S3"
+        ],
+        "coefficient_before": [
+          -1,
+          1
+        ],
+        "coefficient_after": 0,
+        "representative": {
+          "sequence": "A[p1]",
+          "sieve_set": "P(N)",
+          "threshold": "N^alpha",
+          "outer_variables": [
+            "p1"
+          ],
+          "region": {
+            "name": "R_G13",
+            "variables": [
+              "u1"
+            ],
+            "constraints": [
+              "alpha <= u1",
+              "u1 <= beta"
+            ],
+            "guards": [],
+            "source": "(4.23),(4.25)",
+            "notes": [],
+            "canonical_constraints": [
+              "alpha <= u1",
+              "u1 <= beta"
+            ],
+            "canonical_guards": []
+          }
+        },
+        "status": "CANCELLED"
+      }
+    ]
+  },
+  "coverage_certificate_interpreting_4_36_kernel": {
+    "matches": [
+      {
+        "demand": "D14_11",
+        "resource": "S6.cell.A",
+        "relation": "identical_region"
+      },
+      {
+        "demand": "D15_12",
+        "resource": "S6.cell.B",
+        "relation": "registered_subset",
+        "fact": {
+          "small": "R_B_alpha_beta_gamma",
+          "large": "R_B_alpha_beta_third",
+          "guard": "gamma < 1/3",
+          "source": "(4.33)+(4.35)",
+          "reason": "gamma < 1/3, so the beta..gamma third-factor cell lies in the beta..1/3 cell."
+        }
+      },
+      {
+        "demand": "G16.coverage_shape",
+        "resource": "S6.cell.D.gamma",
+        "relation": "registered_subset",
+        "fact": {
+          "small": "R_D_gamma_sqrt",
+          "large": "R_D_gamma_third",
+          "guard": "beta + gamma > 1/3",
+          "source": "(4.36)",
+          "reason": "beta+gamma>1/3 implies (1-u1-u2)/2 < 1/3 on this region."
+        }
+      }
+    ],
+    "failures": []
+  },
+  "coverage_certificate_literal_4_34_kernel": {
+    "matches": [
+      {
+        "demand": "D14_11",
+        "resource": "S6.cell.A",
+        "relation": "identical_region"
+      },
+      {
+        "demand": "D15_12",
+        "resource": "S6.cell.B",
+        "relation": "registered_subset",
+        "fact": {
+          "small": "R_B_alpha_beta_gamma",
+          "large": "R_B_alpha_beta_third",
+          "guard": "gamma < 1/3",
+          "source": "(4.33)+(4.35)",
+          "reason": "gamma < 1/3, so the beta..gamma third-factor cell lies in the beta..1/3 cell."
+        }
+      }
+    ],
+    "failures": [
+      {
+        "demand": "G16.majorant.rendered",
+        "reason": "No shape-compatible registered resource. This may indicate a missing rewrite rule or a source-level notation inconsistency."
+      }
+    ]
+  },
+  "warnings": [
+    "SOURCE_SHAPE_WARNING: arXiv v2 equations (4.29)/(4.34) render the G16 correction/majorant with sequence A_{p1 p2}, whereas (4.35)/(4.36) close the argument using A_{p1 p2 p3}. The engine therefore does not silently claim that the literal 4.34 shape is dominated by S6. Check the source/PDF or author errata before treating this local closure as machine-certified."
+  ],
+  "stage2_contract": {
+    "binary_decision": "For every expandable state, STOP uses a certified terminal oracle; EXPAND activates an exact rewrite event and children.",
+    "region_decision": "A SPLIT event activates all disjoint cells. Optional estimator choices may then be attached independently to each cell.",
+    "canonicalization": "Terms with identical TermShape keys are merged; coefficients are summed and exact zero coefficients are cancelled.",
+    "domination": "Only registered subset facts plus identical term kernels may be used as automatic domination constraints.",
+    "source_warning_policy": "Any source-shape warning blocks machine-certified closure unless explicitly resolved by a verified correction."
+  }
+}

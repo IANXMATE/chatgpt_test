@@ -1,0 +1,132 @@
+[
+  {
+    "event_id": "R0001",
+    "rule_type": "SPLIT",
+    "inputs": [
+      "S6(alpha,1/3)"
+    ],
+    "outputs": [
+      "S6.cell.A",
+      "S6.cell.B",
+      "S6.cell.C",
+      "S6.cell.D"
+    ],
+    "relation": "equality",
+    "source": "(4.35)",
+    "exactness": "paper_exact",
+    "notes": [
+      "Children are treated as disjoint cells."
+    ]
+  },
+  {
+    "event_id": "R0002",
+    "rule_type": "LINEAR_REWRITE",
+    "inputs": [
+      "G14",
+      "G11"
+    ],
+    "outputs": [
+      "D14_11"
+    ],
+    "relation": "G14 - G11 = D14_11 + error",
+    "source": "(4.32)",
+    "exactness": "paper_exact",
+    "notes": [
+      "Exact paper rewrite up to the stated error term."
+    ]
+  },
+  {
+    "event_id": "R0003",
+    "rule_type": "LINEAR_REWRITE",
+    "inputs": [
+      "G15",
+      "G12"
+    ],
+    "outputs": [
+      "D15_12"
+    ],
+    "relation": "G15 - G12 = D15_12 + error",
+    "source": "(4.33)",
+    "exactness": "paper_exact",
+    "notes": []
+  },
+  {
+    "event_id": "R0004",
+    "rule_type": "REGION_INCLUSION",
+    "inputs": [
+      "R_B_alpha_beta_gamma"
+    ],
+    "outputs": [
+      "R_B_alpha_beta_third"
+    ],
+    "relation": "subset",
+    "source": "(4.33)+(4.35)",
+    "exactness": "paper_exact",
+    "notes": [
+      "gamma < 1/3, so the beta..gamma third-factor cell lies in the beta..1/3 cell.",
+      "guard: gamma < 1/3"
+    ]
+  },
+  {
+    "event_id": "R0005",
+    "rule_type": "LINEAR_REWRITE",
+    "inputs": [
+      "G16"
+    ],
+    "outputs": [
+      "G16.majorant.rendered"
+    ],
+    "relation": "G16 <= G16.majorant.rendered",
+    "source": "(4.34)",
+    "exactness": "paper_exact",
+    "notes": []
+  },
+  {
+    "event_id": "R0006",
+    "rule_type": "REGION_INCLUSION",
+    "inputs": [
+      "R_D_gamma_third"
+    ],
+    "outputs": [
+      "R_D_beta_beta_third"
+    ],
+    "relation": "subset",
+    "source": "(4.36)",
+    "exactness": "paper_exact",
+    "notes": [
+      "Restricting u1<=gamma and u2>=gamma shrinks S6 cell D."
+    ]
+  },
+  {
+    "event_id": "R0007",
+    "rule_type": "REGION_INCLUSION",
+    "inputs": [
+      "R_D_gamma_sqrt"
+    ],
+    "outputs": [
+      "R_D_gamma_third"
+    ],
+    "relation": "subset",
+    "source": "(4.36)",
+    "exactness": "paper_exact",
+    "notes": [
+      "beta+gamma>1/3 implies (1-u1-u2)/2 < 1/3 on this region.",
+      "guard: beta + gamma > 1/3"
+    ]
+  },
+  {
+    "event_id": "R0008",
+    "rule_type": "CANONICAL_CANCEL",
+    "inputs": [
+      "G13.from_G2",
+      "G13.from_minus_S3"
+    ],
+    "outputs": [],
+    "relation": "sum coefficients = 0",
+    "source": "(4.24)-(4.27)",
+    "exactness": "paper_exact",
+    "notes": [
+      "Canonical shape equality reproduces the G13 cancellation."
+    ]
+  }
+]

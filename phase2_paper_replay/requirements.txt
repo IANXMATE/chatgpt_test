@@ -1,0 +1,2 @@
+# Paper Replay uses only the Python standard library.
+# Later optimization backends can be added without changing main.py.

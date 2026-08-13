@@ -1,0 +1,8 @@
+{
+  "pairwise": [],
+  "crossing_pairs": [],
+  "laminar_pairs": [],
+  "disjoint_pairs": [],
+  "crossing_count": 0,
+  "recommendation": "DISJOINT/LAMINAR bundle families can usually be handled by resource-flow DP/LP. CROSSING families form the genuine global set-packing/MILP core."
+}
