@@ -1,0 +1,2614 @@
+# G3 Escape V5 theorem-design target
+{
+  "schema": "goldbach-phase2-g3-escape-target-v5",
+  "status": "THEOREM_DESIGN_TARGET_NOT_A_PROOF_CRITICAL_G3_BASE_UPPER_IS_HYPOTHETICAL",
+  "created_utc": "2026-08-13T16:49:14.124813+00:00",
+  "target": {
+    "delta": 0.11,
+    "a": 1.89,
+    "form": "1 + (2-delta)"
+  },
+  "reproducibility": {
+    "batch_index": 415,
+    "sample_index": 10,
+    "seed": 675606469,
+    "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+    "argv": [
+      "c:/Users/Administrator/Documents/chatgpt_test/chatgpt_test/phase2_g3_escape_v5/main.py"
+    ],
+    "manifest_sha256": "36f2e62c84bd0db5f38426f96e76b8314fa0ed9fb671ad4c42ff338f58be83f6",
+    "flow_sha256": "e29a233961e22c2f843c9569613d09ec160c80899888fd6b66f3e77c07c5887c",
+    "script_sha256": "62e712a36333061c96bdea0a73d0cfc3581d23eaa4031b5e077b716b79c8e576"
+  },
+  "parameters": {
+    "a": 1.89,
+    "alpha": 0.07662757636245128,
+    "beta": 0.11822979572103215,
+    "gamma": 0.2734356856941467,
+    "epsilon": 1e-10,
+    "tau": 0.47089947079947087,
+    "delta": 0.1100000000000001
+  },
+  "g3_structure": {
+    "state_id": "S_2fddf384dc5a3c",
+    "direct_upper_terminal": "x_terminal__NEG__S_2fddf384dc5a3c__paper_upper_G3",
+    "neg_rewrite": "x_rewrite__NEG__structural_0001",
+    "base_state": "S_abd8cb1f2f5f46",
+    "correction_states": [
+      "S_c2c210925d8054"
+    ],
+    "base_unresolved_variable": "x_unresolved__NEG__S_abd8cb1f2f5f46"
+  },
+  "paper_G_bounds": {
+    "G1": 14.653918468889454,
+    "G2": 9.37977519000647,
+    "G3": 0.9322725332584886,
+    "G4": 23.137787349277463,
+    "G5": 19.09692886683651,
+    "G6": 1.3456891273989195,
+    "G7": 3.500986306916536,
+    "G8": 0.5951113165007939,
+    "G9": 5.198973621601802,
+    "G10": 5.573520272323079,
+    "G11": 0.07158740479386817,
+    "G12": 0.5315987213279931
+  },
+  "theorem_trace": {
+    "passed": true,
+    "hard_failures": [],
+    "guards": [
+      {
+        "name": "P43_a",
+        "passed": true,
+        "expression": "1.5+3ε < a < 2",
+        "value": 1.89,
+        "threshold": null,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_alpha_beta",
+        "passed": true,
+        "expression": "1/18 < alpha < beta",
+        "value": null,
+        "threshold": null,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_beta_middle",
+        "passed": true,
+        "expression": "beta < (1-3 beta)/3",
+        "value": 0.11822979572103215,
+        "threshold": 0.21510353761230117,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_middle_gamma",
+        "passed": true,
+        "expression": "(1-3 beta)/3 < gamma < 1/3",
+        "value": 0.2734356856941467,
+        "threshold": null,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "P43_tau",
+        "passed": true,
+        "expression": "1/3 < tau=(a-1)/a-epsilon",
+        "value": 0.47089947079947087,
+        "threshold": 0.3333333333333333,
+        "theorem": "Proposition 4.3",
+        "source": "Li-Liu 2026, Proposition 4.3, equations (4.18)-(4.18 definitions)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G1_linear_sieve",
+        "passed": true,
+        "expression": "alpha < 1/4  (asymptotic form of z=N^alpha <= Q^(1/2), Q~N^(1/2))",
+        "value": 0.07662757636245128,
+        "threshold": 0.25,
+        "theorem": "Lemma 2.5",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G2_linear_sieve",
+        "passed": true,
+        "expression": "beta < 1/4",
+        "value": 0.11822979572103215,
+        "threshold": 0.25,
+        "theorem": "Lemma 2.5",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G4_uniform_upper_sieve",
+        "passed": true,
+        "expression": "alpha < 1/12  (uniform s=(1/2-u)/alpha > 2 for u<=1/3)",
+        "value": 0.07662757636245128,
+        "threshold": 0.08333333333333333,
+        "theorem": "Lemma 2.5 upper bound",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": "No alternative upper estimator is registered outside this guard."
+      },
+      {
+        "name": "G5_uniform_upper_sieve",
+        "passed": true,
+        "expression": "2 alpha + gamma < 1/2",
+        "value": 0.4266908384190493,
+        "threshold": 0.5,
+        "theorem": "Lemma 2.5 upper bound",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G8_single_remaining_prime",
+        "passed": true,
+        "expression": "gamma > 1/4",
+        "value": 0.2734356856941467,
+        "threshold": 0.25,
+        "theorem": "Section 5.3 switching structure",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "hard": true,
+        "note": "Ensures the unsieved remainder cannot have two prime factors."
+      },
+      {
+        "name": "G11_buchstab_domain",
+        "passed": true,
+        "expression": "(1-4 beta)/beta > 1",
+        "value": 4.4581047772385505,
+        "threshold": 1.0,
+        "theorem": "Lemma 2.1 Buchstab domain",
+        "source": "Li-Liu 2026, Lemma 2.1 (Buchstab function)",
+        "hard": true,
+        "note": ""
+      },
+      {
+        "name": "G12_buchstab_domain",
+        "passed": true,
+        "expression": "(1-3 beta-gamma)/beta > 1",
+        "value": 3.145357097801389,
+        "threshold": 1.0,
+        "theorem": "Lemma 2.1 Buchstab domain",
+        "source": "Li-Liu 2026, Lemma 2.1 (Buchstab function)",
+        "hard": true,
+        "note": "Arguments below 3 are legal; w is evaluated dynamically."
+      }
+    ],
+    "splits": [
+      {
+        "target": "G6,G7",
+        "variable": "u+v",
+        "boundary": "u+v = 1/2 - 2 alpha",
+        "left_rule": "Lemma 2.5 lower sieve with dynamic f(s)",
+        "right_rule": "trivial lower bound S>=0",
+        "source": "Li-Liu Section 5.2; f(s)=0 for s<=2",
+        "note": "Lossless for the lower-bound certificate."
+      },
+      {
+        "target": "G9",
+        "variable": "u=t1",
+        "boundary": "u = 1/10",
+        "left_rule": "Lemma 3.5, coefficient 36/5 and extra 1/(1-u)",
+        "right_rule": "Lemma 3.1, coefficient 8",
+        "source": "Li-Liu 2026, Lemma 3.5; adapted by Wu for Goldbach, valid nu<=1/10",
+        "note": "This is a genuine theorem applicability boundary."
+      },
+      {
+        "target": "G11,G12",
+        "variable": "t1",
+        "boundary": "t1 = 1/10",
+        "left_rule": "Lemma 3.5 switched distribution factor 36/5",
+        "right_rule": "Lemma 3.1 switched distribution factor 8",
+        "source": "Li-Liu Section 5.4",
+        "note": ""
+      }
+    ],
+    "applications": [
+      {
+        "target": "G1",
+        "theorem": "Lemma 2.5 lower",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "s=1/(2alpha)=6.52506608894"
+      },
+      {
+        "target": "G2",
+        "theorem": "Lemma 2.5 lower",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "s=1/(2beta)=4.22905238862"
+      },
+      {
+        "target": "G3",
+        "theorem": "Section 5.3 switching upper bound",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "detail": "8 * integral_tau^(1/2) du/[u(1-u)]"
+      },
+      {
+        "target": "G4",
+        "theorem": "Lemma 2.5 upper",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "u in [alpha,1/3], dynamic F((1/2-u)/alpha)"
+      },
+      {
+        "target": "G5",
+        "theorem": "Lemma 2.5 upper",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "u in [alpha,gamma], dynamic F"
+      },
+      {
+        "target": "G6",
+        "theorem": "Lemma 2.5 lower + trivial S>=0 outside",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "auto-split at u+v=0.346744847275"
+      },
+      {
+        "target": "G7",
+        "theorem": "Lemma 2.5 lower + trivial S>=0 outside",
+        "source": "Li-Liu 2026, Lemma 2.5 (Rosser-Iwaniec well-factorable linear sieve)",
+        "detail": "auto-split at u+v=0.346744847275"
+      },
+      {
+        "target": "G8",
+        "theorem": "Section 5.3 switching upper",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "detail": "gamma-parametrized version of (5.39)-(5.41)"
+      },
+      {
+        "target": "G9",
+        "theorem": "Lemma 3.5 / Lemma 3.1 split",
+        "source": "Li-Liu 2026, Lemma 3.5; adapted by Wu for Goldbach, valid nu<=1/10",
+        "detail": "automatic split at u=1/10"
+      },
+      {
+        "target": "G10",
+        "theorem": "Section 5.3 switching upper",
+        "source": "Li-Liu 2026, Section 5.3, equations (5.33)-(5.46)",
+        "detail": "sqrt-remaining sieve removes a second large factor"
+      },
+      {
+        "target": "G11",
+        "theorem": "Buchstab function + theorem split at t1=1/10",
+        "source": "Li-Liu 2026, Section 5.4, equations (5.47)-(5.50)",
+        "detail": "Directly evaluates w((1-t1-t2-t3-t4)/t2); no constant omega cap."
+      },
+      {
+        "target": "G12",
+        "theorem": "Buchstab function + theorem split at t1=1/10",
+        "source": "Li-Liu 2026, Section 5.4, equations (5.47)-(5.50)",
+        "detail": "Direct dynamic w; values below u=3 remain legal."
+      }
+    ]
+  },
+  "frontier_compiler": {
+    "candidate_count": 111,
+    "compiled_count": 19,
+    "terminals": {
+      "S_03bdfa04b3a586": {
+        "resource": "S_03bdfa04b3a586",
+        "unresolved_variable": "x_unresolved__NEG__S_03bdfa04b3a586",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.005890535062145176,
+        "factor_count": 6,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.017185539979660547,
+          "qmc": {
+            "estimate": 0.005890535062145176,
+            "raw_estimates": [
+              0.005718868992373957,
+              0.005707380422940278
+            ],
+            "accepted": [
+              137,
+              131
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.00836181640625,
+              0.00799560546875
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 6,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 6,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5",
+              "u6"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u4 <= 0",
+              "u4 - u5 <= 0",
+              "-beta + u5 <= 0",
+              "beta - u6 <= 0",
+              "-gamma + u6 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 + u6 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_4f7fcefe914673",
+            "canonical_key": "(6, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u5', real=True))\", \"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u6', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u6', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Symbol('u6', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u4', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_097d89ac42cd66": {
+        "resource": "S_097d89ac42cd66",
+        "unresolved_variable": "x_unresolved__NEG__S_097d89ac42cd66",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 11.365607867118625,
+        "factor_count": 2,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "paper_piecewise_upper_G9",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.0,
+          "qmc": {
+            "estimate": 11.365607867118625,
+            "raw_estimates": [
+              11.033743208481798,
+              11.034570647687985
+            ],
+            "accepted": [
+              8190,
+              8193
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.4998779296875,
+              0.50006103515625
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 2,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 2,
+            "variables": [
+              "u1",
+              "u2"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - 1/3 <= 0",
+              "1/3 - u2 <= 0",
+              "u1 + 2*u2 - 1 <= 0",
+              "u1 + u2 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "(4.18)",
+            "canonical_key": "(2, (\"Add(Rational(1, 3), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(2), Symbol('u2', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Rational(-1, 3))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Integer(-1))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_1e8fccac91d3f6": {
+        "resource": "S_1e8fccac91d3f6",
+        "unresolved_variable": "x_unresolved__NEG__S_1e8fccac91d3f6",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "upper_bound": 6.551743975813843,
+        "factor_count": 1,
+        "theorem_guard": "whole region satisfies (1/2-sum u)/rho >= 2",
+        "theorem_source": "Li-Liu 2026 Lemma 2.5, parameterized well-factorable linear-sieve upper bound; Phase-1 oracle linear_sieve_candidate",
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "s_min": 4.982151627413878,
+          "qmc": {
+            "estimate": 6.551743975813843,
+            "raw_estimates": [
+              6.360916384285282,
+              6.360916384285284
+            ],
+            "accepted": [
+              16384,
+              16384
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              1.0,
+              1.0
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 1,
+          "sieve_set": "P(N)",
+          "threshold": {
+            "kind": "fixed",
+            "value": "alpha"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 1,
+            "variables": [
+              "u1"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "-beta + u1 <= 0",
+              "u1 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_484b02944dedc1",
+            "canonical_key": "(1, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u1', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Integer(-1))\"), ())"
+          },
+          "paper_aliases": [
+            "G13"
+          ]
+        }
+      },
+      "S_27cd3a9e8b68ef": {
+        "resource": "S_27cd3a9e8b68ef",
+        "unresolved_variable": "x_unresolved__NEG__S_27cd3a9e8b68ef",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "upper_bound": 15.094197297499171,
+        "factor_count": 0,
+        "theorem_guard": "whole region satisfies (1/2-sum u)/rho >= 2",
+        "theorem_source": "Li-Liu 2026 Lemma 2.5, parameterized well-factorable linear-sieve upper bound; Phase-1 oracle linear_sieve_candidate",
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "paper_linear_sieve_lower_G1",
+          "paper_linear_sieve_lower_G2",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "raw": 14.654560385921526,
+          "s_min": 6.5250660889362,
+          "qmc": null
+        },
+        "state_summary": {
+          "factor_count": 0,
+          "sieve_set": "P(N)",
+          "threshold": {
+            "kind": "fixed",
+            "value": "alpha"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 0,
+            "variables": [],
+            "inequalities": [],
+            "guards": [],
+            "source": "(4.18)",
+            "canonical_key": "(0, (), ())"
+          },
+          "paper_aliases": [
+            "G1"
+          ]
+        }
+      },
+      "S_2d544958cfa86c": {
+        "resource": "S_2d544958cfa86c",
+        "unresolved_variable": "x_unresolved__NEG__S_2d544958cfa86c",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.0005171494055321947,
+        "factor_count": 6,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.17239142995277512,
+          "qmc": {
+            "estimate": 0.0005171494055321947,
+            "raw_estimates": [
+              0.0005019897141089269,
+              0.00048815721952738544
+            ],
+            "accepted": [
+              44,
+              45
+            ],
+            "total_per_scramble": 32768,
+            "acceptance_rates": [
+              0.0013427734375,
+              0.001373291015625
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 6,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 6,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5",
+              "u6"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u4 <= 0",
+              "u4 - u5 <= 0",
+              "u5 - u6 <= 0",
+              "-beta + u6 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 + u6 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_5803ead6d26347",
+            "canonical_key": "(6, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u6', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Symbol('u6', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u4', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\", \"Add(Symbol('u5', real=True), Mul(Integer(-1), Symbol('u6', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_2de84f75031aea": {
+        "resource": "S_2de84f75031aea",
+        "unresolved_variable": "x_unresolved__NEG__S_2de84f75031aea",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.06634252106688487,
+        "factor_count": 5,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.13541533570069264,
+          "qmc": {
+            "estimate": 0.06634252106688487,
+            "raw_estimates": [
+              0.0642449769271514,
+              0.06441011754066492
+            ],
+            "accepted": [
+              675,
+              677
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.04119873046875,
+              0.04132080078125
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 5,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 5,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "-beta + u4 <= 0",
+              "beta - u5 <= 0",
+              "-gamma + u5 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_07da6cad426c43",
+            "canonical_key": "(5, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u4', real=True))\", \"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u5', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_306d2030a98fc2": {
+        "resource": "S_306d2030a98fc2",
+        "unresolved_variable": "x_unresolved__NEG__S_306d2030a98fc2",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.01671053015575433,
+        "factor_count": 3,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_3 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 3,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.0,
+          "qmc": {
+            "estimate": 0.01671053015575433,
+            "raw_estimates": [
+              0.01622371859781974,
+              0.016193747421954115
+            ],
+            "accepted": [
+              2743,
+              2738
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.16741943359375,
+              0.1671142578125
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 3,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "3"
+          },
+          "anchor": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 3,
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "inequalities": [
+              "beta - u1 <= 0",
+              "-gamma + u1 <= 0",
+              "gamma - u2 <= 0",
+              "u1 + 2*u2 - 1 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + 2*u3 - 1 <= 0",
+              "u1 + u2 + u3 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_61286463adfd81",
+            "canonical_key": "(3, (\"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u1', real=True))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('gamma', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(2), Symbol('u2', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Mul(Integer(2), Symbol('u3', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\"), ())"
+          },
+          "paper_aliases": [
+            "G16_expected_3factor_shape"
+          ]
+        }
+      },
+      "S_39d1c363f8e79b": {
+        "resource": "S_39d1c363f8e79b",
+        "unresolved_variable": "x_unresolved__NEG__S_39d1c363f8e79b",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 5.757751241190073,
+        "factor_count": 2,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_2 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "paper_switching_upper_G10",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 2,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.0,
+          "qmc": {
+            "estimate": 5.757751241190073,
+            "raw_estimates": [
+              5.589075525216186,
+              5.5900496516408476
+            ],
+            "accepted": [
+              12586,
+              12588
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.7681884765625,
+              0.768310546875
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 2,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 2,
+            "variables": [
+              "u1",
+              "u2"
+            ],
+            "inequalities": [
+              "beta - u1 <= 0",
+              "-gamma + u1 <= 0",
+              "gamma - u2 <= 0",
+              "u1 + 2*u2 - 1 <= 0",
+              "u1 + u2 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "(4.18)",
+            "canonical_key": "(2, (\"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u1', real=True))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('gamma', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(2), Symbol('u2', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Integer(-1))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_3d261ee9151d9d": {
+        "resource": "S_3d261ee9151d9d",
+        "unresolved_variable": "x_unresolved__NEG__S_3d261ee9151d9d",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.6137767174307478,
+        "factor_count": 2,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "paper_switching_upper_G8",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.0,
+          "qmc": {
+            "estimate": 0.6137767174307478,
+            "raw_estimates": [
+              0.5952495128385817,
+              0.5958996285735416
+            ],
+            "accepted": [
+              8194,
+              8203
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.5001220703125,
+              0.50067138671875
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 2,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 2,
+            "variables": [
+              "u1",
+              "u2"
+            ],
+            "inequalities": [
+              "gamma - u1 <= 0",
+              "u1 - u2 <= 0",
+              "u1 + 2*u2 - 1 <= 0",
+              "u1 + u2 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "(4.18)",
+            "canonical_key": "(2, (\"Add(Symbol('gamma', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(2), Symbol('u2', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Integer(-1))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_484b02944dedc1": {
+        "resource": "S_484b02944dedc1",
+        "unresolved_variable": "x_unresolved__NEG__S_484b02944dedc1",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "upper_bound": 9.906392279747553,
+        "factor_count": 0,
+        "theorem_guard": "whole region satisfies (1/2-sum u)/rho >= 2",
+        "theorem_source": "Li-Liu 2026 Lemma 2.5, parameterized well-factorable linear-sieve upper bound; Phase-1 oracle linear_sieve_candidate",
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "paper_linear_sieve_lower_G2",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "raw": 9.6178564851918,
+          "s_min": 4.229052388619276,
+          "qmc": null
+        },
+        "state_summary": {
+          "factor_count": 0,
+          "sieve_set": "P(N)",
+          "threshold": {
+            "kind": "fixed",
+            "value": "beta"
+          },
+          "anchor": {
+            "kind": "fixed",
+            "value": "alpha"
+          },
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 0,
+            "variables": [],
+            "inequalities": [],
+            "guards": [],
+            "source": "(4.18),(4.22)",
+            "canonical_key": "(0, (), ())"
+          },
+          "paper_aliases": [
+            "G2"
+          ]
+        }
+      },
+      "S_4f7fcefe914673": {
+        "resource": "S_4f7fcefe914673",
+        "unresolved_variable": "x_unresolved__NEG__S_4f7fcefe914673",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.06188713403197447,
+        "factor_count": 5,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_2 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 2,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.13541533570069264,
+          "qmc": {
+            "estimate": 0.06188713403197447,
+            "raw_estimates": [
+              0.060082435645045514,
+              0.06008449906016938
+            ],
+            "accepted": [
+              689,
+              682
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.04205322265625,
+              0.0416259765625
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 5,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "anchor": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 5,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "-beta + u4 <= 0",
+              "beta - u5 <= 0",
+              "-gamma + u5 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_07da6cad426c43",
+            "canonical_key": "(5, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u4', real=True))\", \"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u5', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_5383a71c09b61c": {
+        "resource": "S_5383a71c09b61c",
+        "unresolved_variable": "x_unresolved__NEG__S_5383a71c09b61c",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "upper_bound": 1.4527388563115549,
+        "factor_count": 2,
+        "theorem_guard": "whole region satisfies (1/2-sum u)/rho >= 2",
+        "theorem_source": "Li-Liu 2026 Lemma 2.5, parameterized well-factorable linear-sieve upper bound; Phase-1 oracle linear_sieve_candidate",
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "paper_linear_sieve_lower_G6",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "s_min": 3.4392371658915555,
+          "qmc": {
+            "estimate": 1.4527388563115549,
+            "raw_estimates": [
+              1.4104259770015095,
+              1.410004101787577
+            ],
+            "accepted": [
+              8193,
+              8192
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.50006103515625,
+              0.5
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 2,
+          "sieve_set": "P(N)",
+          "threshold": {
+            "kind": "fixed",
+            "value": "alpha"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 2,
+            "variables": [
+              "u1",
+              "u2"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u2 <= 0",
+              "-beta + u2 <= 0",
+              "u1 + u2 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "(4.18)",
+            "canonical_key": "(2, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u2', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Integer(-1))\"), ())"
+          },
+          "paper_aliases": [
+            "G6"
+          ]
+        }
+      },
+      "S_5803ead6d26347": {
+        "resource": "S_5803ead6d26347",
+        "unresolved_variable": "x_unresolved__NEG__S_5803ead6d26347",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.006633065729053476,
+        "factor_count": 5,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_2 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 2,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.2906212256738072,
+          "qmc": {
+            "estimate": 0.006633065729053476,
+            "raw_estimates": [
+              0.006439772552479102,
+              0.0062892565471622764
+            ],
+            "accepted": [
+              137,
+              139
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.00836181640625,
+              0.00848388671875
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 5,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "anchor": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 5,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "u4 - u5 <= 0",
+              "-beta + u5 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_d3419be2e31530",
+            "canonical_key": "(5, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u5', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u4', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_6a289a1bece375": {
+        "resource": "S_6a289a1bece375",
+        "unresolved_variable": "x_unresolved__NEG__S_6a289a1bece375",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.0005869511595509297,
+        "factor_count": 6,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_2 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 2,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.17239142995277512,
+          "qmc": {
+            "estimate": 0.0005869511595509297,
+            "raw_estimates": [
+              0.0005697584073309997,
+              0.0005031717358410193
+            ],
+            "accepted": [
+              52,
+              46
+            ],
+            "total_per_scramble": 32768,
+            "acceptance_rates": [
+              0.0015869140625,
+              0.00140380859375
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 6,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "anchor": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 6,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5",
+              "u6"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u4 <= 0",
+              "u4 - u5 <= 0",
+              "u5 - u6 <= 0",
+              "-beta + u6 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 + u6 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_5803ead6d26347",
+            "canonical_key": "(6, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u6', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Symbol('u6', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u4', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\", \"Add(Symbol('u5', real=True), Mul(Integer(-1), Symbol('u6', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_79fb22306b896f": {
+        "resource": "S_79fb22306b896f",
+        "unresolved_variable": "x_unresolved__NEG__S_79fb22306b896f",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.08096481871486862,
+        "factor_count": 4,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "paper_buchstab_upper_G11",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.4088510213948393,
+          "qmc": {
+            "estimate": 0.08096481871486862,
+            "raw_estimates": [
+              0.0751712490399814,
+              0.07860652302414428
+            ],
+            "accepted": [
+              653,
+              689
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.03985595703125,
+              0.04205322265625
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 4,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 4,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "-beta + u4 <= 0",
+              "u1 + u2 + u3 + u4 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "(4.18),(5.4)",
+            "canonical_key": "(4, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u4', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_7c5ac68f14368d": {
+        "resource": "S_7c5ac68f14368d",
+        "unresolved_variable": "x_unresolved__NEG__S_7c5ac68f14368d",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.016670594260777043,
+        "factor_count": 3,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_2 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 2,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.0,
+          "qmc": {
+            "estimate": 0.016670594260777043,
+            "raw_estimates": [
+              0.016184945884249555,
+              0.016154168789734007
+            ],
+            "accepted": [
+              2737,
+              2731
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.16705322265625,
+              0.16668701171875
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 3,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 3,
+            "variables": [
+              "u1",
+              "u2",
+              "u3"
+            ],
+            "inequalities": [
+              "beta - u1 <= 0",
+              "-gamma + u1 <= 0",
+              "gamma - u2 <= 0",
+              "u1 + 2*u2 - 1 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + 2*u3 - 1 <= 0",
+              "u1 + u2 + u3 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_61286463adfd81",
+            "canonical_key": "(3, (\"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u1', real=True))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('gamma', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(2), Symbol('u2', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Mul(Integer(2), Symbol('u3', real=True)), Integer(-1))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_986bcef73f34cb": {
+        "resource": "S_986bcef73f34cb",
+        "unresolved_variable": "x_unresolved__NEG__S_986bcef73f34cb",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.007496020591205115,
+        "factor_count": 5,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.2906212256738072,
+          "qmc": {
+            "estimate": 0.007496020591205115,
+            "raw_estimates": [
+              0.007277592806995257,
+              0.00674052455092742
+            ],
+            "accepted": [
+              139,
+              134
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.00848388671875,
+              0.0081787109375
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 5,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 5,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "u4 - u5 <= 0",
+              "-beta + u5 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_d3419be2e31530",
+            "canonical_key": "(5, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u5', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u4', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_b03850a1248247": {
+        "resource": "S_b03850a1248247",
+        "unresolved_variable": "x_unresolved__NEG__S_b03850a1248247",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.005619291841158412,
+        "factor_count": 6,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_2 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 2,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.017185539979660547,
+          "qmc": {
+            "estimate": 0.005619291841158412,
+            "raw_estimates": [
+              0.005455526059377099,
+              0.005030009483127704
+            ],
+            "accepted": [
+              135,
+              132
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.00823974609375,
+              0.008056640625
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 6,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "2"
+          },
+          "anchor": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 6,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4",
+              "u5",
+              "u6"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u4 <= 0",
+              "u4 - u5 <= 0",
+              "-beta + u5 <= 0",
+              "beta - u6 <= 0",
+              "-gamma + u6 <= 0",
+              "u1 - u3 <= 0",
+              "u3 - u4 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "u1 + u2 + u3 + u4 + u5 + u6 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "Buchstab correction from S_4f7fcefe914673",
+            "canonical_key": "(6, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u5', real=True))\", \"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u6', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u6', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Symbol('u5', real=True), Symbol('u6', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\", \"Add(Symbol('u3', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u4', real=True), Mul(Integer(-1), Symbol('u5', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      },
+      "S_cf23b1b91b4ad7": {
+        "resource": "S_cf23b1b91b4ad7",
+        "unresolved_variable": "x_unresolved__NEG__S_cf23b1b91b4ad7",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "upper_bound": 0.6096416929958115,
+        "factor_count": 4,
+        "theorem_guard": "whole region satisfies (1-sum u)/u_1 >= 1; u1=1/10 split evaluated pointwise",
+        "theorem_source": "Li-Liu 2026 Section 5.4 + Lemmas 3.1/3.5, generalized to Phase-1 states explicitly marked buchstab_or_switching_upper_candidate",
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "paper_buchstab_upper_G12",
+          "trivial_nonnegative_lower"
+        ],
+        "numerical_diagnostics": {
+          "threshold_factor": 1,
+          "linear_guard_residual_1_minus_max_sum_plus_uj": 0.25364513142172473,
+          "qmc": {
+            "estimate": 0.6096416929958115,
+            "raw_estimates": [
+              0.5918850417435063,
+              0.5915589716654776
+            ],
+            "accepted": [
+              2730,
+              2733
+            ],
+            "total_per_scramble": 16384,
+            "acceptance_rates": [
+              0.1666259765625,
+              0.16680908203125
+            ],
+            "relative_pad": 0.03,
+            "absolute_pad": 1e-07
+          }
+        },
+        "state_summary": {
+          "factor_count": 4,
+          "sieve_set": "P(N*p1)",
+          "threshold": {
+            "kind": "factor",
+            "value": "1"
+          },
+          "anchor": null,
+          "sequence_kind": "A_product",
+          "region": {
+            "factor_count": 4,
+            "variables": [
+              "u1",
+              "u2",
+              "u3",
+              "u4"
+            ],
+            "inequalities": [
+              "alpha - u1 <= 0",
+              "u1 - u2 <= 0",
+              "u2 - u3 <= 0",
+              "-beta + u3 <= 0",
+              "beta - u4 <= 0",
+              "-gamma + u4 <= 0",
+              "u1 + u2 + u3 + u4 - 1 <= 0"
+            ],
+            "guards": [],
+            "source": "(4.18),(5.4)",
+            "canonical_key": "(4, (\"Add(Mul(Integer(-1), Symbol('beta', real=True)), Symbol('u3', real=True))\", \"Add(Mul(Integer(-1), Symbol('gamma', real=True)), Symbol('u4', real=True))\", \"Add(Symbol('alpha', real=True), Mul(Integer(-1), Symbol('u1', real=True)))\", \"Add(Symbol('beta', real=True), Mul(Integer(-1), Symbol('u4', real=True)))\", \"Add(Symbol('u1', real=True), Mul(Integer(-1), Symbol('u2', real=True)))\", \"Add(Symbol('u1', real=True), Symbol('u2', real=True), Symbol('u3', real=True), Symbol('u4', real=True), Integer(-1))\", \"Add(Symbol('u2', real=True), Mul(Integer(-1), Symbol('u3', real=True)))\"), ())"
+          },
+          "paper_aliases": []
+        }
+      }
+    },
+    "rejected": [
+      {
+        "resource": "S_03ca09445d58c6",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_0546b43e92c0d4",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=14 exceeds V4 max_factor_count=6",
+        "factor_count": 14,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_0896f54e729697",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=16 exceeds V4 max_factor_count=6",
+        "factor_count": 16,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_13fd9ba4f3cf61",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_1500ae98ad151d",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_1658eee340faa3",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=-1.18950621868<2",
+        "factor_count": 5,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_1c5889619d5ace",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_2106862e476dd2",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_3<1; linear guard residual=-0.304167259292",
+        "factor_count": 4,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_2386fbbf59b989",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_244e2139aece50",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_275eb3d200bad8",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_282994c9cd178c",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_2<1; linear guard residual=-0.196679696768",
+        "factor_count": 5,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_2b0372f62d410b",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=16 exceeds V4 max_factor_count=6",
+        "factor_count": 16,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_2d5b48aa2262cd",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_2<1; linear guard residual=-0.293923401426",
+        "factor_count": 4,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_308385cbd6a1ec",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=-2.7324206802<2",
+        "factor_count": 6,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_32beb00548a2b9",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=14 exceeds V4 max_factor_count=6",
+        "factor_count": 14,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_3494bc9a733e88",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=17 exceeds V4 max_factor_count=6",
+        "factor_count": 17,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_382b03bd5f4031",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=13 exceeds V4 max_factor_count=6",
+        "factor_count": 13,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_38736af057a8e8",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_39a3d8cd792bea",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=15 exceeds V4 max_factor_count=6",
+        "factor_count": 15,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_3c141210dc7d01",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_3dfe08e7082d00",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=15 exceeds V4 max_factor_count=6",
+        "factor_count": 15,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_3fc31c8f8a8c71",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_40b6d4e270002f",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_40e3e06c083bef",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=0.353408242847<2",
+        "factor_count": 4,
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_43d0c2cac11046",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=13 exceeds V4 max_factor_count=6",
+        "factor_count": 13,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_44ccd084ae0b1a",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_1<1; linear guard residual=-0.333333333333",
+        "factor_count": 3,
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_46ee8d1d9a40a3",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_49cb4cae1ff2ac",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=17 exceeds V4 max_factor_count=6",
+        "factor_count": 17,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_4bc0e0eb890e0e",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=17 exceeds V4 max_factor_count=6",
+        "factor_count": 17,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_4d8e5829491774",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_50e9dfbabbc4b8",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_1<1; linear guard residual=-0.222222222222",
+        "factor_count": 4,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_512dccd2d60e3f",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_526d6c39ddec00",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_543459aa603445",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=15 exceeds V4 max_factor_count=6",
+        "factor_count": 15,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_581aff60544838",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_58974977574aeb",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_1<1; linear guard residual=-0.133333333333",
+        "factor_count": 6,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_592ee69a0cc0e3",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_59f7917e7cfdec",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=16 exceeds V4 max_factor_count=6",
+        "factor_count": 16,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_5c003d2ff62fb4",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_5e005a7a9447d0",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_5e8dca1bcd8d61",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=14 exceeds V4 max_factor_count=6",
+        "factor_count": 14,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_60080513bcbf53",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=15 exceeds V4 max_factor_count=6",
+        "factor_count": 15,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_6117941d2bfd11",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=14 exceeds V4 max_factor_count=6",
+        "factor_count": 14,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_61d2b5605dcf48",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_668d93f8271d04",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_6902f4c979f262",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=13 exceeds V4 max_factor_count=6",
+        "factor_count": 13,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_6cf6c7f41099a7",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_6d97cb3f5388f4",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_6dd56b33ad66ed",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_72b7f452da1833",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=1.41377978696<2",
+        "factor_count": 2,
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "paper_linear_sieve_lower_G7",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_73c50319821e1f",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_77a87d6e0bb3e0",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_7caac87ef457df",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_7d7310e733517f",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_80e9dec679c1c3",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_827bce04f11169",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=1.89632270437<2",
+        "factor_count": 3,
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_8d56e620a6eaa7",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=13 exceeds V4 max_factor_count=6",
+        "factor_count": 13,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_8e2b8f25d7cad1",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_954f280c7b42cd",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_2<1; linear guard residual=-0.461686211819",
+        "factor_count": 3,
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_95e2fa933c2a0a",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_97f75f5eab4017",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_9bad8ef32f63dd",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_9f1a69a66218dc",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_1<1; linear guard residual=-0.166666666667",
+        "factor_count": 5,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_9fa16c046e5389",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=15 exceeds V4 max_factor_count=6",
+        "factor_count": 15,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_a1020077c15b08",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_1<1; linear guard residual=-0.333333333333",
+        "factor_count": 3,
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_a71ccc2d99dd0e",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=10 exceeds V4 max_factor_count=6",
+        "factor_count": 10,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_ab8eb8eba44474",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=13 exceeds V4 max_factor_count=6",
+        "factor_count": 13,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_abc0965763251d",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_abd8cb1f2f5f46",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=0<2",
+        "factor_count": 1,
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "paper_switching_upper_G3",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_b074ca6c11a3f6",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=17 exceeds V4 max_factor_count=6",
+        "factor_count": 17,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_b15bb673a2b977",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=14 exceeds V4 max_factor_count=6",
+        "factor_count": 14,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_be9d8b1609f1da",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=16 exceeds V4 max_factor_count=6",
+        "factor_count": 16,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_bf07051cca83cc",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_2<1; linear guard residual=-0.363282157153",
+        "factor_count": 3,
+        "phase1_oracles": [
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_c3547ba5923fcf",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_c689f8064beef3",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=16 exceeds V4 max_factor_count=6",
+        "factor_count": 16,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_cec41e24f1a07b",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_cf74e455ec5da4",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_2<1; linear guard residual=-0.147509772576",
+        "factor_count": 6,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_d3648061380af3",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=8 exceeds V4 max_factor_count=6",
+        "factor_count": 8,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_d89e5a259d250f",
+        "family": "GENERIC_LINEAR_SIEVE_UPPER",
+        "reason": "mixed/invalid Lemma-2.5 region: min sieve parameter s=-1.06179775303<2",
+        "factor_count": 2,
+        "phase1_oracles": [
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_dc56d56d8775dc",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=12 exceeds V4 max_factor_count=6",
+        "factor_count": 12,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_eb7616cea18801",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=7 exceeds V4 max_factor_count=6",
+        "factor_count": 7,
+        "phase1_oracles": [
+          "high_dimensional_terminal_needs_certification",
+          "linear_sieve_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_ed8f6f3c3a2f1d",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=9 exceeds V4 max_factor_count=6",
+        "factor_count": 9,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_eefa04c512adf1",
+        "family": "GENERIC_SWITCHED_BUCHSTAB_UPPER",
+        "reason": "mixed Buchstab domain: region contains (1-sum u)/u_2<1; linear guard residual=-0.295019545152",
+        "factor_count": 4,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_f23529805002b8",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=17 exceeds V4 max_factor_count=6",
+        "factor_count": 17,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      },
+      {
+        "resource": "S_fdf27010b9ebbd",
+        "family": "DIMENSION_LIMIT",
+        "reason": "factor_count=11 exceeds V4 max_factor_count=6",
+        "factor_count": 11,
+        "phase1_oracles": [
+          "buchstab_function_terminal_candidate",
+          "buchstab_or_switching_upper_candidate",
+          "high_dimensional_terminal_needs_certification",
+          "trivial_nonnegative_lower"
+        ]
+      }
+    ],
+    "empty_states": [
+      "S_5fa390cc6a04ea",
+      "S_9a4556ccef8704",
+      "S_b080211d03670b",
+      "S_b8496ae61fc976",
+      "S_d255254191c651",
+      "S_d4b1d5b8e2f9d6"
+    ]
+  },
+  "baseline": {
+    "success": true,
+    "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+    "margin_2D": -0.17075148560298636,
+    "margin_4D": -0.3415029712059727,
+    "margin_D": -0.08537574280149318,
+    "direct_g3_terminal_flow": 2.0,
+    "direct_g3_coefficient_4D": -4.0,
+    "g3_rewrite_flow": -0.0,
+    "source_weights": {
+      "lambda_source__P4_2_alpha_one_third": 0.5,
+      "lambda_source__P4_2_beta_gamma": 0.5
+    },
+    "active_rewrites": 5,
+    "max_conservation_residual": 0.0,
+    "genuine_unresolved": {},
+    "compiled_terminal_uses": {},
+    "hypothetical_base_upper": null
+  },
+  "critical_hypothetical_G3_base_upper": {
+    "feasible_with_zero_bound": true,
+    "critical_upper": 0.846896767616272,
+    "lower_bracket": 0.846896767616272,
+    "upper_bracket": 0.8468968272209167,
+    "iterations": 24,
+    "margin_at_zero": 3.3875871618279803,
+    "margin_at_critical": 9.136289236266748e-08,
+    "baseline_direct_g3_bound": 0.9322725332584886,
+    "ratio_to_direct_g3_bound": 0.9084218803016642,
+    "note": "This is a hypothetical theorem target only. A proof that the G3-base state has upper constant <= critical_upper is still required."
+  },
+  "warning": "critical_upper is not a proved estimate. It is the largest normalized upper constant U such that, IF the exact G3 Buchstab base state could be proved <= U*C(N)N/log^2N, the complete flow certificate would attain the requested margin while the paper's direct G3 upper terminal is disabled."
+}

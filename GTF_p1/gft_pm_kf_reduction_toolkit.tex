@@ -1,0 +1,1236 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  citecolor=blue!55!black,
+  urlcolor=blue!55!black,
+  pdftitle={Generalized Fourier Sieve Reductions for Binary Goldbach},
+  pdfauthor={Draft manuscript}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\newcommand{\T}{\mathbb T}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\e}{\mathrm e}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Mcal}{\mathfrak M}
+\newcommand{\mcal}{\mathfrak m}
+\newcommand{\SG}{\mathfrak S}
+\newcommand{\PMKF}{\mathrm{PMKF}\text{-}\mathrm{GFT}}
+\newcommand{\wt}{\widetilde}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\TV}{TV}
+\DeclareMathOperator{\Res}{Res}
+
+\title{\textbf{Generalized Fourier Sieve Reductions for Binary Goldbach}\\
+\large Exact Projectors, Leaf-Adaptive Reconstruction, and a Prime-Marked Kloosterman-Fraction Residual}
+\author{Draft manuscript}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop a generalized Fourier-sieve framework for a weighted binary Goldbach problem and isolate a single final analytic target.  The algebraic part of the method is unconditional.  It consists of: (i) a squarefree Fourier family conjugate to the number and scales of prime factors; (ii) exact radial coefficient extraction, which permits the prime projector to be reconstructed on any fixed circle $|z|=r<1$ rather than on the parity circle $|z|=1$; (iii) Wiener-$L^1$ transference for auxiliary factor-scale variables; (iv) finite discrete-Fourier projectors for the number of prime factors above a scale; and (v) leaf-adaptive reconstruction, under which all multi-large-prime sectors vanish exactly at the prime endpoint and the zero-hit sector is power-saving.  The only endpoint sector that remains is a one-large-prime carrier.
+
+The analytic history of the reduction is audited carefully.  We record the useful interfaces supplied by the complex Linnik identity of Drappeau--Topacogullari, the uniform dispersion/Kuznetsov machinery of Assing--Blomer--Li, and trilinear Kloosterman-fraction bounds of Bettin--Chandee, but we do not identify variables merely from matching size ranges.  Several tempting but invalid identifications are explicitly excluded.  In particular, a complement-side GFT factor is not the same object as a prime-side Heath--Brown factor in the Assing--Blomer--Li proof, a difference-lattice condition does not by itself save the spectral diagonal, and modulus weights do not automatically become powers of automorphic $L$-functions.
+
+We formulate a final fixed-$N$ one-hit hypothesis, denoted $\PMKF$, whose hard local realizations are prime-marked Kloosterman-fraction sums.  We prove a reduction theorem: for any fixed $0<r<1$, a uniform log-power $\PMKF$ bound on $|z|=r$, together with the standard major-arc asymptotic, implies the weighted binary Goldbach asymptotic and hence a representation of every sufficiently large even integer as a sum of two primes.  Thus the manuscript does not prove binary Goldbach; it proves that, within the audited GFT architecture, the remaining obstacle is precisely the $\PMKF$ estimate.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction and logical status}
+
+The binary Goldbach conjecture asserts that every even integer $N>2$ is a sum of two primes.  The classical parity obstruction in sieve theory is one reason that prime-versus-almost-prime information is difficult to upgrade to a binary prime--prime statement.  The purpose of the present paper is not to claim that this obstruction has been removed.  Instead, we give a rigorous record of a generalized Fourier route that repeatedly preserves arithmetic information that is normally destroyed by early absolute values, generic coefficient suprema, or global $L^2$ closure.
+
+The principal output is a reduction theorem with a sharply stated final residual.  The results fall into three classes.
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=2.3em]
+\item \textbf{Unconditional algebraic/Fourier results proved here.}  These include radial prime extraction, tensor Fourier projectors, Wiener closure, finite scale-count projectors, the one-hit collapse, several exact gauge identities, and prime-power error bounds.
+\item \textbf{Standard analytic input.}  We use the ordinary major-arc local model for the binary Goldbach problem after the endpoint prime projector has already been reconstructed.
+\item \textbf{One open analytic target.}  A fixed-$N$ one-hit correlation estimate, denoted $\PMKF$.  The implication $\PMKF\Rightarrow$ weighted binary Goldbach is proved in \cref{sec:reduction}.
+\end{enumerate}
+
+The distinction between a \emph{reduction} and a \emph{solution} is essential.  The paper proves neither $\PMKF$ nor binary Goldbach.  Its claim is that, once all the exact Fourier and leaf manipulations below are imposed, no additional unrecorded parity hypothesis is used in the final implication.
+
+\subsection{Why a complex radial Fourier variable matters}
+
+A central point, overlooked in many first attempts at an $\Omega$-Fourier sieve, is that coefficient extraction does not require the unit circle.  If $F(z)$ is a polynomial, then $[z]F(z)$ can be recovered on any circle $|z|=r>0$.  Choosing a fixed $r<1$ damps integers with many prime factors before reconstruction while still recovering the prime coefficient exactly.  Thus the parity point $z=-1$ is not forced by the Fourier inversion itself.
+
+\subsection{Relationship with existing Titchmarsh and Kloosterman technology}
+
+Drappeau--Topacogullari proved complex-parameter combinatorial identities for generalized divisor functions and a Linnik-type decomposition based on friable well-factorability \cite{DT}.  Assing--Blomer--Li proved uniform Titchmarsh divisor estimates with large shifts using dispersion, Poisson summation and Kuznetsov theory \cite{ABL}.  Bettin--Chandee obtained strong bounds for trilinear forms with Kloosterman fractions for arbitrary coefficients \cite{BC}.  More recent work of Pascadi and Blomer--Pascadi supplies powerful structured spectral and bilinear Kloosterman estimates \cite{PascadiLS,BP}; Wright developed improved trilinear-fraction technology when one coefficient has additional distribution in small moduli \cite{Wright}.
+
+These results motivate local solvers for $\PMKF$, but none of them is silently identified with $\PMKF$ in this paper.  The reduction theorem is independent of any unproved claim that an existing theorem already covers the entire residual parameter range.
+
+\section{Notation and the weighted Goldbach target}
+
+Write $\Lambda$ for the von Mangoldt function, $\mu$ for the M\"obius function, $\omega(n)$ for the number of distinct prime factors, and $\Omega(n)$ for the number of prime factors counted with multiplicity.  On squarefree integers $\omega=\Omega$.
+
+Let $W_1,W_2\in C_c^\infty((0,1))$ be nonnegative and assume
+\begin{equation}\label{eq:J-positive}
+\mathfrak J_W:=\int_0^1 W_1(t)W_2(1-t)\,dt>0.
+\end{equation}
+For an even integer $N$ define the weighted von Mangoldt correlation
+\begin{equation}\label{eq:RLL}
+R_{\Lambda\Lambda}(N)
+:=
+\sum_{m+n=N}\Lambda(m)\Lambda(n)
+W_1(m/N)W_2(n/N).
+\end{equation}
+Also put
+\begin{equation}\label{eq:theta-def}
+\vartheta(n):=(\log n)\1_{\Pp}(n)
+\end{equation}
+and define $R_{\Lambda\vartheta}$ and $R_{\vartheta\vartheta}$ by replacing one or both copies of $\Lambda$ in \eqref{eq:RLL}.
+
+\begin{lemma}[Prime-power replacement]\label{lem:prime-power}
+Uniformly for $N\ge3$,
+\begin{equation}\label{eq:pp-replacement}
+R_{\Lambda\Lambda}(N)
+=
+R_{\vartheta\vartheta}(N)
++O\!\left(N^{1/2}(\log N)^2\right).
+\end{equation}
+The same bound holds when only one copy of $\Lambda$ is replaced by $\vartheta$.
+\end{lemma}
+
+\begin{proof}
+The difference $\Lambda(n)-\vartheta(n)$ is supported on prime powers $p^k$ with $k\ge2$.  The number of such integers up to $N$ is $O(N^{1/2})$, while every von Mangoldt or Chebyshev weight is at most $\log N$.  For each exceptional summand the complementary weight is also $O(\log N)$, proving the claim.
+\end{proof}
+
+Consequently, an asymptotic formula of size $\asymp N$ for $R_{\Lambda\Lambda}(N)$ or $R_{\Lambda\vartheta}(N)$ yields a genuine prime--prime representation after the prime-power error is removed.
+
+\section{The squarefree generalized Fourier family}
+
+\subsection{The one-variable complex mode}
+
+For $z\in\mathbb C$ define
+\begin{equation}\label{eq:gz}
+g_z(n):=\mu^2(n)z^{\omega(n)}.
+\end{equation}
+For fixed $n$, this is a polynomial in $z$.  Its Dirichlet series is
+\begin{equation}\label{eq:gz-euler}
+\sum_{n\ge1}\frac{g_z(n)}{n^s}
+=
+\prod_p(1+zp^{-s})
+\qquad(\Re s>1).
+\end{equation}
+
+\begin{proposition}[Exact prime coefficient]\label{prop:prime-coeff}
+For every integer $n\ge2$,
+\begin{equation}\label{eq:prime-coeff}
+[z]g_z(n)=\1_{\Pp}(n).
+\end{equation}
+Therefore
+\begin{equation}\label{eq:theta-coeff}
+\vartheta(n)=(\log n)[z]g_z(n).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+If $n$ is not squarefree, then $g_z(n)=0$.  If $n$ is squarefree, $g_z(n)=z^{\omega(n)}$.  Its coefficient of $z$ is $1$ exactly when $\omega(n)=1$, which is equivalent to $n$ being prime.
+\end{proof}
+
+\subsection{Radial coefficient extraction}
+
+\begin{lemma}[Radial GFT reconstruction]\label{lem:radial}
+Let $F$ be a polynomial and let $r>0$.  Then
+\begin{equation}\label{eq:radial}
+[z]F(z)
+=
+\frac{1}{2\pi r}\int_0^{2\pi}
+F(re^{i\theta})e^{-i\theta}\,d\theta.
+\end{equation}
+In particular,
+\begin{equation}\label{eq:radial-sup}
+|[z]F(z)|\le r^{-1}\sup_{|z|=r}|F(z)|.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is Cauchy's coefficient formula on the circle $|z|=r$.
+\end{proof}
+
+\begin{remark}[Parity is not forced by reconstruction]\label{rem:no-parity-circle}
+The exact prime coefficient may be reconstructed on any fixed circle $|z|=r$.  In particular, choosing $0<r<1$ avoids the unit-circle point $z=-1$ while introducing the damping factor $r^{\omega(n)}$ at the frozen-mode stage.  This does not by itself prove the required fixed-$N$ estimates, but it changes the coefficient class that such estimates must control.
+\end{remark}
+
+\section{Factor-scale Fourier variables and Wiener closure}
+
+The one-variable parameter $z$ records only the number of prime factors.  We may simultaneously track their scales.
+
+Fix real-valued prime observables $\phi_1,\ldots,\phi_d$ and set
+\begin{equation}\label{eq:Aj}
+A_j(n):=\sum_{p\mid n}\phi_j(p),
+\qquad
+\bm A(n):=(A_1(n),\ldots,A_d(n)).
+\end{equation}
+For $u=(\theta,\bm t)\in\T\times\mathbb R^d$ define
+\begin{equation}\label{eq:Gu}
+G_u(n)
+:=
+\mu^2(n)
+\exp\!\left(i\theta\omega(n)+i\bm t\cdot\bm A(n)\right).
+\end{equation}
+If $(m,n)=1$, then
+\begin{equation}\label{eq:coprime-mult}
+G_u(mn)=G_u(m)G_u(n).
+\end{equation}
+For arbitrary $m,n$ the exact identity is
+\begin{equation}\label{eq:coprime-defect}
+G_u(mn)=G_u(m)G_u(n)\1_{(m,n)=1}.
+\end{equation}
+
+Let $\Psi\in\mathcal S(\mathbb R^d)$ and use the Fourier convention
+\[
+\widehat\Psi(\bm t)=\int_{\mathbb R^d}\Psi(\bm x)e^{-i\bm t\cdot\bm x}\,d\bm x.
+\]
+Define
+\begin{equation}\label{eq:nu}
+d\nu_{k,\Psi}
+:=
+\frac{e^{-ik\theta}}{2\pi}
+\frac{\widehat\Psi(\bm t)}{(2\pi)^d}
+\,d\theta\,d\bm t.
+\end{equation}
+
+\begin{lemma}[Tensor Fourier projector]\label{lem:tensor}
+For every $n\ge1$,
+\begin{equation}\label{eq:tensor}
+\int G_u(n)\,d\nu_{k,\Psi}(u)
+=
+\mu^2(n)\1_{\{\omega(n)=k\}}\Psi(\bm A(n)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The $\theta$ integral extracts the $k$-th Fourier coefficient in $\omega(n)$ and the $\bm t$ integral is Fourier inversion at $\bm A(n)$.
+\end{proof}
+
+Define the Wiener norms
+\begin{equation}\label{eq:Ws}
+W_s(\Psi)
+:=
+\frac{1}{(2\pi)^d}
+\int_{\mathbb R^d}|\widehat\Psi(\bm t)|(1+\|\bm t\|)^s\,d\bm t.
+\end{equation}
+
+\begin{lemma}[Weighted Wiener closure]\label{lem:wiener}
+If a modewise quantity $\mathcal J_{\theta,\bm t}$ satisfies
+\[
+|\mathcal J_{\theta,\bm t}|
+\le M(1+\|\bm t\|)^s,
+\]
+then
+\begin{equation}\label{eq:wiener-transfer}
+\left|\int \mathcal J_u\,d\nu_{k,\Psi}(u)\right|
+\le M W_s(\Psi).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Apply the triangle inequality to the total-variation measure associated with \eqref{eq:nu}.
+\end{proof}
+
+This is the basic reason to postpone reconstruction until after a frozen-mode minor estimate.  The transference cost is $L^1$ in the auxiliary Fourier variables; no global Cauchy--Schwarz inequality in the additive circle variable is forced at this stage.
+
+\section{Finite scale-count projectors}
+
+A factor-scale condition can itself be encoded by a finite Fourier transform.
+
+Fix an integer $K\ge2$ and a large $X$, and put
+\begin{equation}\label{eq:Y}
+Y:=X^{1/K}.
+\end{equation}
+Define
+\begin{equation}\label{eq:Omega-large}
+\Omega_{>Y}(n)
+:=
+\sum_{\substack{p^\nu\parallel n\\ p>Y}}\nu.
+\end{equation}
+
+\begin{lemma}[Finite scale-count bound]\label{lem:large-count-bound}
+If $n\le X$, then
+\begin{equation}\label{eq:large-count-range}
+0\le\Omega_{>Y}(n)\le K-1.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+If $\Omega_{>Y}(n)\ge K$, then $n>Y^K=X$, a contradiction.
+\end{proof}
+
+\begin{proposition}[Finite scale-count GFT projector]\label{prop:scale-projector}
+For $0\le j\le K-1$ and $n\le X$,
+\begin{equation}\label{eq:scale-projector}
+\1_{\{\Omega_{>Y}(n)=j\}}
+=
+\frac1K\sum_{\ell=0}^{K-1}
+\exp\!\left(\frac{2\pi i\ell}{K}(\Omega_{>Y}(n)-j)\right).
+\end{equation}
+In particular,
+\begin{equation}\label{eq:friable-projector}
+\1_{\{P^+(n)\le Y\}}
+=
+\frac1K\sum_{\ell=0}^{K-1}
+\exp\!\left(\frac{2\pi i\ell}{K}\Omega_{>Y}(n)\right).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By \cref{lem:large-count-bound}, $\Omega_{>Y}(n)$ lies in a complete set of residues modulo $K$.  The formula is the discrete Fourier projector on $\mathbb Z/K\mathbb Z$.
+\end{proof}
+
+\section{Leaf-adaptive reconstruction and the one-hit collapse}\label{sec:onehit}
+
+We now combine the $z$-coefficient with the scale-count projector.  The argument is elementary but decisive for the proof architecture.
+
+For a squarefree $n\le X$, uniquely write
+\begin{equation}\label{eq:large-small-factorization}
+n=a p_1\cdots p_j,
+\end{equation}
+where $P^+(a)\le Y$, the primes $p_i$ are distinct and $p_i>Y$, and $0\le j\le K-1$.  Then
+\begin{equation}\label{eq:gz-hit}
+g_z(n)=g_z(a)z^j.
+\end{equation}
+
+\begin{proposition}[Endpoint one-hit collapse]\label{prop:onehit-collapse}
+For squarefree $n\le X$, the coefficient $[z]g_z(n)$ receives contributions only from the following two sectors:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $j=0$ and $a$ is prime, in which case $n=a\le Y$;
+\item $j=1$ and $a=1$, in which case $n=p_1>Y$ is prime.
+\end{enumerate}
+Every sector $j\ge2$ vanishes identically after $[z]$ extraction.
+\end{proposition}
+
+\begin{proof}
+From \eqref{eq:gz-hit},
+\[
+g_z(n)=z^{j+\omega(a)}.
+\]
+The coefficient of $z$ is nonzero if and only if $j+\omega(a)=1$.  The two listed possibilities are the only nonnegative integer solutions.
+\end{proof}
+
+\begin{corollary}[Small-prime zero-hit error]\label{cor:small-prime}
+Take $K=4$, so $Y=X^{1/4}$.  In any Goldbach correlation with one factor bounded by $O(\log X)$, the reconstructed $j=0$ sector contributes
+\begin{equation}\label{eq:small-prime-error}
+O\!\left(X^{1/4}(\log X)^2\right).
+\end{equation}
+Thus, at scale $X$, the only non-negligible endpoint sector is the one-hit sector $j=1$.
+\end{corollary}
+
+\begin{proof}
+The $j=0$ endpoint is supported on primes $p\le X^{1/4}$.  Bound their number trivially by $X^{1/4}$ and both logarithmic weights by $O(\log X)$.
+\end{proof}
+
+\begin{remark}[Why reconstruction must be leaf-adaptive]
+The conclusion does not say that a fixed-$z$ multi-hit sum is small.  It says something stronger and different: once the proof has reached a leaf whose scale-count is known exactly, one may reconstruct that leaf before estimating it.  The $j\ge2$ leaves then vanish algebraically.  Other leaves, especially the one-hit leaf, should remain at frozen $z$ until their analytic estimate has been obtained.
+\end{remark}
+
+\section{Exact complex gauge identities}\label{sec:gauges}
+
+The generalized Fourier variable also gives freedom to trade complex charge for convolution dimensions.
+
+\subsection{Generalized divisor semigroup}
+
+Let $d_z(n)$ be the coefficients of $\zeta(s)^z$ for $\Re s>1$.
+
+\begin{lemma}[Complex convolution semigroup]\label{lem:dz-semigroup}
+For all $z_1,z_2\in\mathbb C$,
+\begin{equation}\label{eq:dz-semigroup}
+d_{z_1}*d_{z_2}=d_{z_1+z_2}.
+\end{equation}
+In particular, for any integer $J\ge1$,
+\begin{equation}\label{eq:charge-transport}
+d_z=1^{*J}*d_{z-J}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Multiply the Dirichlet series $\zeta(s)^{z_1}$ and $\zeta(s)^{z_2}$ and compare coefficients.
+\end{proof}
+
+Identity \eqref{eq:charge-transport} is a precise charge--dimension trade.  It is useful as a compiler operation, but one must not count a formally inserted $1$-leg as a long analytic variable unless the relevant factorization leaf actually gives it positive length.
+
+\subsection{Squarefree one-raw gauge}
+
+The squarefree family admits an analogous exact factorization.
+
+\begin{proposition}[Squarefree one-raw gauge]\label{prop:squarefree-gauge}
+There exists a multiplicative function $r_z$ such that
+\begin{equation}\label{eq:gz-one-raw}
+g_z=1*r_z,
+\end{equation}
+with prime-power values
+\begin{equation}\label{eq:rz-local}
+r_z(p)=z-1,
+\qquad
+r_z(p^2)=-z,
+\qquad
+r_z(p^k)=0\quad(k\ge3).
+\end{equation}
+More generally, if $n=ab^2$ with $a,b$ squarefree and $(a,b)=1$, then
+\begin{equation}\label{eq:rz-ab2}
+r_z(ab^2)=(z-1)^{\omega(a)}(-z)^{\omega(b)}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+From \eqref{eq:gz-euler},
+\[
+\prod_p(1+zp^{-s})
+=
+\zeta(s)
+\prod_p(1+zp^{-s})(1-p^{-s}).
+\]
+The local residual polynomial is
+\[
+(1+zx)(1-x)=1+(z-1)x-zx^2.
+\]
+Comparing Euler coefficients gives \eqref{eq:rz-local}; multiplicativity gives \eqref{eq:rz-ab2}.
+\end{proof}
+
+\begin{remark}[Neutral point]
+At $z=1$, the linear prime coefficient $r_1(p)$ vanishes and only square-supported corrections remain.  This exact observation is useful in local charge decompositions, but it should not be reinterpreted as an automatic spectral $L$-function cancellation.
+\end{remark}
+
+\section{A second exact route: parity--Mellin carrier transfer}
+
+The present paper ultimately uses radial prime extraction rather than the parity point.  Nevertheless, another exact identity obtained in the course of the reduction is worth recording because it illustrates how a Fourier/Mellin variable can move parity information to a cofactor.
+
+For squarefree $r$ set
+\begin{equation}\label{eq:parity-mellin-mode}
+h_z(r):=\mu(r)r^z=\mu^2(r)e^{i\pi\omega(r)}r^z.
+\end{equation}
+If $N-n=km$ and $(k,m)=1$, then
+\begin{equation}\label{eq:cofactor-cancel}
+\mu(k)k^{-z}\,\mu(km)(km)^z
+=
+\mu^2(k)\mu(m)m^z.
+\end{equation}
+Thus the parity factor carried by $k$ is annihilated and transferred to the cofactor $m$.
+
+\begin{lemma}[Cofactor carrier cancellation]\label{lem:cofactor}
+Identity \eqref{eq:cofactor-cancel} holds whenever $(k,m)=1$.
+\end{lemma}
+
+\begin{proof}
+Use $\mu(km)=\mu(k)\mu(m)$ under coprimality and cancel $k^{\pm z}$.
+\end{proof}
+
+This identity motivated an earlier Parity--Mellin-jet residual.  It remains mathematically correct, but the radial coefficient method of \cref{lem:radial} is a cleaner endpoint interface because it does not force evaluation at $z=-1$.
+
+\section{Analytic interfaces and type safety}\label{sec:type-safety}
+
+This section records what may and may not be imported from existing analytic machinery.
+
+\subsection{Drappeau--Topacogullari}
+
+Drappeau and Topacogullari prove complex-parameter identities for generalized divisor functions and, in their second proof, a Linnik-type decomposition based on friable well-factorability \cite{DT}.  This supports finite complex-$z$ leaf decompositions.  A key design rule for the present framework is to delay any supremum over arbitrary coefficients: the actual complex GFT coefficient should be retained whenever subsequent machinery can use it.
+
+\subsection{Assing--Blomer--Li}
+
+Assing, Blomer and Li prove strong shift-uniform Titchmarsh estimates through dispersion, Poisson summation, Kloosterman sums and Kuznetsov theory \cite{ABL}.  Their proof shows that coefficient structure can survive several analytic transformations before a generic spectral norm is taken.  However, one must distinguish variable \emph{roles}: a short factor arising from a decomposition of the complementary GFT variable is not automatically the same object as a short Heath--Brown factor arising from the prime variable in the ABL application.
+
+\subsection{Bettin--Chandee and later local solvers}
+
+Bettin--Chandee bound trilinear Kloosterman fractions with arbitrary coefficients \cite{BC}.  This is a natural backend once a GFT leaf has actually been converted to a fraction of the form
+\begin{equation}\label{eq:BC-shape}
+\sum_{a,m,n}\nu_a\alpha_m\beta_n
+\e\!\left(\frac{\vartheta a\overline m}{n}\right).
+\end{equation}
+Blomer--Pascadi provide new bilinear Kloosterman-sum bounds, including a $c^{-1/32+o(1)}$ saving in the square-root range \cite{BP}.  Pascadi's exceptional-spectrum large sieve is especially effective for sequences with sparse Fourier transforms \cite{PascadiLS}.  Wright's recent work shows that retaining extra equidistribution information in one coefficient may improve a trilinear-fraction argument \cite{Wright}.  These theorems motivate future attacks on the final residual; they are not used to assert that the final residual has already been proved.
+
+\section{Audit corrections: rejected shortcuts}\label{sec:audit}
+
+A publishable reduction should record the points at which an attractive heuristic fails.  The following corrections are part of the present theorem package.
+
+\begin{warning}[Complement-side versus prime-side Type-II variables]\label{warn:type}
+A D--T short factor of a generalized divisor coefficient lives on the shifted complement.  In the ABL prime-distribution application, the displayed Type-II factors arise from a Heath--Brown decomposition of the prime variable.  Matching exponent ranges does not identify these variables.  Any proof that performs this cast without an additional algebraic bridge is invalid.
+\end{warning}
+
+\begin{warning}[Difference lattices do not save the spectral diagonal]\label{warn:diagonal}
+A condition $D\mid(n_1-n_2)$ sparsifies off-diagonal pairs but contains the entire diagonal $n_1=n_2$.  Hence it does not by itself produce a $D^{-1}$ saving in a Kuznetsov quadratic form.  Such a saving is immediate only when the \emph{single spectral sequence} is supported on a lattice $D\mid n$.
+\end{warning}
+
+\begin{warning}[Modulus charge is not automatically an automorphic $L$-charge]\label{warn:Lcharge}
+Weights such as $d_w(A)$ or $d_w(B)$ attached to modulus/cusp parameters do not automatically become $L(s,f)^w$ after Kuznetsov.  To obtain a Hecke/Satake transform, the relevant finite-place Hecke operator or local test function must actually be inserted into the trace formula.
+\end{warning}
+
+\begin{warning}[Withdrawn Kloosterman-fraction improvement]\label{warn:withdrawn}
+The preprint by Dong--Robles--Zeindler, arXiv:2601.00292, was withdrawn after the authors identified a missing factor that invalidated the claimed improved bound.  No theorem or numerical range from that withdrawn claim is used in the present proof chain.
+\end{warning}
+
+These corrections are not cosmetic.  They explain why the final theorem below is stated at the one-hit correlation level rather than as an already-proved special case of a published Kloosterman theorem.
+
+\section{Circle decomposition and asymmetric reconstruction}\label{sec:circle}
+
+Define the exponential sums
+\begin{align}
+S_\Lambda(\alpha)
+&:=\sum_{n\ge1}\Lambda(n)W_1(n/N)e(\alpha n),\label{eq:S-Lambda}\\
+S_z(\alpha)
+&:=\sum_{n\ge1}(\log n)g_z(n)W_2(n/N)e(\alpha n).\label{eq:S-z}
+\end{align}
+Here $e(x)=e^{2\pi i x}$.  Then
+\begin{equation}\label{eq:circle-corr}
+\int_\T S_\Lambda(\alpha)S_z(\alpha)e(-N\alpha)\,d\alpha
+=
+\sum_{m+n=N}\Lambda(m)(\log n)g_z(n)W_1(m/N)W_2(n/N).
+\end{equation}
+Taking $[z]$ and using \cref{prop:prime-coeff},
+\begin{equation}\label{eq:circle-endpoint}
+[z]\int_\T S_\Lambda(\alpha)S_z(\alpha)e(-N\alpha)\,d\alpha
+=
+R_{\Lambda\vartheta}(N).
+\end{equation}
+
+Let $\T=\Mcal\sqcup\mcal$ be a standard major/minor partition.  The essential design is asymmetric:
+\begin{itemize}
+\item on $\Mcal$, take $[z]$ first and use the ordinary prime major-arc local model;
+\item on $\mcal$, keep $z$ frozen, prove a modewise estimate, and apply \cref{lem:radial} only afterwards.
+\end{itemize}
+
+\subsection{Scale splitting inside the circle sum}
+
+Take $Y=N^{1/4}$.  Use \cref{prop:scale-projector} with $K=4$ to write
+\begin{equation}\label{eq:Sz-sectors}
+S_z(\alpha)=\sum_{j=0}^3 S_{z,j}(\alpha),
+\end{equation}
+where $S_{z,j}$ is restricted to squarefree $n$ with exactly $j$ prime factors greater than $Y$.  Define
+\begin{equation}\label{eq:Jj}
+\mathcal J_{z,j}(N)
+:=
+\int_{\mcal}S_\Lambda(\alpha)S_{z,j}(\alpha)e(-N\alpha)\,d\alpha.
+\end{equation}
+
+By \cref{prop:onehit-collapse},
+\begin{equation}\label{eq:multi-hit-zero}
+[z]\mathcal J_{z,j}(N)=0\qquad(j=2,3),
+\end{equation}
+and by \cref{cor:small-prime},
+\begin{equation}\label{eq:zero-hit-small}
+[z]\mathcal J_{z,0}(N)
+\ll N^{1/4}(\log N)^2.
+\end{equation}
+Thus the only minor-arc coefficient requiring a target-scale estimate is
+\begin{equation}\label{eq:onehit-J}
+\mathcal J_{z,1}(N).
+\end{equation}
+
+\section{The final PMKF--GFT hypothesis}\label{sec:pmkf}
+
+We now formulate the final analytic target at the level required by the reduction.  The terminology ``prime-marked Kloosterman fraction'' reflects the intended normal form of the hard dyadic sub-leaves: after finite exact divisor/gauge decompositions and Poisson or dispersion transformations, a distinguished large prime factor remains marked in a reciprocal phase, rather than being replaced at the outset by arbitrary Heath--Brown coefficients.  The reduction theorem, however, requires only the correlation estimate stated below.
+
+\begin{definition}[One-hit PMKF--GFT correlation]\label{def:pmkf-correlation}
+Fix $0<r<1$.  The one-hit $\PMKF$ correlation is the family
+\begin{equation}\label{eq:pmkf-family}
+\mathcal J_{z,1}(N)
+=
+\int_{\mcal}S_\Lambda(\alpha)S_{z,1}(\alpha)e(-N\alpha)\,d\alpha,
+\qquad |z|=r,
+\end{equation}
+with $S_{z,1}$ defined by \eqref{eq:Sz-sectors}.
+\end{definition}
+
+\begin{hypothesis}[PMKF--GFT]\label{hyp:PMKF}
+There exists a fixed $r\in(0,1)$ such that for every $A>0$ and every sufficiently large even $N$,
+\begin{equation}\label{eq:PMKF}
+\boxed{
+\sup_{|z|=r}|\mathcal J_{z,1}(N)|
+\ll_{A,r,W_1,W_2}
+\frac{N}{(\log N)^A}.
+}
+\end{equation}
+\end{hypothesis}
+
+\begin{remark}[Why this is narrower than a generic Goldbach Type-II oracle]
+The coefficient in $S_{z,1}$ is not arbitrary.  It is squarefree, carries a fixed radial Fourier mode $|z|=r<1$, and lies in the exact one-large-prime scale sector.  A proof is allowed to use the distinguished prime hit, the damping $r^{\omega}$ of the cofactor, factor-scale tags, and any prime-marked Kloosterman normal form that preserves these data.  A theorem uniform for arbitrary divisor-bounded coefficients would be stronger than necessary.
+\end{remark}
+
+\begin{remark}[Why the name PMKF is not an already-proved normal-form theorem]
+At several dyadic sub-leaves the standard route from a product equation to reciprocal phases leads to sums schematically of the form
+\begin{equation}\label{eq:pmkf-schematic}
+\sum_{\substack{p\sim P\\ p\in\Pp}}
+\eta_p
+\sum_{m\sim M}\alpha_z(m)
+\sum_{h\sim H}\nu_h
+\e\!\left(\frac{a h\overline m}{p q_0}\right),
+\end{equation}
+where $q_0$ is a controlled auxiliary factor.  Bettin--Chandee-type results are natural local solvers for such fractions \cite{BC}, while Wright's work suggests that extra distribution in a coefficient can sometimes be retained \cite{Wright}.  The present paper does not claim that every block \eqref{eq:pmkf-schematic} is already covered; that missing uniform saving is precisely what \cref{hyp:PMKF} packages.
+\end{remark}
+
+\section{The reduction theorem: PMKF--GFT implies Goldbach}\label{sec:reduction}
+
+We require the standard major-arc asymptotic after prime reconstruction.  Let
+\begin{equation}\label{eq:sing-series}
+\SG(N)
+:=
+2C_2\prod_{\substack{p\mid N\\p>2}}\frac{p-1}{p-2},
+\qquad
+C_2:=\prod_{p>2}\left(1-\frac{1}{(p-1)^2}\right).
+\end{equation}
+For even $N$, $\SG(N)$ is positive and bounded below by an absolute positive constant.
+
+\begin{proposition}[Standard reconstructed major arcs]\label{prop:major}
+For the weights fixed above, the major-arc contribution satisfies
+\begin{equation}\label{eq:major-asymptotic}
+[z]\int_{\Mcal}S_\Lambda(\alpha)S_z(\alpha)e(-N\alpha)\,d\alpha
+=
+\SG(N)\mathfrak J_W N
++o(N).
+\end{equation}
+Equivalently, one may replace the second factor by the prime-supported Chebyshev sum before applying the standard major-arc calculation.
+\end{proposition}
+
+\begin{proof}[Proof sketch and status]
+By \cref{prop:prime-coeff}, taking $[z]$ converts the second coefficient exactly to $\vartheta(n)$.  The local residue obstruction is therefore the ordinary binary Goldbach obstruction: for $p\nmid N$ the residues $0$ and $N$ are forbidden, while for $p\mid N$ they coincide.  Normalization gives the Euler product \eqref{eq:sing-series}.  The archimedean factor is \eqref{eq:J-positive}.  The resulting smooth major-arc evaluation is the standard binary Goldbach major-arc calculation.  No fixed-$z$ major-arc cancellation theorem is needed.
+\end{proof}
+
+\begin{theorem}[Conditional Goldbach reduction]\label{thm:PMKF-implies-Goldbach}
+Assume \cref{hyp:PMKF}.  Then
+\begin{equation}\label{eq:weighted-asymptotic}
+R_{\Lambda\vartheta}(N)
+=
+\SG(N)\mathfrak J_W N+o(N)
+\end{equation}
+for every sufficiently large even $N$.  Consequently every sufficiently large even $N$ is a sum of two primes.
+\end{theorem}
+
+\begin{proof}
+Start from \eqref{eq:circle-endpoint} and split the circle into major and minor arcs.  The major contribution is \eqref{eq:major-asymptotic}.
+
+For the minor arcs use the scale decomposition \eqref{eq:Sz-sectors}.  By \eqref{eq:multi-hit-zero}, the $j=2,3$ coefficients vanish exactly.  By \eqref{eq:zero-hit-small}, the $j=0$ coefficient is $O(N^{1/4}(\log N)^2)=o(N)$.  It remains to bound $[z]\mathcal J_{z,1}(N)$.
+
+Apply radial coefficient extraction \cref{lem:radial} on the circle $|z|=r$ supplied by \cref{hyp:PMKF}:
+\begin{align*}
+|[z]\mathcal J_{z,1}(N)|
+&\le
+r^{-1}\sup_{|z|=r}|\mathcal J_{z,1}(N)|\\
+&\ll_{A,r}
+\frac{N}{(\log N)^A}.
+\end{align*}
+Taking $A$ large gives $o(N)$.  Hence the complete minor contribution is $o(N)$, which proves \eqref{eq:weighted-asymptotic}.
+
+Since $\SG(N)>0$ and $\mathfrak J_W>0$, the right side is positive for all sufficiently large even $N$.  Therefore $R_{\Lambda\vartheta}(N)>0$.  The second summand is already prime.  By the one-sided form of \cref{lem:prime-power}, the total contribution with the first summand a proper prime power is $O(N^{1/2}(\log N)^2)=o(N)$.  Thus a positive portion remains with both summands prime, giving a binary Goldbach representation.
+\end{proof}
+
+\begin{corollary}[Full Goldbach after finite verification]\label{cor:finite}
+If \cref{hyp:PMKF} is proved with an explicit threshold $N\ge N_0$, and binary Goldbach is verified for all even $4\le N<N_0$, then binary Goldbach holds for every even integer greater than $2$.
+\end{corollary}
+
+\begin{remark}[Logical direction]
+The theorem proves the sufficient implication
+\[
+\PMKF\Longrightarrow\text{binary Goldbach for sufficiently large even }N.
+\]
+No converse is asserted.  The $\PMKF$ hypothesis is a stronger, structured uniform estimate and may fail to be logically necessary even if Goldbach is true.
+\end{remark}
+
+\section{Why this is the final residual inside the audited architecture}
+
+The sequence of exact reductions can now be summarized without any speculative equality between unlike variables:
+\begin{equation}\label{eq:proof-graph}
+\boxed{
+\begin{array}{c}
+\text{squarefree complex GFT }g_z(n)=\mu^2(n)z^{\omega(n)}
+\\[1mm]
+\downarrow\ \text{radial coefficient extraction}
+\\[1mm]
+[z]g_z=\1_{\Pp}
+\\[1mm]
+\downarrow\ \text{finite scale-count DFT at }Y=N^{1/4}
+\\[1mm]
+\{0\text{-hit},1\text{-hit},2\text{-hit},3\text{-hit}\}
+\\[1mm]
+\downarrow\ \text{leaf-adaptive reconstruction}
+\\[1mm]
+0\text{-hit}=o(N),\qquad 2/3\text{-hit}=0
+\\[1mm]
+\downarrow
+\\[-1mm]
+\boxed{1\text{-hit frozen-mode minor correlation}}
+\\[1mm]
+\downarrow\ \text{prime-marked reciprocal/Kloosterman normal forms}
+\\[1mm]
+\boxed{\PMKF}
+\\[1mm]
+\downarrow
+\\[-1mm]
+\text{minor arcs}=o(N)
+\\[1mm]
+\downarrow
+\\[-1mm]
+\text{positive reconstructed major term}
+\\[1mm]
+\downarrow
+\\[-1mm]
+\text{binary Goldbach.}
+\end{array}}
+\end{equation}
+
+The exact algebra does not remove the parity obstruction by itself.  Rather, it strips away sectors that can be eliminated by Fourier orthogonality and leaves a single analytic problem whose coefficient class still remembers the unique large prime hit.  A successful proof of \cref{hyp:PMKF} would therefore constitute the genuine parity-breaking input of this architecture.
+
+\section{Comparison with Chen-type information}
+
+Chen's theorem reaches a prime plus an integer with at most two prime factors.  The present framework should not be described as a stronger unconditional arithmetic theorem: it currently proves no representation result beyond the classical unconditional literature.  Its contribution is a different reduction of the remaining prime--prime obstruction.
+
+The GFT reduction demonstrates that several technical phenomena are not, by themselves, the final parity barrier: complex generalized-divisor leaves, friable sectors, multi-large-prime sectors, and some apparent spectral structure-loss mechanisms can be reorganized or eliminated exactly.  What remains is the one-hit minor correlation.  Until \cref{hyp:PMKF} is proved, this is a reduction theorem rather than a new Goldbach theorem.
+
+\section{Research directions for PMKF--GFT}
+
+The definition \eqref{eq:PMKF} intentionally leaves freedom in the local solver.  Several directions are compatible with the structure.
+
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=2.3em]
+\item \textbf{Prime-marked trilinear Kloosterman fractions.}  Preserve the distinguished prime factor in the denominator instead of replacing it immediately by arbitrary Heath--Brown coefficients.  Bettin--Chandee's arbitrary-coefficient theorem is the baseline local bound \cite{BC}.
+\item \textbf{Extra distribution of the prime-marked coefficient.}  Wright's work shows that additional small-modulus distribution of one coefficient can be profitably retained in a related trilinear-fraction setting \cite{Wright}.  A PMKF theorem would need a version adapted to the fixed-shift one-hit geometry.
+\item \textbf{Completion to fixed-modulus bilinear Kloosterman sums only when lossless.}  Blomer--Pascadi give strong fixed-modulus bilinear estimates \cite{BP}.  Completion should be used only in parameter ranges where it does not expand a short reciprocal variable to a full modulus and destroy the one-hit advantage.
+\item \textbf{Sparse spectral coefficients.}  Pascadi's exceptional-spectrum large sieve suggests a route when the transformed coefficient has sparse Fourier support \cite{PascadiLS}.  This requires an audited map from the one-hit GFT leaf to the relevant spectral sequence.
+\end{enumerate}
+
+\section{A generalized Fourier proof-compiler toolkit}\label{sec:toolkit}
+
+The final implication \(\PMKF\Rightarrow\) Goldbach uses only a small subset of the
+machinery developed during the reduction.  For later reuse, however, it is useful
+to record the larger collection of transformations that survived audit.  We
+separate them into three classes:
+\[
+ \boxed{\text{certified exact GFT tools}}
+ \qquad
+ \boxed{\text{valid auxiliary/bridge transforms}}
+ \qquad
+ \boxed{\text{rejected shortcuts}}.
+\]
+A bridge transform may be an exact algebraic or Poisson normal form without, by
+itself, supplying the power-saving estimate needed to close the corresponding
+analytic leaf.  This distinction is important: the toolkit is a proof compiler,
+not a list of already-solved estimates.
+
+\subsection{Certified exact GFT tools}
+
+\begin{enumerate}[label=\textbf{G\arabic*.},leftmargin=3em]
+\item \textbf{Radial prime extraction.}
+For \(g_z(n)=\mu^2(n)z^{\omega(n)}\),
+\[
+ [z]g_z(n)=\1_{\Pp}(n),
+ \qquad
+ [z]F(z)=\frac{1}{2\pi r}\int_0^{2\pi}F(re^{i\theta})e^{-i\theta}\,d\theta
+ \quad(r>0).
+\]
+Thus prime extraction may be carried out on any fixed circle \(|z|=r\), in
+particular with \(r<1\); the parity point \(z=-1\) is not forced by Fourier
+reconstruction.
+
+\item \textbf{Tensor factor-scale synthesis.}
+Strongly additive prime-scale observables
+\[
+ A_j(n)=\sum_{p\mid n}\phi_j(p)
+\]
+may be coupled to \(\omega(n)\) through the tensor family
+\[
+ \mu^2(n)e^{i\theta\omega(n)+i\bm t\cdot\bm A(n)}.
+\]
+Ordinary Fourier inversion in \(\bm t\) and Fourier coefficient extraction in
+\(\theta\) give the exact projector of \cref{lem:tensor}.
+
+\item \textbf{Wiener closure.}
+If the frozen-mode estimate grows at most polynomially in the auxiliary Fourier
+frequency, then reconstruction costs the weighted Wiener norm \(W_s(\Psi)\).
+No global Cauchy--Schwarz/Bessel closure in the additive circle variable is
+required at the transference layer.
+
+\item \textbf{Finite scale-count DFT.}
+For \(Y=X^{1/K}\) and \(n\le X\), the quantity \(\Omega_{>Y}(n)\) lies in
+\(\{0,\ldots,K-1\}\).  Hence each exact large-factor-count state is selected by
+the \(K\)-point DFT
+\[
+ \1_{\{\Omega_{>Y}(n)=j\}}
+ =\frac1K\sum_{\ell=0}^{K-1}
+ e^{2\pi i\ell(\Omega_{>Y}(n)-j)/K}.
+\]
+In particular friability is itself a finite Fourier projector.
+
+\item \textbf{Leaf-adaptive reconstruction.}
+After the scale-count state has been fixed, different leaves need not be
+reconstructed in the same order.  At the prime endpoint the multi-hit sectors
+vanish algebraically, while the zero-hit sector is supported only on small
+primes.  This is the exact one-hit collapse of \cref{prop:onehit-collapse}.
+
+\item \textbf{Charge--dimension transport.}
+For the generalized divisor coefficients of \(\zeta(s)^z\),
+\[
+ d_{z_1}*d_{z_2}=d_{z_1+z_2},
+ \qquad
+ d_z=1^{*J}*d_{z-J}\quad(J\ge1).
+\]
+Thus an integer amount of complex ``charge'' can be exchanged for formal raw
+convolution dimensions.  A formal \(1\)-leg must not, however, be counted as a
+long analytic variable unless its dyadic leaf gives it positive length.
+
+\item \textbf{Squarefree one-raw gauge.}
+The squarefree GFT has the exact factorization
+\[
+ g_z=1*r_z,
+\]
+where \(r_z\) is multiplicative and
+\[
+ r_z(p)=z-1,\qquad r_z(p^2)=-z,\qquad r_z(p^k)=0\quad(k\ge3).
+\]
+Equivalently, if \(n=ab^2\), \(a,b\) squarefree and \((a,b)=1\), then
+\[
+ r_z(ab^2)=(z-1)^{\omega(a)}(-z)^{\omega(b)}.
+\]
+This separates a linear squarefree charge from a square-supported correction.
+
+\item \textbf{Cofactor parity transfer.}
+For \((k,m)=1\),
+\[
+ \mu(k)k^{-z}\,\mu(km)(km)^z
+ =\mu^2(k)\mu(m)m^z.
+\]
+Thus a parity--Mellin carrier attached to a divisor may be cancelled on that
+divisor and transferred exactly to its cofactor.
+
+\item \textbf{Type safety.}
+Every compiler step retains the algebraic origin of a variable.  Matching dyadic
+lengths does not identify a complement-side GFT factor with a prime-side
+Heath--Brown factor, nor does it turn a modulus weight into a Hecke eigenvalue.
+\end{enumerate}
+
+\subsection{Valid auxiliary gauges not needed in the final implication}
+
+The following identities are exact and were useful during the search for the
+one-hit normal form, although the short proof of \cref{thm:PMKF-implies-Goldbach}
+does not require them.
+
+\subsubsection*{T1. Friable \(\zeta\)-gauge and manufactured raw legs}
+
+Let
+\[
+ D_{z,Y}(s):=\prod_{p\le Y}(1-p^{-s})^{-z}
+ =\sum_{n\ge1}\frac{d_z^{(\le Y)}(n)}{n^s}.
+\]
+Multiplying and dividing by the full zeta function gives
+\begin{equation}\label{eq:tool-friable-zeta-gauge}
+ D_{z,Y}(s)=\zeta(s)H_{z,Y}(s),
+ \qquad
+ H_{z,Y}(s)
+ =\prod_{p\le Y}(1-p^{-s})^{1-z}
+  \prod_{p>Y}(1-p^{-s}).
+\end{equation}
+Consequently
+\[
+ d_z^{(\le Y)}=1*h_{z,Y}.
+\]
+If \(b=b_-b_+\), with every prime factor of \(b_-\) at most \(Y\), every
+prime factor of \(b_+\) greater than \(Y\), and \((b_-,b_+)=1\), then
+\begin{equation}\label{eq:tool-hzy}
+ h_{z,Y}(b)=d_{z-1}(b_-)\mu(b_+)
+\end{equation}
+when \(b_+\) is squarefree, and it is zero otherwise.  Thus a hard friable
+support can be moved from the raw coordinate into a structured residual.
+More generally, for every integer \(J\ge1\),
+\[
+ D_{z,Y}(s)=\zeta(s)^J H^{(J)}_{z,Y}(s),
+\]
+with
+\[
+ H^{(J)}_{z,Y}(s)
+ =\prod_{p\le Y}(1-p^{-s})^{J-z}
+  \prod_{p>Y}(1-p^{-s})^J,
+\]
+so that
+\[
+ d_z^{(\le Y)}=d_J*h^{(J)}_{z,Y}=1^{*J}*h^{(J)}_{z,Y}.
+\]
+This is a friable version of charge--dimension transport.
+
+\subsubsection*{T2. Pure-friable first-coefficient collapse}
+
+Coefficient extraction in \(z\) gives
+\[
+ [z]D_{z,Y}(s)=\log\prod_{p\le Y}(1-p^{-s})^{-1}
+ =\sum_{p\le Y}\sum_{\nu\ge1}\frac{1}{\nu p^{\nu s}}.
+\]
+Hence the exact local formula is
+\begin{equation}\label{eq:tool-pure-friable-coeff}
+ [z]d_z^{(\le Y)}(n)
+ =
+ \begin{cases}
+  1/\nu,& n=p^\nu,\ p\le Y,\\
+  0,&\text{otherwise}.
+ \end{cases}
+\end{equation}
+Thus a fixed-mode friable leaf that looks highly composite may collapse, after
+leaf-local reconstruction, to prime-power support.  This was the prototype for
+leaf-adaptive reconstruction.
+
+\subsubsection*{T3. Logarithmic-derivative rawization}
+
+Differentiating \(\zeta(s)^z\) gives the exact coefficient identity
+\begin{equation}\label{eq:tool-log-raw-dz}
+ (\log n)d_z(n)
+ =z\sum_{ab=n}\Lambda(a)d_z(b)
+ =z(\Lambda*d_z)(n).
+\end{equation}
+For the squarefree GFT there is an even more transparent prime-coordinate
+identity: for squarefree \(n>1\),
+\begin{equation}\label{eq:tool-log-raw-gz}
+ g_z(n)\log n
+ =z\sum_{p\mid n}(\log p)g_z(n/p).
+\end{equation}
+It extracts one genuine prime-scale coordinate while leaving the same complex
+GFT mode on the cofactor.  A smooth partition of unity in \(\log p/\log X\)
+turns \eqref{eq:tool-log-raw-gz} into a scale-adaptive prime-coordinate
+compiler.
+
+\subsubsection*{T4. Large-factor-hit gauge}
+
+For squarefree \(n\le X\) and \(Y=X^{1/K}\), write uniquely
+\[
+ n=a p_1\cdots p_j,
+ \qquad P^+(a)\le Y,
+ \qquad Y<p_1<\cdots<p_j,
+ \qquad 0\le j\le K-1.
+\]
+Then
+\begin{equation}\label{eq:tool-hit-gauge}
+ g_z(n)=z^j g_z(a).
+\end{equation}
+Equivalently, on squarefree integers one may use the number of explicit
+large-prime hits \(j\) as the decomposition basis rather than a generalized
+-divisor/Linnik leaf index.  This ``hit gauge'' preserves the factor-scale
+meaning of each raw prime and is the conceptual predecessor of the one-hit
+collapse.
+
+\subsubsection*{T5. Balanced two-raw (B2R) finite gauge}
+
+Let
+\[
+ M_U(s):=\sum_{m\le U}\frac{\mu(m)}{m^s},
+ \qquad
+ \mathcal A_U(s):=\zeta(s)M_U(s),
+ \qquad
+ \mathcal R_U(s):=1-\mathcal A_U(s),
+\]
+and write \(\rho_U\) for the Dirichlet coefficients of \(\mathcal R_U\).
+The coefficients of \(\mathcal R_U\) vanish for \(n\le U\).  Therefore
+\(\rho_U^{*K}(n)=0\) for \(n\le U^K\).  Since
+\[
+ (1-R)^2\sum_{j=0}^{K-1}(j+1)R^j
+ =1-R^K\bigl((K+1)-KR\bigr),
+\]
+we obtain, coefficientwise for \(n\le U^K\),
+\begin{equation}\label{eq:tool-b2r-unit}
+ 1=\mathcal A_U^2\sum_{j=0}^{K-1}(j+1)\mathcal R_U^j.
+\end{equation}
+Multiplying by \(\zeta(s)^z\) gives the exact finite decomposition
+\begin{equation}\label{eq:tool-b2r-dz}
+ d_z
+ =\sum_{j=0}^{K-1}(j+1)
+ \bigl(d_z*1*1*\mu_{\le U}*\mu_{\le U}*\rho_U^{*j}\bigr)
+ \qquad(n\le U^K),
+\end{equation}
+where \(\mu_{\le U}(m)=\mu(m)\1_{m\le U}\).  Similarly,
+\begin{equation}\label{eq:tool-b2r-Lambda}
+ \Lambda
+ =\sum_{j=0}^{K-1}(j+1)
+ \bigl(\log*1*\mu_{\le U}*\mu_{\le U}*\rho_U^{*j}\bigr)
+ \qquad(n\le U^K).
+\end{equation}
+Thus both sides of a shifted convolution can be put into a canonical form with
+two formal raw coordinates.  The identity is exact, but it does \emph{not}
+imply that both raw coordinates are long.  For example, on a prime input one
+of the formal factors is necessarily \(1\).  This sanity check prevents B2R
+from becoming a fake parity-breaking argument.
+
+More generally,
+\[
+ 1=\mathcal A_U^J
+ \sum_{j=0}^{K-1}\binom{J+j-1}{j}\mathcal R_U^j
+ \qquad(n\le U^K)
+\]
+for any fixed integer \(J\ge1\); this is the finite \(J\)-raw gauge.
+
+\subsubsection*{T6. Radial damping as a compiler resource}
+
+On a fixed circle \(|z|=r<1\), a squarefree cofactor with \(q\) unresolved prime
+factors carries the deterministic weight \(r^q\).  Hence for
+\(q\ge C\log\log X\),
+\[
+ r^q\le (\log X)^{-C|\log r|}.
+\]
+This does not replace an analytic estimate in a low-\(\omega\) sector, but it can
+remove high-factor-count tails before a Kloosterman or dispersion solver is
+invoked.
+
+\subsection{Valid geometric and analytic bridge states}
+
+These transformations are exact local normal forms.  They are recorded because
+they preserve GFT labels farther into Poisson/Kloosterman analysis, but they are
+\emph{not} asserted to close every dyadic leaf.
+
+\subsubsection*{B1. RDET fixed-determinant state}
+
+A routed shifted convolution may produce
+\begin{equation}\label{eq:tool-rdet}
+ uv+dmn=N,
+\end{equation}
+which is equivalently
+\[
+ \det\begin{pmatrix}u&dm\\-n&v\end{pmatrix}=N.
+\]
+Let \(g=(u,dm)\).  Then \(g\mid N\).  If additionally \((d,N)=1\), then
+\(g\mid m\); writing
+\[
+ u=gq,\qquad m=gm',\qquad R=N/g,
+\]
+gives
+\begin{equation}\label{eq:tool-rdet-reduced}
+ qv+dm'n=R,
+ \qquad (q,dm')=1.
+\end{equation}
+After any further gcd extraction required to make the inverse legal, a raw
+coordinate lies in a unique residue class modulo \(q\), and Poisson summation
+produces reciprocal phases of the schematic form
+\[
+ e\!\left(\frac{hR\overline{dn}}{q}\right).
+\]
+The fixed-divisor fact \(g\mid N\) is genuinely useful.  What failed in an early
+version was the stronger claim that a difference-lattice condition alone gives
+a spectral-diagonal saving.
+
+\subsubsection*{B2. MRDET four-variable Kloosterman state}
+
+A type-correct multi-raw leaf can be organized as
+\begin{equation}\label{eq:tool-mrdet}
+ Acv+dBxy=N,
+\end{equation}
+where \(c,v,x,y\) are genuine raw/smooth coordinates and \(A,B\) carry the
+structured arithmetic/GFT weights.  Fixing \(A,B,c\), putting \(q=Ac\), and
+assuming the relevant coprimality, the congruence
+\[
+ dBxy\equiv N\pmod q
+\]
+may be Poisson-summed in \(x,y\).  The nonzero dual orbit contains the classical
+Kloosterman sum
+\begin{equation}\label{eq:tool-mrdet-kl}
+ S\!\left(Nk\overline{dB},-h;q\right)
+\end{equation}
+with dual lengths of order \(q/X_1\) and \(q/X_2\) when the two raw variables
+have lengths \(X_1,X_2\).  This is the clean four-variable MRDET core.  It is a
+normal-form bridge, not a theorem that arbitrary additional raw factors may be
+multiplied together without changing their coefficients.
+
+\subsubsection*{B3. ONEHIT prime-marked Poisson normal form}
+
+At the reconstructed one-hit endpoint one reaches the particularly rigid state
+\begin{equation}\label{eq:tool-onehit-state}
+ Ac+dp=N,
+ \qquad p\in\Pp.
+\end{equation}
+If \(p\) is larger than the raw \(c\)-scale and \((A,p)=1\), then
+\[
+ c\equiv N\overline A\pmod p.
+\]
+Poisson summation in \(c\) gives
+\begin{equation}\label{eq:tool-onehit-poisson}
+ \sum_{c\equiv N\bar A\,(p)}W(c/C)
+ =\frac Cp\sum_{h\in\mathbb Z}
+ \widehat W(hC/p)e_p(hN\bar A).
+\end{equation}
+The nonzero frequencies have natural length \(H\asymp p/C\).  Thus a hard
+one-hit block becomes a prime-modulus reciprocal kernel
+\begin{equation}\label{eq:tool-pmkf-kernel}
+ \sum_{\substack{p\sim P\\p\in\Pp}}\eta_p
+ \sum_{A\sim M}\alpha_z(A)
+ \sum_{h\sim H}\nu_h e_p(hN\overline A),
+\end{equation}
+without first replacing the distinguished prime \(p\) by arbitrary
+Heath--Brown coefficients.  This is the local model behind the name \(\PMKF\).
+
+\subsubsection*{B4. Parity--Mellin jet package}
+
+A second, unused endpoint package keeps the parity frequency explicit.  Define
+\[
+ h_z(r)=\mu(r)r^z
+\]
+and
+\[
+ \Delta_{h_z}(k;N)
+ :=\sum_{\substack{n<N\\n\equiv N\, (k)}}\Lambda(n)h_z(N-n)
+ -\frac1{\varphi(k)}\sum_{n<N}\Lambda(n)h_z(N-n),
+\]
+then
+\begin{equation}\label{eq:tool-parity-jet}
+ \mathcal E_\pi(z;K)
+ :=\sum_{\substack{k<K\\(k,N)=1}}
+ \mu(k)k^{-z}\Delta_{h_z}(k;N).
+\end{equation}
+The cofactor cancellation in G8 shows that, on \(N-n=km\), the parity carrier
+is transferred from \(k\) to \(m\).  In the earlier two-error formulation that
+motivated this package, the paired parity discrepancy is exactly the first
+\(z\)-jet \(-\mathcal E_\pi'(0;K)\).  The current paper does not use this route,
+because radial coefficient extraction gives a cleaner final endpoint, but the
+jet functional remains a valid way to keep a parity-sensitive derivative until
+late in a dispersion argument.
+
+\subsection{Rejected shortcuts and audit guardrails}
+
+The following ideas appeared naturally during exploration but are \emph{not}
+valid proof steps in the stated generality.
+
+\begin{enumerate}[label=\textbf{R\arabic*.},leftmargin=3em]
+\item \textbf{D--T short \(\neq\) ABL prime-side short.}
+A short factor created by decomposing the complementary generalized-divisor
+coefficient cannot be cast directly as the short Heath--Brown factor on the
+prime side merely because the two have the same dyadic length.
+
+\item \textbf{Difference-lattice sparsity \(\neq\) spectral-diagonal saving.}
+A condition such as \(D\mid(n_1-n_2)\) removes off-diagonal pairs but leaves the
+entire diagonal \(n_1=n_2\).  It therefore does not by itself yield a
+\(D^{-1}\) gain in a Kuznetsov quadratic form.
+
+\item \textbf{Modulus charge \(\neq\) automorphic \(L\)-charge.}
+An arithmetic weight \(d_w(A)\) attached to a modulus or cusp parameter does not
+automatically transform into \(L(s,f)^w\).  Such a spectral interpretation
+requires an actual Hecke/local-test insertion.
+
+\item \textbf{Formal raw mass \(\neq\) analytic raw mass.}
+Convolution identities such as B2R or \(d_z=1^{*J}*d_{z-J}\) may manufacture
+formal coefficient-\(1\) coordinates, but several of them can be forced to equal
+\(1\) on a given arithmetic input.  Their exponents may not be added to a
+Poisson-saving budget without a leaf-by-leaf length check.
+
+\item \textbf{Completion is not automatically lossless.}
+Turning a short inverse phase into a complete fixed-modulus Kloosterman sum may
+expand a variable of length \(M\ll p\) to a full Fourier variable modulo \(p\).
+A strong fixed-modulus theorem may then fail to recover the geometry that was
+lost in completion.
+
+\item \textbf{Withdrawn numerical improvements are excluded.}
+No parameter range deduced from the withdrawn Dong--Robles--Zeindler preprint is
+used.  Only currently auditable external estimates may enter the proof compiler.
+\end{enumerate}
+
+\subsection{Toolkit status map}
+
+For convenience, the main constructions are summarized by status:
+\[
+\begin{array}{lll}
+\text{radial/tensor/scale GFT} &:& \text{PROVED, used},\\
+\text{leaf-adaptive one-hit collapse} &:& \text{PROVED, used},\\
+\text{charge transport and one-raw gauge} &:& \text{PROVED, auxiliary},\\
+\text{friable \(\zeta\)-gauge and prime-power collapse} &:& \text{PROVED, auxiliary},\\
+\text{logarithmic rawization} &:& \text{PROVED, auxiliary},\\
+\text{B2R finite gauge} &:& \text{PROVED, auxiliary},\\
+\text{RDET/MRDET determinant states} &:& \text{VALID BRIDGES, not global solvers},\\
+\text{ONEHIT prime-marked Poisson form} &:& \text{VALID BRIDGE, PMKF local model},\\
+\text{Parity--Mellin jet} &:& \text{VALID, superseded endpoint route},\\
+\text{type-confused/spectral-diagonal shortcuts} &:& \text{REJECTED}.
+\end{array}
+\]
+The purpose of retaining the auxiliary constructions is not to lengthen the
+Goldbach implication, but to preserve a reusable library of GFT compiler
+operations for future attacks on \(\PMKF\) and related fixed-shift problems.
+
+
+\section{Nonclaims}
+
+For clarity, the manuscript does \emph{not} establish any of the following.
+\begin{itemize}[leftmargin=2em]
+\item It does not prove \cref{hyp:PMKF}.
+\item It does not prove binary Goldbach unconditionally.
+\item It does not claim that the parity barrier has already been bypassed.
+\item It does not claim that the D--T short variable is an ABL prime-side Heath--Brown short variable.
+\item It does not infer spectral $L$-function powers from arithmetic weights attached to modulus parameters.
+\item It does not use the withdrawn Dong--Robles--Zeindler preprint as an input.
+\item It does not claim that Blomer--Pascadi or Wright already proves the full $\PMKF$ range.
+\end{itemize}
+
+\section{Conclusion}
+
+The generalized Fourier sieve does not presently yield a stronger unconditional Goldbach theorem than the classical sieve literature.  What it does yield is an exact reduction architecture.  Prime extraction can be performed radially inside the unit disk; scale-count Fourier projectors separate the number of large prime hits; leaf-adaptive reconstruction annihilates every multi-hit endpoint and makes the zero-hit endpoint negligible; and the only target-scale minor contribution is a one-hit frozen-mode correlation.  We call the required uniform estimate $\PMKF$ because the surviving distinguished prime is intended to be preserved into reciprocal/Kloosterman normal forms rather than discarded by an early arbitrary-coefficient reduction.
+
+The mathematical endpoint of the present paper is therefore precise:
+\[
+\boxed{\PMKF\ \Longrightarrow\ \text{binary Goldbach for all sufficiently large even integers}.}
+\]
+The proof of this implication is unconditional.  The proof of $\PMKF$ is the remaining analytic problem.
+
+\begin{thebibliography}{99}
+
+\bibitem{Chen}
+J.-R. Chen,
+\emph{On the representation of a large even integer as the sum of a prime and the product of at most two primes},
+Sci. Sinica \textbf{16} (1973), 157--176.
+
+\bibitem{DT}
+S. Drappeau and B. Topacogullari,
+\emph{Combinatorial identities and Titchmarsh's divisor problem for multiplicative functions},
+Algebra Number Theory \textbf{13} (2019), 2383--2425;
+arXiv:1807.09569.
+
+\bibitem{ABL}
+E. Assing, V. Blomer, and J. Li,
+\emph{Uniform Titchmarsh divisor problems},
+Adv. Math. \textbf{393} (2021), Paper No. 108076;
+arXiv:2005.13915.
+
+\bibitem{BC}
+S. Bettin and V. Chandee,
+\emph{Trilinear forms with Kloosterman fractions},
+Adv. Math. \textbf{328} (2018), 1234--1262;
+arXiv:1502.00769.
+
+\bibitem{PascadiLS}
+A. Pascadi,
+\emph{Large sieve inequalities for exceptional Maass forms and the greatest prime factor of $n^2+1$},
+arXiv:2404.04239.
+
+\bibitem{BP}
+V. Blomer and A. Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311.
+
+\bibitem{Wright}
+T. Wright,
+\emph{Trilinear Kloosterman fractions I: partially fixed moduli and unbalanced convolutions},
+arXiv:2604.25177.
+
+\bibitem{DRZwithdrawn}
+A. Dong, N. Robles, and D. Zeindler,
+\emph{Bilinear forms with Kloosterman fractions and applications},
+arXiv:2601.00292, withdrawn (2026).
+
+\end{thebibliography}
+
+\end{document}
