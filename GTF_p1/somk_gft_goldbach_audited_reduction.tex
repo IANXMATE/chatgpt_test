@@ -1,0 +1,1213 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  citecolor=blue!55!black,
+  urlcolor=blue!55!black,
+  pdftitle={Audited SOMK--GFT Reduction for Binary Goldbach},
+  pdfauthor={Draft manuscript}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\newcommand{\T}{\mathbb T}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\e}{\mathrm e}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Mcal}{\mathfrak M}
+\newcommand{\mcal}{\mathfrak m}
+\newcommand{\SG}{\mathfrak S}
+\newcommand{\Jw}{\mathfrak J_W}
+\newcommand{\PMKF}{\mathrm{PMKF}\text{-}\mathrm{GFT}}
+\newcommand{\SOMK}{\mathrm{SOMK}\text{-}\mathrm{GFT}}
+\newcommand{\PBM}{\mathrm{PB}\text{-}\mathrm{MRDET}}
+\newcommand{\Kl}{\mathcal K}
+\newcommand{\Eend}{\mathcal E_{\mathrm{end}}}
+\newcommand{\Eeasy}{\mathcal E_{\mathrm{easy}}}
+\newcommand{\Eres}{\mathcal E_{\mathrm{res}}}
+\newcommand{\wt}{\widetilde}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\TV}{TV}
+\DeclareMathOperator{\Res}{Res}
+
+\title{\textbf{Audited SOMK--GFT Reduction for Binary Goldbach}\\
+\large Exact Endpoint Reconstruction, Vaughan Raw--Quotient Compilation,\\
+and the Structured Outer--Modulus Kloosterman Residual}
+\author{Draft manuscript}
+\date{20 August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give an audited reduction of the binary Goldbach problem to a structured fixed-shift Kloosterman residual, called global \(\SOMK\).  The note consolidates the previously established generalized-Fourier (GFT) endpoint machinery and adds two exact compiler identities: a Vaughan raw--quotient uncompression and a genuine two-raw refinement of the Type-II term.  The audit also repairs two overstatements that are easy to make in this setting.  First, once the one-large-prime GFT leaf is reconstructed at the prime endpoint, every nonempty friable cofactor vanishes exactly; thus a separate ``friable-core PMKF'' theorem is not a genuine endpoint obstruction.  Second, an integral over the \emph{minor arcs} cannot be converted into a fixed determinant equation by full-circle orthogonality.  Consequently the algebraic MRDET normal form and the lossless minor-arc-to-MRDET interface must be distinguished.
+
+We therefore define global \(\SOMK\) as the conjunction of (i) a pre-Bessel, fixed-\(N\), lossless compiler/interface statement that exhausts all residual endpoint minor-arc leaves by structured outer-modulus Kloosterman kernels, and (ii) a log-power saving for those kernels.  With this precise definition we prove, without any further unproved implication, that
+\[
+ \boxed{\SOMK\Longrightarrow \text{binary Goldbach for every sufficiently large even integer}.}
+\]
+The proof uses only the exact GFT endpoint projectors, a standard binary-Goldbach major-arc asymptotic, and the stated \(\SOMK\) hypotheses.  A finite-cell backend audit is included: the Bettin--Chandee chamber is derived with the correct prefactors, the balanced \(17/33\) threshold is recovered for the corresponding trilinear kernel, and the Blomer--Pascadi square-root geometry is identified at the central MRDET cell.  These backend calculations are recorded as local solver information and are not silently promoted to a proof of the global interface.  The final appendices collect the reusable GFT/RDET/MRDET/QRFH toolkit and all type-safety warnings needed for further work.
+\end{abstract}
+
+\tableofcontents
+
+\section{Status, theorem-level claim, and audit policy}
+
+The purpose of this manuscript is a reduction theorem, not an unconditional proof of Goldbach.  All statements are labelled according to the following policy.
+
+\begin{center}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.23\textwidth} >{\raggedright\arraybackslash}p{0.66\textwidth}}
+\toprule
+\textbf{Status} & \textbf{Meaning}\\
+\midrule
+PROVED & An exact algebraic identity, a standard cited theorem, or a deduction proved in this manuscript.\\
+VALID BRIDGE & A type-correct local normal form, valid once its stated hypotheses and variable roles have genuinely been reached.\\
+BACKEND PASS & A published estimate closes the displayed local kernel in the stated numerical chamber.  This does \emph{not} by itself prove that every Goldbach minor-arc leaf reaches that kernel.\\
+OPEN / HYPOTHESIS & A genuine remaining analytic or interface assertion.\\
+REJECTED SHORTCUT & A tempting inference that the audit shows is invalid.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The main claim is the following.
+
+\begin{theorem}[Audited SOMK--GFT reduction to binary Goldbach]\label{thm:main}
+Assume the global \(\SOMK\) hypothesis of \cref{hyp:global-somk}.  Then, for every sufficiently large even integer \(N\),
+\begin{equation}\label{eq:main-asymp}
+ R_{\vartheta\vartheta}(N)
+ =\SG(N)\Jw N+o(N),
+\end{equation}
+where \(\SG(N)>0\) is the binary-Goldbach singular series and \(\Jw>0\) is the chosen archimedean weight.  In particular, every sufficiently large even \(N\) is the sum of two primes.
+\end{theorem}
+
+The full proof is given in \cref{sec:somk-to-gold}.  An important logical point is that the new route does \emph{not} require proving the stronger frozen-mode hypothesis \(\PMKF\).  Instead, after the GFT scale-count decomposition has isolated the one-hit leaf, we reconstruct that leaf at the prime endpoint and attack the resulting fixed-\(N\) prime--prime minor correlation directly.  Thus the new implication is
+\[
+ \SOMK
+ \Longrightarrow [z]\,\mathcal J_{z,1}(N)=o(N)
+ \Longrightarrow \text{Goldbach},
+\]
+not necessarily \(\SOMK\Rightarrow\PMKF\).
+
+\subsection{Nonclaims}
+
+This manuscript does \emph{not} claim any of the following.
+\begin{enumerate}[label=\textup{(N\arabic*)},leftmargin=2.4em]
+\item It does not prove global \(\SOMK\).
+\item It does not claim that a local Bettin--Chandee, Wright, or Blomer--Pascadi estimate already supplies the lossless global minor-arc interface.
+\item It does not convert a minor-arc integral into a Diophantine equality by full-circle orthogonality.
+\item It does not identify complement-side GFT factors with prime-side Heath--Brown/Vaughan factors merely because their dyadic lengths agree.
+\item It does not count a formal convolution factor \(1\) as a genuine long analytic variable unless a leaf gives it positive length.
+\item It does not claim that completion of a short reciprocal variable is automatically lossless.
+\item It does not use withdrawn numerical improvements.
+\end{enumerate}
+
+\section{Weighted Goldbach target and the standard major arcs}\label{sec:goldbach-target}
+
+Write \(\Lambda\) for the von Mangoldt function and
+\[
+ \vartheta(n):=(\log n)\1_{\Pp}(n).
+\]
+Let \(W_1,W_2\in C_c^\infty((0,1))\) be nonnegative and suppose
+\begin{equation}\label{eq:Jw}
+ \Jw:=\int_0^1 W_1(t)W_2(1-t)\,dt>0.
+\end{equation}
+For an even integer \(N\), define
+\begin{align}
+ R_{\Lambda\Lambda}(N)
+ &:={\sum}_{m+n=N}\Lambda(m)\Lambda(n)W_1(m/N)W_2(n/N),\label{eq:RLL}\\
+ R_{\Lambda\vartheta}(N)
+ &:={\sum}_{m+n=N}\Lambda(m)\vartheta(n)W_1(m/N)W_2(n/N),\label{eq:RLtheta}\\
+ R_{\vartheta\vartheta}(N)
+ &:={\sum}_{m+n=N}\vartheta(m)\vartheta(n)W_1(m/N)W_2(n/N).\label{eq:Rtt}
+\end{align}
+
+\begin{lemma}[Prime-power replacement]\label{lem:pp}
+Uniformly for \(N\ge3\),
+\[
+ R_{\Lambda\Lambda}(N)=R_{\vartheta\vartheta}(N)
+ +O\!\left(N^{1/2}(\log N)^2\right),
+\]
+and the same error holds when only one copy of \(\Lambda\) is replaced by \(\vartheta\).
+\end{lemma}
+
+\begin{proof}
+The difference \(\Lambda-\vartheta\) is supported on proper prime powers \(p^k\), \(k\ge2\).  There are \(O(N^{1/2})\) such integers up to \(N\), and both arithmetic weights are \(O(\log N)\).  Summing trivially gives the stated error.
+\end{proof}
+
+Put
+\[
+ S_\Lambda(\alpha):=\sum_n\Lambda(n)W_1(n/N)e(\alpha n),
+ \qquad
+ S_\vartheta(\alpha):=\sum_n\vartheta(n)W_2(n/N)e(\alpha n),
+\]
+where \(e(x)=e^{2\pi i x}\).  Let \(P=(\log N)^B\) with \(B\) sufficiently large and take a standard major-arc set
+\[
+ \Mcal
+ :=\bigcup_{q\le P}\ \bigcup_{\substack{a\bmod q\\(a,q)=1}}
+ \left\{\alpha\in\T:\left|\alpha-\frac aq\right|\le\frac{P}{qN}\right\},
+ \qquad
+ \mcal:=\T\setminus\Mcal.
+\]
+
+Define
+\begin{equation}\label{eq:sing-series}
+ \SG(N)
+ :=2C_2\prod_{\substack{p\mid N\\p>2}}\frac{p-1}{p-2},
+ \qquad
+ C_2:=\prod_{p>2}\left(1-\frac1{(p-1)^2}\right).
+\end{equation}
+For even \(N\), \(\SG(N)\) is positive and bounded below by an absolute positive constant.
+
+\begin{proposition}[Standard weighted binary-Goldbach major arcs]\label{prop:major}
+For the preceding choice of smooth weights and major arcs,
+\begin{equation}\label{eq:major}
+ \int_{\Mcal}S_\Lambda(\alpha)S_\vartheta(\alpha)e(-N\alpha)\,d\alpha
+ =\SG(N)\Jw N+o(N)
+\end{equation}
+uniformly for sufficiently large even \(N\).
+\end{proposition}
+
+\begin{proof}[Status and provenance]
+This is the standard smooth binary-Goldbach major-arc calculation.  The local factor at an odd prime \(p\nmid N\) has two forbidden residues, whereas for \(p\mid N\) the two residues coincide; the resulting Euler product is \eqref{eq:sing-series}.  The real-place convolution gives \eqref{eq:Jw}.  No statement about cancellation on the minor arcs is used here.  We treat this classical major-arc asymptotic as an unconditional external input.
+\end{proof}
+
+\section{Exact GFT endpoint machinery}\label{sec:gft-endpoint}
+
+\subsection{Squarefree Fourier mode and radial prime extraction}
+
+For \(z\in\mathbb C\), set
+\begin{equation}\label{eq:gz}
+ g_z(n):=\mu^2(n)z^{\omega(n)}.
+\end{equation}
+For each fixed \(n\), \(g_z(n)\) is a polynomial in \(z\).
+
+\begin{proposition}[Exact prime coefficient]\label{prop:prime-coeff}
+For every \(n\ge2\),
+\[
+ [z]g_z(n)=\1_{\Pp}(n),
+ \qquad
+ (\log n)[z]g_z(n)=\vartheta(n).
+\]
+\end{proposition}
+
+\begin{proof}
+If \(n\) is not squarefree then \(g_z(n)=0\).  If \(n\) is squarefree then \(g_z(n)=z^{\omega(n)}\), whose \(z\)-coefficient is nonzero exactly when \(\omega(n)=1\), i.e. exactly when \(n\) is prime.
+\end{proof}
+
+\begin{lemma}[Radial reconstruction]\label{lem:radial}
+For a polynomial \(F\) and every \(r>0\),
+\[
+ [z]F(z)=\frac1{2\pi r}\int_0^{2\pi}F(re^{i\theta})e^{-i\theta}\,d\theta,
+ \qquad
+ |[z]F(z)|\le r^{-1}\sup_{|z|=r}|F(z)|.
+\]
+\end{lemma}
+
+\begin{proof}
+This is Cauchy's coefficient formula.
+\end{proof}
+
+The freedom to take \(r<1\) is one of the useful GFT resources: frozen modes then carry the damping factor \(r^{\omega(n)}\).  The endpoint coefficient remains exact.
+
+\subsection{Finite large-factor projectors and one-hit collapse}
+
+Fix \(K\ge2\), put \(Y=X^{1/K}\), and define
+\[
+ \Omega_{>Y}(n):=\sum_{\substack{p^\nu\parallel n\\p>Y}}\nu.
+\]
+If \(n\le X\), then \(0\le\Omega_{>Y}(n)\le K-1\), hence
+\begin{equation}\label{eq:DFT-hit}
+ \1_{\{\Omega_{>Y}(n)=j\}}
+ =\frac1K\sum_{\ell=0}^{K-1}
+ \exp\!\left(\frac{2\pi i\ell}{K}(\Omega_{>Y}(n)-j)\right).
+\end{equation}
+
+For squarefree \(n\le X\), write uniquely
+\begin{equation}\label{eq:hit-factor}
+ n=a p_1\cdots p_j,
+ \qquad
+ P^+(a)\le Y<p_1<\cdots<p_j.
+\end{equation}
+Then
+\begin{equation}\label{eq:hit-weight}
+ g_z(n)=g_z(a)z^j=z^{j+\omega(a)}.
+\end{equation}
+
+\begin{proposition}[Leaf-adaptive endpoint collapse]\label{prop:endpoint-collapse}
+The coefficient \([z]g_z(n)\) on a fixed hit leaf \eqref{eq:hit-factor} is nonzero only in the two cases
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(j=0\) and \(a\) is prime, necessarily \(a\le Y\);
+\item \(j=1\) and \(a=1\), so \(n=p_1>Y\) is prime.
+\end{enumerate}
+Every \(j\ge2\) leaf vanishes identically after \([z]\) extraction.
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:hit-weight}, the \(z\)-exponent is \(j+\omega(a)\).  Its coefficient of \(z\) is nonzero exactly when \(j+\omega(a)=1\).  The two listed cases are the only nonnegative integer solutions.
+\end{proof}
+
+Taking \(K=4\), hence \(Y=N^{1/4}\), the \(j=0\) endpoint contributes at most
+\begin{equation}\label{eq:j0small}
+ O\!\left(N^{1/4}(\log N)^2\right)=o(N)
+\end{equation}
+in the weighted Goldbach correlation.  The only target-scale endpoint leaf is therefore the one-hit leaf, and reconstructing that leaf gives the prime-supported sequence on \(p>N^{1/4}\).
+
+\begin{corollary}[No separate friable-core endpoint obstruction]\label{cor:fc-collapse}
+Suppose a one-hit squarefree integer is written \(n=dp\), with \(p>Y\) prime and \(P^+(d)\le Y\).  Then
+\[
+ g_z(dp)=z\,g_z(d)=z^{1+\omega(d)}.
+\]
+Consequently
+\[
+ [z]\,g_z(dp)=\1_{\{d=1\}}.
+\]
+Thus every nonempty cofactor \(d>1\) vanishes \emph{exactly} if the one-hit leaf is reconstructed at the prime endpoint.
+\end{corollary}
+
+\begin{proof}
+The integer \(d\) is squarefree and coprime to \(p\).  Hence \(g_z(dp)=z^{1+\omega(d)}\).  The coefficient of \(z\) is nonzero if and only if \(\omega(d)=0\), i.e. \(d=1\).
+\end{proof}
+
+\begin{remark}[Relation to the older PMKF route]
+The older \(\PMKF\) theorem keeps the one-hit leaf frozen in \(z\) and asks for a uniform modewise bound before reconstruction.  That is a stronger sufficient route.  The present SOMK route instead reconstructs the one-hit leaf first and attacks the resulting fixed-\(N\) prime--prime endpoint.  Therefore the new route can imply Goldbach without proving the full frozen-mode \(\PMKF\) hypothesis.
+\end{remark}
+
+\section{Exact QRFH refinement}\label{sec:qrfh}
+
+Although QRFH is not needed in the final SOMK implication after \cref{cor:fc-collapse}, it is a valid structural tool and is retained for later use.
+
+Fix \(Y=X^{1/4}\) and choose \(0<\tau<1/4\), \(Z=X^\tau\).  For a one-hit squarefree \(n=dp\le X\) with \(P^+(d)\le Y<p\), factor
+\[
+ d=bq_1\cdots q_j,
+ \qquad
+ P^+(b)\le Z<q_1<\cdots<q_j\le Y.
+\]
+
+\begin{proposition}[Quotient-retention factor-hit lemma, structural form]\label{prop:qrfh}
+The preceding factorization is unique and
+\[
+ j<\frac{3}{4\tau}.
+\]
+Moreover
+\[
+ g_z(n)=z^{j+1}g_z(b).
+\]
+If a type-correct fixed-shift state has reached
+\[
+ Ac+dp=N,
+\]
+then for every \(I\subseteq\{1,\dots,j\}\),
+\[
+ p\prod_{i\in I}q_i\mid N-Ac.
+\]
+If additionally \(\bigl(A,p\prod_{i\in I}q_i\bigr)=1\), then
+\[
+ c\equiv N\overline A\pmod{p\prod_{i\in I}q_i}.
+\]
+\end{proposition}
+
+\begin{proof}
+Uniqueness is unique factorization.  Since \(p>X^{1/4}\) and \(n\le X\), one has \(d<X^{3/4}\).  Each \(q_i>X^\tau\), hence \(X^{j\tau}<q_1\cdots q_j\le d<X^{3/4}\), proving \(j<3/(4\tau)\).  The GFT identity follows from squarefreeness and coprimality.  Finally,
+\[
+ N-Ac=dp=bpq_1\cdots q_j,
+\]
+so every displayed modulus divides \(N-Ac\); invert \(A\) modulo it when the stated coprimality holds.
+\end{proof}
+
+\section{Exact Vaughan raw--quotient compiler}\label{sec:vaughan}
+
+This section records the main new exact algebraic compiler used by the SOMK route.  The purpose is to avoid the standard loss of structure in which a genuine convolution coefficient is replaced too early by an arbitrary bounded sequence.
+
+For a parameter \(U\ge1\), define
+\[
+ \mu_{\le U}(n):=\mu(n)\1_{n\le U},
+ \qquad
+ \mu_{>U}:=\mu-\mu_{\le U},
+\]
+and similarly \(\Lambda_{\le V}\), \(\Lambda_{>V}\).
+
+\begin{proposition}[Exact Vaughan identity in compiler form]\label{prop:vaughan}
+For every \(U,V\ge1\), coefficientwise,
+\begin{equation}\label{eq:vaughan}
+ \boxed{
+ \Lambda
+ =\mu_{\le U}*\log
+ -\mu_{\le U}*\Lambda_{\le V}*1
+ +\Lambda_{\le V}
+ +\mu_{>U}*\Lambda_{>V}*1.}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Because \(\Lambda=\mu*\log\) and \(\log=\Lambda*1\), we have
+\[
+ \mu*\Lambda*1=\Lambda,
+ \qquad
+ \mu*\Lambda_{\le V}*1=\Lambda_{\le V}*(\mu*1)=\Lambda_{\le V}.
+\]
+Expanding
+\[
+ \mu_{>U}*\Lambda_{>V}*1
+ =(\mu-\mu_{\le U})*(\Lambda-\Lambda_{\le V})*1
+\]
+gives
+\[
+ \Lambda-\Lambda_{\le V}-\mu_{\le U}*\log
+ +\mu_{\le U}*\Lambda_{\le V}*1.
+\]
+Rearranging proves \eqref{eq:vaughan}.
+\end{proof}
+
+The last term is the classical Type-II term.  Its usual compression obscures a genuine coefficient-one quotient.  The following identity recovers it exactly.
+
+\begin{proposition}[Vaughan raw--quotient uncompression]\label{prop:raw-quotient}
+Let
+\[
+ T_{II}:=\mu_{>U}*\Lambda_{>V}*1.
+\]
+Then, for every \(n\ge1\),
+\begin{equation}\label{eq:raw-quotient}
+ \boxed{
+ T_{II}(n)
+ =-
+ \sum_{\substack{m e f=n\\m>V,\ e\le U,\ ef>U}}
+ \Lambda(m)\mu(e).}
+\end{equation}
+In every nonzero summand, \(f>1\).  Thus \(f\) is a genuine coefficient-one quotient, not a formal convolution leg.
+\end{proposition}
+
+\begin{proof}
+From the definition,
+\[
+ T_{II}(n)
+ =\sum_{\substack{m r=n\\m>V}}
+ \Lambda(m)
+ \sum_{\substack{a\mid r\\a>U}}\mu(a).
+\]
+If the inner sum is nonzero then necessarily \(r>U\), hence \(r>1\).  For \(r>1\),
+\[
+ \sum_{a\mid r}\mu(a)=0,
+\]
+so
+\[
+ \sum_{\substack{a\mid r\\a>U}}\mu(a)
+ =-\sum_{\substack{e\mid r\\e\le U}}\mu(e).
+\]
+Writing \(r=ef\) gives \eqref{eq:raw-quotient}, with the necessary condition \(ef=r>U\).  Since \(e\le U\), the inequality \(ef>U\) rules out \(f=1\).
+\end{proof}
+
+\begin{proposition}[Genuine two-raw refinement of Type II]\label{prop:two-raw-TII}
+The Type-II coefficient also has the exact representation
+\begin{equation}\label{eq:two-raw-TII}
+ \boxed{
+ T_{II}(n)
+ =-
+ \sum_{\substack{a b e f=n\\ab>V,\ e\le U,\ ef>U}}
+ \mu(a)\mu(e)\log b.}
+\end{equation}
+Every nonzero summand has \(b>1\) and \(f>1\).  Hence \(b\) and \(f\) are two genuine positive-length raw variables after any dyadic leaf on which they have nontrivial scale.
+\end{proposition}
+
+\begin{proof}
+Insert the exact identity \(\Lambda(m)=(\mu*\log)(m)=\sum_{ab=m}\mu(a)\log b\) into \eqref{eq:raw-quotient}.  The factor \(\log b\) vanishes at \(b=1\), and \cref{prop:raw-quotient} already gives \(f>1\).
+\end{proof}
+
+\begin{corollary}[Full-shift Type-II pair determinant state]\label{cor:TT-state}
+If two Type-II factors in a \emph{full fixed-shift correlation} are expanded by \cref{prop:two-raw-TII}, every dyadic summand has an exact equation
+\begin{equation}\label{eq:TT-MRDET}
+ A b f+B d h=N,
+ \qquad
+ A:=ae,\quad B:=cg,
+\end{equation}
+where \(b,f,d,h\) are genuine raw variables and \(A,B\) retain the structured M\"obius origins \(\mu(a)\mu(e)\) and \(\mu(c)\mu(g)\).
+\end{corollary}
+
+\begin{proof}
+Apply \eqref{eq:two-raw-TII} independently to both summands \(n_1,n_2\) in the exact equality \(n_1+n_2=N\), and group \(A=ae\), \(B=cg\).
+\end{proof}
+
+\begin{remark}[Smooth localization and cell count]\label{rem:cells}
+The conditions \(ab>V\), \(ef>U\), and the size relations inherited from the weights are monomial inequalities.  A standard smooth dyadic partition produces at most \((\log N)^{O(1)}\) leaves.  Such a polylogarithmic cell count can be absorbed by requesting a larger log-power saving from the final uniform solver.  The partition does not license forgetting the factor origins inside \(A\) and \(B\).
+\end{remark}
+
+\section{Critical audit: a minor-arc integral is not a full-shift determinant}\label{sec:minor-audit}
+
+This is the most important correction introduced by the present audit.
+
+\begin{lemma}[Restricted orthogonality kernel]\label{lem:restricted-orth}
+Let \(E\subseteq\T\) be measurable.  For integers \(m,n,N\),
+\[
+ \int_E e(\alpha(m+n-N))\,d\alpha
+ =\widehat{\1_E}(N-m-n),
+\]
+where
+\[
+ \widehat{\1_E}(t):=\int_E e(-t\alpha)\,d\alpha.
+\]
+In particular, the Kronecker delta \(\1_{m+n=N}\) is obtained only for \(E=\T\).
+\end{lemma}
+
+\begin{proof}
+This is the definition of the Fourier coefficient of \(\1_E\).  For \(E=\T\), ordinary character orthogonality gives \(\widehat{\1_\T}(t)=\1_{t=0}\).  For a proper minor-arc set \(E=\mcal\), the Fourier coefficients are generally nonzero for \(t\ne0\).
+\end{proof}
+
+\begin{warning}[Rejected minor-arc determinant shortcut]\label{warn:minor-det}
+One may not replace
+\[
+ \int_{\mcal}F(\alpha)G(\alpha)e(-N\alpha)\,d\alpha
+\]
+by a sum restricted to \(m+n=N\) merely by invoking orthogonality.  Any pre-Bessel route from the minor-arc correlation to RDET/MRDET must preserve the Fourier kernel created by the cutoff, or must provide a separate lossless dispersion/localization argument.  The exact identities of \cref{sec:vaughan} remain valid inside the exponential sums, but they do not by themselves prove the global minor-arc-to-MRDET interface.
+\end{warning}
+
+This warning is why the final global hypothesis below has two logically distinct components: a compiler/interface component and an analytic Kloosterman component.
+
+\section{Type-correct local RDET/MRDET bridges}\label{sec:mrdet}
+
+The following local bridges are valid once a fixed-shift state has genuinely been isolated.  They are not asserted to arise from \(\mcal\) by \cref{lem:restricted-orth} alone.
+
+\subsection{RDET}
+
+Suppose a routed state has
+\begin{equation}\label{eq:RDET}
+ uv+dmn=N.
+\end{equation}
+Let \(g=(u,dm)\).  Then \(g\mid N\).  If \((d,N)=1\), then \(g\mid m\), and with
+\[
+ u=gq,\qquad m=gm',\qquad R=N/g,
+\]
+one has
+\[
+ qv+dm'n=R,
+ \qquad
+ (q,dm')=1.
+\]
+After the required gcd extraction, a genuine raw variable can lie in a unique residue class modulo \(q\), and Poisson summation produces reciprocal phases of the shape
+\[
+ e\!\left(\frac{hR\overline{dn}}q\right).
+\]
+
+\subsection{MRDET}
+
+Suppose a type-correct multi-raw leaf has
+\begin{equation}\label{eq:MRDET}
+ Acv+dBxy=N,
+\end{equation}
+where \(c,v,x,y\) are genuine raw/smooth coordinates and \(A,B\) carry structured arithmetic coefficients.  Fix \(A,B,c\) and put \(q=Ac\).  Under the required coprimality,
+\[
+ dBxy\equiv N\pmod q.
+\]
+Poisson summation in \(x,y\) produces, on the nonzero dual orbit, classical Kloosterman sums
+\begin{equation}\label{eq:mrdet-kl}
+ S\!\left(Nk\overline{dB},-h;q\right).
+\end{equation}
+If the raw lengths are \(X_1,X_2\), the corresponding dual lengths are of order \(q/X_1\), \(q/X_2\).
+
+\begin{remark}[Why \cref{cor:TT-state} is useful]
+The identity \eqref{eq:TT-MRDET} has exactly the required algebraic shape with \(d=1\):
+\[
+ A\,b\,f+B\,d\,h=N.
+\]
+The crucial point is that \(b,f,d,h\) are genuine raw variables supplied by exact identities; they are not manufactured by a formal \(1\)-convolution.  What remains open globally is the lossless passage from the minor-arc correlation to a finite family of such fixed-shift states.
+\end{remark}
+
+\section{Definition of the global SOMK--GFT hypothesis}\label{sec:somk-def}
+
+We now define the exact hypothesis used in the main theorem.  The definition is intentionally stronger than a single local Kloosterman estimate and intentionally weaker than an arbitrary-coefficient Goldbach Type-II oracle.
+
+\subsection{Endpoint minor correlation}
+
+Let
+\begin{equation}\label{eq:Eend}
+ \Eend(N)
+ :=\int_{\mcal}S_\Lambda(\alpha)S_\vartheta(\alpha)e(-N\alpha)\,d\alpha.
+\end{equation}
+This is the only target-scale endpoint minor contribution after the exact GFT reconstruction of \cref{prop:endpoint-collapse}, up to the negligible small-prime leaf \eqref{eq:j0small}.
+
+\begin{lemma}[Minor-arc replacement of \(\vartheta\) by \(\Lambda\)]\label{lem:minor-pp}
+Let
+\[
+ D(\alpha):=\sum_n(\Lambda(n)-\vartheta(n))W_2(n/N)e(\alpha n).
+\]
+Then
+\begin{equation}\label{eq:minor-pp}
+ \int_{\mcal}S_\Lambda(\alpha)D(\alpha)e(-N\alpha)\,d\alpha
+ \ll N^{3/4}(\log N)^{3/2}.
+\end{equation}
+In particular, the difference is \(o(N)\).
+\end{lemma}
+
+\begin{proof}
+By Cauchy--Schwarz and Parseval,
+\[
+ \left|\int_{\mcal}S_\Lambda D e(-N\alpha)\,d\alpha\right|
+ \le \|S_\Lambda\|_2\|D\|_2.
+\]
+The standard second moment gives
+\[
+ \|S_\Lambda\|_2^2
+ =\sum_n\Lambda(n)^2W_1(n/N)^2
+ \ll N\log N.
+\]
+The sequence \(\Lambda-\vartheta\) is supported on proper prime powers.  There are \(O(N^{1/2})\) of them and each coefficient is \(O(\log N)\), hence
+\[
+ \|D\|_2^2\ll N^{1/2}(\log N)^2.
+\]
+Multiplying the square roots proves \eqref{eq:minor-pp}.
+\end{proof}
+
+Thus the endpoint minor problem can be treated, at a cost \(o(N)\), as a \(\Lambda\times\Lambda\) problem, on which \cref{prop:vaughan,prop:raw-quotient,prop:two-raw-TII} may be applied on both sides.
+
+\subsection{Local structured outer-modulus Kloosterman kernel}
+
+A \emph{local SOMK kernel} is an actual contribution, including all Poisson prefactors and smooth weights, of the schematic form
+\begin{equation}\label{eq:local-somk}
+ \Kl_\rho(N)
+ =\Xi_\rho
+ \sum_{q\sim Q}\gamma_{\rho,u}(q)
+ \sum_{B\sim B_0}\beta_{\rho,v}(B)
+ \sum_{k\sim K}\alpha_{\rho}(k)
+ \sum_{\ell\sim L}\nu_{\rho}(\ell)
+ S\!\left(N_\rho k\overline B,-\ell;q\right),
+\end{equation}
+where:
+\begin{enumerate}[label=\textup{(K\arabic*)},leftmargin=2.7em]
+\item \(N_\rho=N/g\) with \(g\mid N\) arising from a legitimate gcd extraction;
+\item the inverse \(\overline B\pmod q\) is used only on branches where \((B,q)=1\);
+\item \(\Xi_\rho\) is the exact normalization/prefactor produced by the compiler and is part of the kernel, so no scale factor is silently dropped;
+\item \(\gamma_{\rho,u}\) and \(\beta_{\rho,v}\) retain certified factor origins (for example M\"obius factors, prime factors, GFT modes, and factor-scale tags) until a downstream theorem explicitly permits their replacement by arbitrary coefficients;
+\item the total \(L^2\) norms and smooth-derivative costs are bounded by fixed powers of \(\log N\) times the natural square-root lengths;
+\item the auxiliary GFT/Wiener frequencies \(u,v\) are retained, with at most polynomial frequency loss.
+\end{enumerate}
+The schematic display \eqref{eq:local-somk} is not itself a theorem; the point of the interface hypothesis below is to assert that the actual residual endpoint minor leaves reach such kernels losslessly.
+
+\subsection{The two components}
+
+\begin{hypothesis}[Pre-Bessel MRDET interface, \(\PBM\)]\label{hyp:pbm}
+For every \(A>0\), after:
+\begin{enumerate}[label=\textup{(I\arabic*)},leftmargin=2.7em]
+\item exact GFT endpoint reconstruction;
+\item the minor-arc prime-power replacement of \cref{lem:minor-pp};
+\item the exact Vaughan decomposition \eqref{eq:vaughan};
+\item raw--quotient uncompression \eqref{eq:raw-quotient} and, on residual Type-II leaves, the genuine two-raw refinement \eqref{eq:two-raw-TII};
+\item smooth dyadic/factor-scale localization with type labels retained;
+\end{enumerate}
+the endpoint minor correlation has a decomposition
+\begin{equation}\label{eq:pbm-decomp}
+ \Eend(N)
+ =\Eeasy(N)
+ +\sum_{\rho\in\mathscr R_N}c_\rho\Kl_\rho(N)
+ +O_A\!\left(\frac{N}{(\log N)^A}\right),
+\end{equation}
+where
+\[
+ |\Eeasy(N)|\ll_A\frac{N}{(\log N)^A},
+ \qquad
+ |\mathscr R_N|+\sum_{\rho\in\mathscr R_N}|c_\rho|
+ \ll (\log N)^{C_0}
+\]
+for some fixed \(C_0\), and every \(\Kl_\rho\) is a type-correct local SOMK kernel in the sense of \eqref{eq:local-somk}.
+
+The decomposition must be established without averaging over \(N\) and without using the invalid shortcut of \cref{warn:minor-det}.
+\end{hypothesis}
+
+\begin{hypothesis}[Local SOMK saving]\label{hyp:local-somk}
+For every \(B>0\), uniformly for every sufficiently large fixed even \(N\), every admissible residual leaf \(\rho\in\mathscr R_N\), and every admissible auxiliary GFT/Wiener mode,
+\begin{equation}\label{eq:local-somk-bound}
+ \boxed{
+ |\Kl_\rho(N)|
+ \ll_{B}\frac{N}{(\log N)^B}}
+\end{equation}
+with at most polynomial loss in the auxiliary Fourier frequencies.  The polynomial frequency loss is required to be compatible with the weighted Wiener norm of the factor-scale reconstruction.
+\end{hypothesis}
+
+\begin{hypothesis}[Global SOMK--GFT]\label{hyp:global-somk}
+The conjunction of \cref{hyp:pbm} and \cref{hyp:local-somk} holds.
+\end{hypothesis}
+
+\begin{remark}[Why the interface is explicitly part of global SOMK]
+The algebraic identities of \cref{sec:vaughan,sec:mrdet} show that the desired raw variables and determinant/Kloosterman geometry exist once an appropriate fixed-shift leaf has been isolated.  They do \emph{not} by themselves prove that the minor-arc cutoff reaches this geometry without loss.  Packaging the lossless interface as an explicit component of global SOMK prevents the main theorem from hiding an unproved arrow.
+\end{remark}
+
+\section{Strict proof that global SOMK--GFT implies Goldbach}\label{sec:somk-to-gold}
+
+We now prove \cref{thm:main}.
+
+\begin{proposition}[Global SOMK gives the endpoint minor-arc saving]\label{prop:somk-minor}
+Assume global \(\SOMK\).  Then for every \(A>0\),
+\begin{equation}\label{eq:Eend-small}
+ \Eend(N)\ll_A\frac{N}{(\log N)^A}
+\end{equation}
+for every sufficiently large even \(N\).
+\end{proposition}
+
+\begin{proof}
+Fix \(A>0\).  Apply \cref{hyp:pbm} with exponent \(A+2C_0+10\).  This gives \eqref{eq:pbm-decomp}, with the easy term and compiler error bounded by \(N(\log N)^{-A-2C_0-10}\).
+
+Apply \cref{hyp:local-somk} to each residual kernel with exponent \(B=A+2C_0+10\).  Then
+\[
+ \left|\sum_{\rho\in\mathscr R_N}c_\rho\Kl_\rho(N)\right|
+ \le
+ \left(\sum_{\rho\in\mathscr R_N}|c_\rho|\right)
+ \sup_{\rho\in\mathscr R_N}|\Kl_\rho(N)|
+ \ll
+ (\log N)^{C_0}\frac{N}{(\log N)^{A+2C_0+10}}.
+\]
+This is \(O_A(N(\log N)^{-A})\).  The weighted Wiener reconstruction contributes at most a further fixed/polylogarithmic factor by hypothesis and is absorbed by the same excess exponent.  Combining all terms proves \eqref{eq:Eend-small}.
+\end{proof}
+
+\begin{proposition}[Complete minor arcs are negligible]\label{prop:all-minor}
+Assume global \(\SOMK\).  Then
+\begin{equation}\label{eq:minor-all}
+ [z]\int_{\mcal}S_\Lambda(\alpha)S_z(\alpha)e(-N\alpha)\,d\alpha=o(N),
+\end{equation}
+where
+\[
+ S_z(\alpha):=\sum_n(\log n)g_z(n)W_2(n/N)e(\alpha n).
+\]
+Equivalently,
+\[
+ \int_{\mcal}S_\Lambda(\alpha)S_\vartheta(\alpha)e(-N\alpha)\,d\alpha=o(N).
+\]
+\end{proposition}
+
+\begin{proof}
+Use \eqref{eq:DFT-hit} with \(K=4\), \(Y=N^{1/4}\), and reconstruct each hit leaf separately.  By \cref{prop:endpoint-collapse}, the \(j=2,3\) leaves vanish exactly after \([z]\); the \(j=0\) leaf contributes \(O(N^{1/4}(\log N)^2)=o(N)\) by \eqref{eq:j0small}; and the \(j=1\) leaf reconstructs exactly to the prime-supported endpoint with prime \(>N^{1/4}\).  Its minor-arc contribution is precisely \(\Eend(N)\), up to the already counted small-prime leaf.  By \cref{prop:somk-minor}, \(\Eend(N)=o(N)\).  This proves \eqref{eq:minor-all}.  The equivalent \(S_\vartheta\) formulation follows from \cref{prop:prime-coeff} and linearity.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:main}]
+Split the exact circle identity
+\[
+ R_{\Lambda\vartheta}(N)
+ =\int_\T S_\Lambda(\alpha)S_\vartheta(\alpha)e(-N\alpha)\,d\alpha
+\]
+into major and minor arcs.  The major arcs equal \(\SG(N)\Jw N+o(N)\) by \cref{prop:major}.  The minor arcs are \(o(N)\) by \cref{prop:all-minor}.  Hence
+\begin{equation}\label{eq:RLtheta-asymp}
+ R_{\Lambda\vartheta}(N)=\SG(N)\Jw N+o(N).
+\end{equation}
+Since \(\SG(N)\) and \(\Jw\) are positive, the right side is positive for all sufficiently large even \(N\).
+
+Finally, replace the remaining \(\Lambda\) by \(\vartheta\).  By \cref{lem:pp},
+\[
+ R_{\vartheta\vartheta}(N)
+ =R_{\Lambda\vartheta}(N)
+ +O\!\left(N^{1/2}(\log N)^2\right)
+ =\SG(N)\Jw N+o(N).
+\]
+Thus \(R_{\vartheta\vartheta}(N)>0\) for every sufficiently large even \(N\).  Every nonzero term in \(R_{\vartheta\vartheta}(N)\) is a representation \(N=p_1+p_2\) by two primes.  This proves binary Goldbach for all sufficiently large even \(N\).
+\end{proof}
+
+\begin{corollary}[Full Goldbach after finite verification]\label{cor:finite}
+If global \(\SOMK\) is proved with an explicit threshold \(N\ge N_0\), and binary Goldbach is verified directly for the even integers \(4\le N<N_0\), then every even integer greater than \(2\) is the sum of two primes.
+\end{corollary}
+
+\section{Finite-cell backend audit}\label{sec:cell-audit}
+
+This section records local solver information that becomes available \emph{after} a type-correct pre-Bessel interface has reached the displayed kernel.  None of these calculations is used to smuggle in \cref{hyp:pbm}.
+
+\subsection{A three-variable reciprocal kernel and its natural dual length}
+
+Consider a legitimate smooth fixed-shift state
+\begin{equation}\label{eq:qfrh}
+ qf+rh=N,
+\end{equation}
+with
+\[
+ q\asymp Q=X^\alpha,
+ \quad
+ r\asymp R=X^\beta,
+ \quad
+ f\asymp F=X/Q,
+ \quad
+ h\asymp H=X/R.
+\]
+Assume \((q,r)=1\).  Summing over \(h\equiv N\overline r\pmod q\) and applying Poisson gives a nonzero-frequency kernel with natural dual length
+\begin{equation}\label{eq:Kdual}
+ K\asymp\frac qH\asymp\frac{QR}{X}=X^\kappa,
+ \qquad
+ \kappa:=\alpha+\beta-1.
+\end{equation}
+The Poisson prefactor is
+\[
+ \frac Hq\asymp X^{-\kappa}.
+\]
+The phase is \(e_q(kN\overline r)\).  The conductor ratio appearing in Bettin--Chandee is
+\begin{equation}\label{eq:BCconductor}
+ \frac{N K}{RQ}\asymp1,
+\end{equation}
+so the true Goldbach homogeneity eliminates the spurious fixed positive ``additive defect'' loss that appears in an over-large outer envelope.
+
+If \(\kappa<0\) by a fixed amount, then \(K<1\) and every nonzero Fourier mode is power-negligible by smooth Fourier decay.  This observation concerns the local fixed-shift kernel; it does not, by itself, replace \cref{hyp:pbm} for a minor-arc integral.
+
+\subsection{Bettin--Chandee chamber}
+
+We use the Bettin--Chandee trilinear estimate in the form
+\[
+ \sum_{a,m,n}\nu_a\alpha_m\beta_n
+ e\!\left(\vartheta\frac{a\overline m}{n}\right)
+\]
+with arbitrary coefficients, together with their published bound \cite{BC}.  Map
+\[
+ a\leftrightarrow k\ (K),
+ \qquad
+ m\leftrightarrow r\ (R),
+ \qquad
+ n\leftrightarrow q\ (Q),
+ \qquad
+ \vartheta\leftrightarrow N.
+\]
+Assume the coefficient \(L^2\)-norms have their natural square-root sizes up to \((\log X)^{O(1)}\).
+
+\begin{proposition}[Audited BC local cell guard]\label{prop:bc-guard}
+Let \(m_*:=\max(\alpha,\beta)\) and \(\kappa=\alpha+\beta-1\ge0\).  After restoring the Poisson prefactor \(H/q\), the two Bettin--Chandee terms have exponents
+\begin{align}
+ E_1&=\frac{17}{20}+\frac7{10}\kappa+\frac14m_*,\label{eq:E1}\\
+ E_2&=\frac78+\frac78\kappa+\frac18m_*\label{eq:E2}
+\end{align}
+relative to \(X\).  Hence the local kernel has a power saving over the target scale \(X\) whenever
+\begin{align}
+ 14\kappa+5m_*&<3,\label{eq:BC1}\\
+ 7\kappa+m_*&<1.\label{eq:BC2}
+\end{align}
+Equivalently, the first guard is
+\begin{equation}\label{eq:BC1-alt}
+ 14(\alpha+\beta)+5\max(\alpha,\beta)<17.
+\end{equation}
+Inside the feasible region of \eqref{eq:BC1}, \eqref{eq:BC2} is automatic.  On the diagonal \(\alpha=\beta=t\), the frontier is
+\begin{equation}\label{eq:17-33}
+ t<\frac{17}{33}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The product of the three coefficient norms is
+\[
+ (KRQ)^{1/2}=X^{1/2+\kappa}.
+\]
+Multiplying by the Poisson prefactor \(X^{-\kappa}\) leaves \(X^{1/2}\).  By \eqref{eq:BCconductor}, the Bettin--Chandee conductor factor is \(O(1)\).
+
+For their first term,
+\[
+ (KRQ)^{7/20}(R+Q)^{1/4}
+ \asymp
+ X^{\frac7{20}(1+2\kappa)+m_*/4}.
+\]
+Including the surviving \(X^{1/2}\) gives \eqref{eq:E1}.  The condition \(E_1<1\) is \eqref{eq:BC1}.
+
+For the second term,
+\[
+ (KRQ)^{3/8}(KQ+KR)^{1/8}
+ \asymp
+ X^{\frac38(1+2\kappa)+(\kappa+m_*)/8}.
+\]
+Including \(X^{1/2}\) gives \eqref{eq:E2}, and \(E_2<1\) is \eqref{eq:BC2}.
+
+To see that \eqref{eq:BC2} is automatic in the feasible \eqref{eq:BC1} region, note that \(m_*\ge(1+\kappa)/2\).  Feasibility of \eqref{eq:BC1} therefore forces
+\[
+ 14\kappa+\frac52(1+\kappa)<3,
+\]
+so \(\kappa<1/33\).  Combining this with \(m_*<(3-14\kappa)/5\) yields \(7\kappa+m_*<1\).  Finally, on \(\alpha=\beta=t\), \eqref{eq:BC1-alt} becomes \(33t<17\).
+\end{proof}
+
+\begin{remark}[A genuine BC residual edge]
+The cell \((\alpha,\beta)=(2/3,1/3)\) has \(\kappa=0\) but violates \eqref{eq:BC1}.  Thus the BC backend does not close the natural \(2/3\)-by-\(1/3\) boundary cell.
+\end{remark}
+
+\subsection{Blomer--Pascadi central MRDET geometry}
+
+At a balanced genuine MRDET leaf one may have
+\[
+ A,B,b,f,d,h\asymp X^{1/3}
+\]
+in the sense that each side has three multiplicative scale contributions summing to exponent \(1\).  If the modulus is \(q=Ab\asymp X^{2/3}\) and Poisson is applied in raw variables of length \(X^{1/3}\), then the dual lengths satisfy
+\[
+ K,L\asymp X^{1/3}=q^{1/2}.
+\]
+Blomer--Pascadi's 2026 theorem gives a \(q^{-1/32+o(1)}\) saving for a fixed modulus in this square-root range \cite{BP}.  This is an exact geometric match at the level of the inner bilinear Kloosterman form.
+
+\begin{warning}[Outer-modulus obstruction]
+The local Blomer--Pascadi saving is not automatically preserved after summing absolutely over the structured outer variables \(q\) and \(B\).  The remaining analytic challenge is precisely to exploit their retained M\"obius/GFT/factor-origin structure rather than erase it before applying the fixed-modulus estimate.
+\end{warning}
+
+\subsection{Wright and partially fixed moduli}
+
+Wright's current v2 (revised 7 August 2026) improves trilinear Kloosterman-fraction estimates when the denominator has a fixed factor and derives new unbalanced convolution ranges \cite{Wright}.  This is compatible with leaves in which a factor origin inside the modulus is retained.  We record it as a candidate backend, not as a global solver: a complete application must retain the theorem's precise coefficient-distribution hypotheses and all outer prefactors.
+
+\section{Where almost-all Goldbach loses fixed-\(N\) information}\label{sec:akeno}
+
+Akeno proves that for almost all even \(N\), the Goldbach-prime set has level of distribution \(1/6\) \cite{Akeno}.  The point relevant to the present project is not merely the final exponent but the exact place at which fixed-\(N\) information is averaged away.
+
+In Akeno's Lemma 3.12, the minor-arc quantity is squared and summed over \(X/2<N\le X\); the proof then explicitly invokes Cauchy--Schwarz and Bessel's inequality to bound that \(N\)-average.  Consequently the result is an \(\ell^2_N\) statement from which an exceptional set is removed.  It does not supply a pointwise-in-\(N\) estimate for the individual Fourier coefficient.
+
+\begin{proposition}[Wiener reconstruction does not upgrade \(\ell^2_N\) to \(\ell^\infty_N\)]\label{prop:no-l2-linf}
+Suppose a family of modes \(E_u(N)\) satisfies
+\[
+ \sum_N|E_u(N)|^2\le B(u)^2.
+\]
+If \(E(N)=\int E_u(N)\,d\nu(u)\), then Minkowski gives only
+\[
+ \|E\|_{\ell^2_N}
+ \le\int B(u)\,d|\nu|(u).
+\]
+No pointwise-in-\(N\) conclusion follows without additional structure.
+\end{proposition}
+
+\begin{proof}
+Minkowski's integral inequality gives the displayed \(\ell^2\) bound.  For the failure of an automatic \(\ell^\infty\) upgrade, take all modes to be concentrated on the same single integer \(N_0\).  The \(\ell^2\) information then permits the entire norm to sit at \(N_0\).
+\end{proof}
+
+Thus global \(\SOMK\) is designed as a genuinely pre-Bessel, fixed-\(N\) replacement for the step that is averaged in Akeno's almost-all theorem.
+
+\section{Current obstacle map}\label{sec:status-map}
+
+\begin{center}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.36\textwidth} >{\raggedright\arraybackslash}p{0.16\textwidth} >{\raggedright\arraybackslash}p{0.38\textwidth}}
+\toprule
+\textbf{Object} & \textbf{Status} & \textbf{Audit conclusion}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Object} & \textbf{Status} & \textbf{Audit conclusion}\\
+\midrule
+\endhead
+Radial prime extraction & PROVED & Exact coefficient reconstruction on any fixed circle \(|z|=r\).\\
+Finite scale-count DFT & PROVED & Exact projector for the number of factors above \(X^{1/K}\).\\
+Multi-hit endpoint leaves & CLOSED & \(j\ge2\) vanish exactly after leaf-local \([z]\) extraction.\\
+Zero-hit endpoint & CLOSED & Supported on primes \(\le X^{1/4}\), hence \(o(N)\).\\
+One-hit nonempty cofactor & CLOSED at endpoint & \([z]\,z g_z(d)=0\) for every squarefree \(d>1\).\\
+QRFH structural second hit & PROVED & Genuine factors of the one-hit cofactor give genuine moduli in a type-correct fixed-shift state.\\
+Vaughan raw quotient & PROVED & Type II contains a genuine coefficient-one quotient \(f>1\).\\
+Two-raw Type-II refinement & PROVED & After \(\Lambda=\mu*\log\), the raw legs \(b,f\) are both genuine.\\
+Full-shift TT\(\times\)TT MRDET algebra & PROVED & Exact equation \(Abf+Bdh=N\) in a full fixed-shift correlation.\\
+Minor-arc \(\Rightarrow\) determinant by orthogonality & REJECTED & Minor-arc cutoff leaves a Fourier kernel; full-circle orthogonality cannot be used.\\
+Global pre-Bessel minor-arc \(\Rightarrow\) SOMK interface & OPEN & This is \cref{hyp:pbm}.\\
+BC local chamber & BACKEND PASS & Guard \(14(\alpha+\beta)+5\max(\alpha,\beta)<17\); diagonal frontier \(17/33\).\\
+BP central fixed-modulus kernel & BACKEND PASS locally & Square-root geometry matches; outer structured modulus averaging remains open.\\
+Local/global SOMK saving & OPEN & This is \cref{hyp:local-somk}.\\
+Global \(\SOMK\Rightarrow\) Goldbach & PROVED & \cref{thm:main}.\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\section{Research target after the audit}\label{sec:research-target}
+
+The remaining problem has two sharply separated parts.
+
+\paragraph{Interface problem.}
+Prove \(\PBM\): retain the minor-arc cutoff and the fixed value of \(N\), perform the Vaughan/GFT raw compiler without a global Bessel average, and derive a finite/polylogarithmic family of actual SOMK kernels with controlled errors.
+
+\paragraph{Analytic problem.}
+Prove the local SOMK saving \eqref{eq:local-somk-bound}, exploiting the fact that the outer modulus coefficients are not arbitrary.  At the central MRDET cell the inner dual variables are in the Blomer--Pascadi square-root regime, so the most promising route is to keep the outer factor origins visible while applying the fixed-modulus bilinear theorem inside.  Other cells may be routed to Bettin--Chandee or Wright according to their certified geometry.
+
+If both problems are solved, no additional parity theorem is required by the present reduction: \cref{thm:main} then gives binary Goldbach for all sufficiently large even \(N\).
+
+\appendix
+
+\section{Reusable GFT toolkit}\label{app:toolkit}
+
+This appendix collects exact tools that are safe to reuse.  Some are not needed in the short proof of \cref{thm:main}, but they preserve structure for future SOMK attacks.
+
+\subsection{Tensor factor-scale synthesis and weighted Wiener closure}
+
+Let \(\phi_1,\dots,\phi_d\) be real-valued observables on primes and define
+\[
+ A_j(n):=\sum_{p\mid n}\phi_j(p),
+ \qquad
+ \bm A(n):=(A_1(n),\dots,A_d(n)).
+\]
+For \(u=(\theta,\bm t)\in\T\times\mathbb R^d\), put
+\[
+ G_u(n)
+ :=\mu^2(n)\exp\!\left(i\theta\omega(n)+i\bm t\cdot\bm A(n)\right).
+\]
+For \((m,n)=1\), \(G_u(mn)=G_u(m)G_u(n)\); for arbitrary \(m,n\), the exact identity includes \(\1_{(m,n)=1}\).
+
+Let \(\Psi\in\mathcal S(\mathbb R^d)\) and define
+\[
+ d\nu_{k,\Psi}
+ :=\frac{e^{-ik\theta}}{2\pi}
+ \frac{\widehat\Psi(\bm t)}{(2\pi)^d}\,d\theta\,d\bm t.
+\]
+Then
+\[
+ \int G_u(n)\,d\nu_{k,\Psi}(u)
+ =\mu^2(n)\1_{\{\omega(n)=k\}}\Psi(\bm A(n)).
+\]
+For
+\[
+ W_s(\Psi):=\frac1{(2\pi)^d}\int_{\mathbb R^d}
+ |\widehat\Psi(\bm t)|(1+\|\bm t\|)^s\,d\bm t,
+\]
+any modewise bound
+\[
+ |\mathcal J_{\theta,\bm t}|
+ \le M(1+\|\bm t\|)^s
+\]
+transfers as
+\[
+ \left|\int\mathcal J_u\,d\nu_{k,\Psi}(u)\right|
+ \le M W_s(\Psi).
+\]
+This is an \(L^1\) Fourier/Wiener transference and introduces no additive-frequency Bessel diagonal by itself.
+
+\subsection{Complex charge--dimension transport}
+
+Let \(d_z(n)\) be the coefficients of \(\zeta(s)^z\).  Then
+\[
+ d_{z_1}*d_{z_2}=d_{z_1+z_2},
+ \qquad
+ d_z=1^{*J}*d_{z-J}\quad(J\ge1).
+\]
+This is an exact complex convolution identity.  A formal \(1\)-leg is not a genuine long variable unless the leaf gives it positive length.
+
+\subsection{Squarefree one-raw gauge}
+
+There is a multiplicative \(r_z\) such that
+\[
+ g_z=1*r_z,
+\]
+with
+\[
+ r_z(p)=z-1,
+ \qquad
+ r_z(p^2)=-z,
+ \qquad
+ r_z(p^k)=0\quad(k\ge3).
+\]
+Indeed, the local Euler polynomial is
+\[
+ (1+zx)(1-x)=1+(z-1)x-zx^2.
+\]
+
+\subsection{Friable zeta gauge}
+
+For \(Y\ge2\), define
+\[
+ D_{z,Y}(s):=\prod_{p\le Y}(1-p^{-s})^{-z}
+ =\sum_n\frac{d_z^{(\le Y)}(n)}{n^s}.
+\]
+Then
+\[
+ D_{z,Y}(s)=\zeta(s)H_{z,Y}(s),
+\]
+where
+\[
+ H_{z,Y}(s)
+ =\prod_{p\le Y}(1-p^{-s})^{1-z}
+ \prod_{p>Y}(1-p^{-s}).
+\]
+Consequently
+\[
+ d_z^{(\le Y)}=1*h_{z,Y}.
+\]
+More generally,
+\[
+ d_z^{(\le Y)}=1^{*J}*h^{(J)}_{z,Y}.
+\]
+At first coefficient,
+\[
+ [z]d_z^{(\le Y)}(n)
+ =\begin{cases}
+ 1/\nu,&n=p^\nu,\ p\le Y,\\
+ 0,&\text{otherwise}.
+ \end{cases}
+\]
+This illustrates why leaf-local reconstruction can collapse a seemingly highly composite friable leaf to prime-power support.
+
+\subsection{Logarithmic rawization}
+
+For generalized divisor coefficients,
+\[
+ (\log n)d_z(n)=z(\Lambda*d_z)(n).
+\]
+For the squarefree GFT and squarefree \(n>1\),
+\[
+ g_z(n)\log n
+ =z\sum_{p\mid n}(\log p)g_z(n/p).
+\]
+A smooth partition in \(\log p/\log X\) extracts a genuine prime-scale coordinate without erasing the complex GFT mode on the cofactor.
+
+\subsection{Balanced two-raw finite gauge}
+
+Let
+\[
+ M_U(s):=\sum_{m\le U}\frac{\mu(m)}{m^s},
+ \qquad
+ \mathcal A_U(s):=\zeta(s)M_U(s),
+ \qquad
+ \mathcal R_U(s):=1-\mathcal A_U(s).
+\]
+The coefficients of \(\mathcal R_U\) vanish for \(n\le U\), hence \(\rho_U^{*K}(n)=0\) for \(n\le U^K\).  Since
+\[
+ (1-R)^2\sum_{j=0}^{K-1}(j+1)R^j
+ =1-R^K((K+1)-KR),
+\]
+one obtains coefficientwise for \(n\le U^K\),
+\[
+ 1=\mathcal A_U^2\sum_{j=0}^{K-1}(j+1)\mathcal R_U^j.
+\]
+Thus both generalized-divisor and \(\Lambda\)-type coefficients admit exact finite decompositions with two formal raw legs.  This gauge is useful, but unlike \cref{prop:two-raw-TII}, the formal legs need not both have positive length on every leaf.
+
+\subsection{Radial damping}
+
+On \(|z|=r<1\), a squarefree cofactor with \(q\) unresolved prime factors has weight \(r^q\).  Hence
+\[
+ q\ge C\log\log X
+ \quad\Longrightarrow\quad
+ r^q\le(\log X)^{-C|\log r|}.
+\]
+This is a compiler resource for high-factor-count tails, not a substitute for a low-factor analytic estimate.
+
+\section{Type-safety and audit warnings}\label{app:warnings}
+
+\begin{warning}[Variable origin is part of the type]
+A factor living on the shifted complement is not the same object as a factor generated by a Heath--Brown or Vaughan decomposition of the prime variable, even when their lengths coincide.  Any cast between them requires an algebraic bridge.
+\end{warning}
+
+\begin{warning}[Difference lattices do not automatically save a spectral diagonal]
+A condition \(D\mid(n_1-n_2)\) contains the full diagonal \(n_1=n_2\).  Sparsity of off-diagonal pairs therefore does not by itself produce a \(D^{-1}\) spectral saving.
+\end{warning}
+
+\begin{warning}[Modulus charge is not automatically an automorphic \(L\)-charge]
+An arithmetic weight attached to a modulus/cusp parameter does not automatically become a power of an automorphic \(L\)-function after Kuznetsov.  The corresponding Hecke/local operator must actually be present in the trace formula.
+\end{warning}
+
+\begin{warning}[Completion is not automatically lossless]
+Completing a short inverse-phase variable can enlarge a length \(M\ll q\) to a full Fourier variable modulo \(q\).  A strong fixed-modulus theorem applied after such completion may fail to recover the geometry that was destroyed.
+\end{warning}
+
+\begin{warning}[Formal raw mass is not analytic raw mass]
+An identity such as \(d_z=1^{*J}*d_{z-J}\) inserts formal convolution coordinates.  One may count a coordinate as a genuine raw analytic variable only after the localized leaf gives it positive length.  The genuine raw variables in \cref{prop:raw-quotient,prop:two-raw-TII} are stronger because their nontriviality follows from the exact support constraints \(ef>U\) and \(\log b\ne0\).
+\end{warning}
+
+\begin{warning}[Minor-arc orthogonality]
+The full-circle identity \(\int_\T e(\alpha t)d\alpha=\1_{t=0}\) must never be substituted into an integral over \(\mcal\).  This is the principal correction separating the proved algebraic MRDET compiler from the open \(\PBM\) interface.
+\end{warning}
+
+\section{Comparison with the older PMKF--GFT reduction}\label{app:pmkf}
+
+For reference, the older sufficient hypothesis is
+\[
+ \sup_{|z|=r}|\mathcal J_{z,1}(N)|
+ \ll_A \frac{N}{(\log N)^A},
+\]
+where \(\mathcal J_{z,1}\) is the frozen-mode one-hit minor correlation.  Together with the exact GFT scale split and the standard major arcs, this implies Goldbach for all sufficiently large even \(N\).  That implication remains valid.
+
+The SOMK route is logically different.  It uses the same exact GFT projectors to reach the one-hit leaf, but then reconstructs the leaf at the prime endpoint.  The nonempty one-hit cofactor disappears by \cref{cor:fc-collapse}, and the remaining analytic target is a fixed-\(N\) prime--prime minor correlation.  Thus:
+\[
+ \begin{array}{c}
+ \text{older route: frozen one-hit mode}\ \xrightarrow{\PMKF}\ \text{Goldbach},\\[1mm]
+ \text{new route: reconstruct one-hit endpoint}\ \xrightarrow{\SOMK}\ \text{Goldbach}.
+ \end{array}
+\]
+Neither route is asserted to imply the other.
+
+\section{Dependency graph}\label{app:graph}
+
+The audited dependency graph for the new route is
+\[
+\boxed{
+\begin{array}{c}
+\text{exact GFT prime projector + scale-count DFT}\\
+\Downarrow\\
+\text{leaf-adaptive endpoint collapse}\\
+\Downarrow\\
+\text{prime--prime endpoint minor correlation}\\
+\Downarrow\quad\text{(minor prime-power replacement)}\\
+\Lambda\times\Lambda\text{ endpoint minor correlation}\\
+\Downarrow\quad\text{(exact Vaughan/raw-quotient identities)}\\
+\text{structured raw leaf family}\\
+\Downarrow\quad\boxed{\PBM\ \text{(OPEN interface)}}\\
+\text{finite/polylog family of SOMK kernels}\\
+\Downarrow\quad\boxed{\text{local SOMK saving (OPEN)}}\\
+\text{endpoint minor arcs}=o(N)\\
+\Downarrow\quad\text{(standard major arcs)}\\
+R_{\Lambda\vartheta}(N)=\SG(N)\Jw N+o(N)\\
+\Downarrow\quad\text{(prime-power replacement)}\\
+R_{\vartheta\vartheta}(N)>0\\
+\Downarrow\\
+\textbf{binary Goldbach for all sufficiently large even }N.
+\end{array}}
+\]
+Every arrow outside the two boxed OPEN inputs is proved in this manuscript or is a standard cited major-arc theorem.
+
+\begin{thebibliography}{99}
+
+\bibitem{Akeno}
+M.~Akeno,
+\emph{On the level of distribution of Goldbach primes and its applications},
+arXiv:2606.29559, v1, 28 June 2026.
+
+\bibitem{ABL}
+E.~Assing, V.~Blomer and J.~Li,
+\emph{Uniform Titchmarsh divisor problems},
+Adv. Math. \textbf{393} (2021), Paper No. 108076;
+arXiv:2005.13915.
+
+\bibitem{BC}
+S.~Bettin and V.~Chandee,
+\emph{Trilinear forms with Kloosterman fractions},
+Adv. Math. \textbf{328} (2018), 1234--1262;
+arXiv:1502.00769.
+
+\bibitem{BP}
+V.~Blomer and A.~Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311, 27 July 2026.
+
+\bibitem{Chen}
+J.-R.~Chen,
+\emph{On the representation of a large even integer as the sum of a prime and the product of at most two primes},
+Sci. Sinica \textbf{16} (1973), 157--176.
+
+\bibitem{DT}
+S.~Drappeau and B.~Topacogullari,
+\emph{Combinatorial identities and Titchmarsh's divisor problem for multiplicative functions},
+Algebra Number Theory \textbf{13} (2019), 2383--2425;
+arXiv:1807.09569.
+
+\bibitem{Pascadi}
+A.~Pascadi,
+\emph{On the exponents of distribution of primes and smooth numbers},
+arXiv:2505.00653, 2025.
+
+\bibitem{Vaughan}
+R.~C.~Vaughan,
+\emph{Sommes trigonom\'etriques sur les nombres premiers},
+C. R. Acad. Sci. Paris S\'er. A-B \textbf{285} (1977), A981--A983.
+
+\bibitem{Wright}
+T.~Wright,
+\emph{Trilinear Kloosterman fractions I: partially fixed moduli and unbalanced convolutions},
+arXiv:2604.25177, v2, 7 August 2026.
+
+\end{thebibliography}
+
+\end{document}
