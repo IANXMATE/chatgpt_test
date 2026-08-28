@@ -1,0 +1,1289 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{xcolor,booktabs,longtable,array,enumitem,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black,citecolor=blue!55!black}
+\setlist{nosep}
+\setlength{\emergencystretch}{3em}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{proposition}[theorem]{命题}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{适用范围}
+\newtheorem{warning}[theorem]{警告}
+
+\newcommand{\F}{\mathbb F}
+\newcommand{\C}{\mathbb C}
+\newcommand{\T}{\mathbb T}
+\newcommand{\G}{\F_p^\times}
+\newcommand{\Gh}{\widehat{\G}}
+\newcommand{\ee}{\mathrm e}
+\newcommand{\ep}{e_p}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Kl}{\operatorname{Kl}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Res}{\operatorname*{Res}}
+
+\title{GFT 可复用工具箱与优美恒等式\\
+\large 有限域、有限群与算子层的严格版本及适用范围}
+\author{从八份研究日志中筛选并重新证明}
+\date{2026年8月28日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本文只保留能够在给定定义下完整证明的 GFT 性质，不保留任何依赖未证
+Goldbach 接口的“候选定理”。核心包括：有限 hit-count 的精确 DFT projector；
+unitary Mellin 的方向审计；sum--product joint-charge transform 的 exact Gram；
+reciprocal fibre 与 projective map；Cayley 变量把有理 complete sum精确化为
+Kloosterman sum；Gauss--Jacobi coboundary 与循环 telescoping；Gauss-square
+序列的 multiplicative Fourier/Kloosterman 对偶；centered Parseval；
+fibrewise dilation 的酉性与 Schatten ideal property；以及“一般 entry shear
+不保持 Schatten 范数”的反例。修订版还补入 smooth HWAC 的逐 Fourier-mode
+Cauchy residue 与 High-Conductor ZOT 的完整 Euler-product/rational-sampling
+证明，并明确删除 sharp-cutoff 与整体全纯闭合的错误版本。本文进一步补入
+gcd-carried FSAC、origin-labelled tensor reconstruction、interval autocorrelation、
+cross-prime character incidence、BP trace 的 sum--product pushforward 与 divisor
+rigidity。每条定理都标明 characteristic、非主角色、非零分母、measure、
+normalization 与外部输入。
+\end{abstract}
+
+\section{统一约定}
+
+除非另有说明，$p$ 为奇素数，$\F_p$ 为 $p$ 元域，
+$\G=\F_p^\times$，$Q=|\G|=p-1$，$\Gh$ 为所有乘法角色。
+取非平凡加法角色
+\[
+\ep(x)=\exp(2\pi i x/p).
+\]
+所有有限集合上的 $\ell^2$ 默认使用 counting measure。
+
+加法 unitary Fourier 变换定义为
+\[
+\widehat f(h)=p^{-1/2}\sum_{x\in\F_p}f(x)\ep(-hx),
+\tag{1.1}
+\]
+乘法 unitary Mellin 变换定义为
+\[
+(\mathcal M f)(\chi)=Q^{-1/2}\sum_{x\in\G}f(x)\overline{\chi(x)}.
+\tag{1.2}
+\]
+其逆为
+\[
+f(x)=Q^{-1/2}\sum_{\chi\in\Gh}(\mathcal Mf)(\chi)\chi(x).
+\tag{1.3}
+\]
+
+基础正交关系为
+\begin{align}
+\sum_{h\in\F_p}\ep(hx)&=p\,\1_{x=0},                 \tag{1.4}\\
+\sum_{\chi\in\Gh}\chi(x)&=Q\,\1_{x=1}\qquad(x\in\G). \tag{1.5}
+\end{align}
+
+\section*{全局附录 A：HWAC 可严格使用的留数位移变换}
+\addcontentsline{toc}{section}{全局附录 A：HWAC 可严格使用的留数位移变换}
+
+本节不需要有限域。令 $\T=\mathbb R/\mathbb Z$，仍写
+$e(t)=e^{2\pi it}$。设 $\mathfrak M^-\subset\mathfrak M^+\subset\T$，
+$\mathfrak M^-$ 至多为 $J$ 个区间之并，且二者边界间距至少 $3\eta$。
+
+\begin{theorem}[smooth Hardy--Wiener Arc Closure]
+存在 $C^\infty$ partition
+\(
+\chi_{\mathfrak M}+\psi_{\mathfrak m}=1
+\)，其中 $\chi=1$ 于 $\mathfrak M^-$、
+$\supp\chi\subset\mathfrak M^+$，并且
+\[
+\psi_{\mathfrak m}(\alpha)=\sum_{r\in\mathbb Z}\omega_re(r\alpha),
+\qquad
+\sum_r|\omega_r|\ll1+J\left(1+\log\frac2\eta\right).   \tag{A.1}
+\]
+若 $F(\alpha)=\sum_xa_xe(x\alpha)$、
+$G(\alpha)=\sum_yb_ye(y\alpha)$ 为有限指数和，则
+\[
+\boxed{
+\int_\T\psi_{\mathfrak m}(\alpha)F(\alpha)G(\alpha)e(-N\alpha)d\alpha
+=\sum_r\omega_r\sum_{x+y=N-r}a_xb_y.}                 \tag{A.2}
+\]
+而且每个 shifted coefficient 都有严格 residue 表示
+\[
+\sum_{x+y=N-r}a_xb_y
+=\Res_{w=0}\frac{F(w)G(w)}{w^{N-r+1}}.                 \tag{A.3}
+\]
+\end{theorem}
+
+\begin{proof}
+取 $\rho\ge0$、$\rho\in C_c^\infty((-1,1))$、$\int\rho=1$。把
+$\mathfrak M^-$ 扩张 $\eta$ 为 $E$，令
+$\chi=\1_E*\rho_\eta$、$\psi=1-\chi$。间距假设给所需 support 性质。
+对 $r\ne0$，一个区间的 Fourier coefficient 绝对值至多
+$1/(\pi|r|)$；而两次分部积分给
+$|\widehat\rho(\eta r)|\ll(1+\eta|r|)^{-2}$。故
+\[
+\sum_{r\ne0}|\widehat\chi(r)|
+\ll J\sum_{r\ge1}\frac1r(1+\eta r)^{-2}
+\ll J\left(1+\log\frac2\eta\right),
+\]
+证明 (A.1) 与 Fourier 级数的一致绝对收敛。于是可交换有限的 $x,y$-和、
+绝对可和的 $r$-和与积分；$\int_\T e(k\alpha)d\alpha=\1_{k=0}$ 立即给
+(A.2)。最后 (A.3) 是 Cauchy coefficient formula，且 residue 与 $r$-和的
+交换仍由 (A.1) 保证。
+\end{proof}
+
+\begin{warning}[适用范围]
+留数是对 (A.2) 的\emph{每个 Fourier mode} 作 coefficient extraction。
+一般 $C^\infty$ cutoff 不必在圆环中全纯；所以把整个正/负频率部分分别
+向内/向外闭合不是本定理。sharp interval indicator 的系数为 $O(1/|r|)$，
+Wiener $\ell^1$ 发散，故 sharp-HWAC 版本不能调用。
+\end{warning}
+
+\section*{全局附录 B：ZOT 把 zero orbit 转移到奇异级数尾部}
+\addcontentsline{toc}{section}{全局附录 B：ZOT 把 zero orbit 转移到奇异级数尾部}
+
+固定 $W_1,W_2\in C_c^\infty((0,1))$，定义
+\[
+\mathfrak J_W(\lambda)=\int W_1(t)W_2(\lambda-t)dt,
+\quad
+\mathfrak S(M)=\sum_{q\ge1}\frac{\mu(q)^2}{\varphi(q)^2}c_q(-M). \tag{B.1}
+\]
+使用 $\Lambda=\mu*\log$ 后，对 $du+ev=M$ 的解参数作一维 Poisson。
+zero frequency 的格点密度为 $(d,e)/(de)$，故其算术核是
+\[
+D_M(X,Y)=\sum_{\substack{d,e\ge1\\(d,e)\mid M}}
+\mu(d)\mu(e)\frac{(d,e)}{de}
+\log_+(X/d)\log_+(Y/e).                                \tag{B.2}
+\]
+
+\begin{theorem}[Möbius zero-orbit resummation]
+若 $M,X,Y\asymp N$，则对任意 $A>0$，
+\[
+\boxed{D_M(X,Y)=\mathfrak S(M)+O_A((\log N)^{-A}).}     \tag{B.3}
+\]
+从而完整 Poisson zero orbit 为
+\[
+\boxed{Z_0(M)=N\mathfrak S(M)\mathfrak J_W(M/N)
++O_A(N(\log N)^{-A}).}                                 \tag{B.4}
+\]
+\end{theorem}
+
+\begin{proof}
+Perron 公式 $\log_+x=(2\pi i)^{-1}\int_{(c)}x^sds/s^2$ 给
+\[
+D_M(X,Y)=\frac1{(2\pi i)^2}\iint
+\mathcal A_M(s,t)X^sY^t\frac{ds\,dt}{s^2t^2},          \tag{B.5}
+\]
+其中
+\[
+\mathcal A_M(s,t)=\sum_{\substack{d,e\ge1\\(d,e)\mid M}}
+\mu(d)\mu(e)\frac{(d,e)}{d^{1+s}e^{1+t}}.              \tag{B.6}
+\]
+对 $p\nmid M$，Möbius local states 给
+$1-p^{-1-s}-p^{-1-t}$；对 $p\mid M$，双重状态被允许并给
+$1-p^{-1-s}-p^{-1-t}+p^{-1-s-t}$。因此
+\[
+\mathcal A_M(s,t)=\frac{\mathcal H_M(s,t)}
+{\zeta(1+s)\zeta(1+t)},                                \tag{B.7}
+\]
+\begin{align*}
+\mathcal H_M(s,t)
+={}&\prod_{p\nmid M}\frac{1-p^{-1-s}-p^{-1-t}}
+{(1-p^{-1-s})(1-p^{-1-t})}\\
+&\times\prod_{p\mid M}
+\frac{1-p^{-1-s}-p^{-1-t}+p^{-1-s-t}}
+{(1-p^{-1-s})(1-p^{-1-t})}.                            \tag{B.8}
+\end{align*}
+第一乘积局部为 $1+O(p^{-2+o(1)})$，故在原点邻域解析。若 $M$ 偶，
+$p=2$ 给 $2$；$p>2,p\nmid M$ 给 $1-(p-1)^{-2}$；$p\mid M$ 相对基线
+给 $(p-1)/(p-2)$。若 $M$ 奇，$p=2$ 因子为 $0$。所以恰有
+\[
+\mathcal H_M(0,0)=\mathfrak S(M).                      \tag{B.9}
+\]
+取 $T=e^{\sqrt{\log N}}$，把 (B.5) 截断在 $|\Im s|,|\Im t|\le T$，
+并从 $1/\log N$ 移到 $-\kappa/\log T$。经典 zeta 零点自由区保证矩形内
+无 zeta 零点，$1/\zeta(1+s)\ll\log^{O(1)}T$，而
+$\mathcal H_M\ll\log^{O(1)}N$。由
+$1/\zeta(1+s)=s+O(s^2)$，穿过的双 residue 是 (B.9)。新直线贡献
+$\ll\log^{O(1)}N e^{-c\sqrt{\log N}}$；水平边和原直线尾部为
+$\ll T^{-1}\log^{O(1)}N$。这证明 (B.3)。在 zero-frequency integral 中，
+$X=x,Y=M-x\asymp N$；代入 (B.3) 并令 $x=Nt$ 即得 (B.4)。
+\end{proof}
+
+现在取 $P=(\log N)^B$，major core/envelope 的宽度分别为
+$R/(qN)$、$2R/(qN)$，其中 $R=P(\log N)^C$；令
+$\psi_{\mathfrak m}=\sum_r\omega_re(r\alpha)$ 为对应 HWAC cutoff。
+
+\begin{lemma}[rational sampling]
+对 $J\in C_c^\infty(\mathbb R)$，置
+\[
+T_m=\sum_r\omega_rJ(1-r/N)c_m(-(N-r)).                 \tag{B.10}
+\]
+任意 $L>0$ 下，
+\[
+T_m\ll\varphi(m)(1+R/m)^{-L}\quad(m\le P),             \tag{B.11}
+\]
+而当 $P<m\le N/(4R)$ 时，
+\[
+T_m=J(1)c_m(-N)
++O(\varphi(m)(1+R/P)^{-L}).                            \tag{B.12}
+\]
+\end{lemma}
+
+\begin{proof}
+展开 $c_m$。Fourier inversion 给
+\[
+\sum_r\omega_rJ(1-r/N)e(ar/m)
+=\int\widehat J(t)e(t)\psi_{\mathfrak m}(a/m-t/N)dt.  \tag{B.13}
+\]
+若 $m\le P$，$a/m$ 在 major core，离 $\psi$ 的 support 至少
+$\gg R/(mN)$；利用 $\widehat J$ 的任意次幂衰减得到 (B.11)。若
+$P<m\le N/(4R)$，任何 reduced $b/q,q\le P$ 都满足
+$|a/m-b/q|\ge1/(mq)\ge4R/(qN)$，所以 $a/m$ 在 minor plateau 且到
+envelope 距离 $\gg R/(PN)$。在 (B.13) 中以 $1$ 替换 $\psi$；主项为
+$J(1)$，尾积分给 (B.12)。
+\end{proof}
+
+\begin{theorem}[High-Conductor ZOT]
+令
+\[
+\mathfrak S_P(N)=\sum_{m\le P}\frac{\mu(m)^2}{\varphi(m)^2}c_m(-N).
+\]
+则 minor zero orbit 满足
+\[
+\boxed{Z_{\mathfrak m}^{(0)}(N)
+=N\mathfrak J_W(1)(\mathfrak S(N)-\mathfrak S_P(N))
++O_A(N(\log N)^{-A}).}                                 \tag{B.14}
+\]
+\end{theorem}
+
+\begin{proof}
+由 (A.2)、(B.4)，左侧除 $O_A(N\log^{-A}N)$ 外等于
+$N\sum_r\omega_r\mathfrak S(N-r)\mathfrak J_W(1-r/N)$。
+在 (B.1) 的 $m$-和中分成 $m\le P$、$P<m\le Y=N/(4R)$、$m>Y$。
+严格地说，先截断在 $m\le Q$；下述界对 $Q$ 一致，再用 (B.15)
+令 $Q\to\infty$，所以没有交换条件收敛级数的问题。
+前两段分别用 (B.11)、(B.12)。误差求和只需
+$\sum_{m\le X}\mu(m)^2/\varphi(m)\ll\log X$；它由
+$n/\varphi(n)=\sum_{d\mid n}\mu(d)^2/\varphi(d)$ 直接得到。
+最后一段调用 Montgomery--Vaughan 点态界
+\[
+|\widetilde{\mathfrak S}_Y(k)|
+\ll d(k)(\log\log3Y)^2/Y.                              \tag{B.15}
+\]
+在 Archimedean support 上 $k=N-r\asymp N$；结合
+$d(k)=N^{o(1)}$、$Y=N/\log^{O(1)}N$ 与 (A.1)，该段为
+$O_A(\log^{-A}N)$。于是中段可延伸到 $m=\infty$，得到 (B.14)。
+\end{proof}
+
+\begin{remark}
+ZOT 的结论不是 zero orbit 很小，而是它精确承载 truncated major arcs 缺少的
+high-conductor singular-series tail。若主弧外部输入为
+$N\mathfrak J_W(1)\mathfrak S_P(N)+O_A(N\log^{-A}N)$，两者相加才得到
+$N\mathfrak J_W(1)\mathfrak S(N)+o(N)$。
+\end{remark}
+
+\section{有限 hit-count 的精确 DFT projector}
+
+\begin{theorem}[有限计数选择器]
+设 $K\ge1$，$r,j\in\{0,1,\ldots,K-1\}$。则
+\[
+\boxed{
+\1_{r=j}=\frac1K\sum_{\ell=0}^{K-1}
+\exp\!\left(\frac{2\pi i\ell(r-j)}K\right).}
+\tag{2.1}
+\]
+\end{theorem}
+
+\begin{proof}
+若 $r=j$，每项为 $1$。若 $r\ne j$，右侧是公比不为 $1$ 而 $K$ 次方为
+$1$ 的几何级数，故和为 $0$。
+\end{proof}
+
+\begin{remark}
+若一个算术计数 $R(n)$ 已先验满足 $0\le R(n)<K$，则 (2.1) 精确选择
+$R(n)=j$。若只知道 $R(n)$ 是整数而无此范围，右侧选择的是
+$R(n)\equiv j\pmod K$；这两个陈述不能混用。
+\end{remark}
+
+\section{Mellin 方向与 reciprocal fibre}
+
+\begin{lemma}[unitary Mellin 的逆向]
+若
+\[
+W(y)=Q^{-1/2}\sum_{D\in\Gh}\overline{D(y)}\widetilde W(D),
+\]
+则
+\[
+\boxed{\widetilde W(D)=Q^{-1/2}\sum_{y\in\G}D(y)W(y).}
+\tag{3.1}
+\]
+\end{lemma}
+
+\begin{proof}
+代入右侧并交换求和，内层
+$Q^{-1}\sum_y D(y)\overline{D'(y)}=\1_{D=D'}$。
+\end{proof}
+
+\begin{theorem}[Mellin--Jacobi reciprocal support]
+取 $z,z',y,y'\in\G$ 且 $z\ne z'$，令
+\[
+r=z/z',\qquad a=(r-1)/r,\qquad b=1-r.
+\]
+若 $x\in\F_p\setminus\{0,1\}$ 满足
+\[
+yax=1,\qquad y'b(1-x)=1,
+\tag{3.2}
+\]
+则
+\[
+\boxed{z(y^{-1}-1)=z'(y'^{-1}-1).}
+\tag{3.3}
+\]
+\end{theorem}
+
+\begin{proof}
+因 $a=(z-z')/z$、$b=(z'-z)/z'$，由 (3.2)
+\[
+x=\frac{z}{y(z-z')},\qquad
+1-x=-\frac{z'}{y'(z-z')}.
+\]
+相加得到 $z/y-z'/y'=z-z'$，整理即 (3.3)。
+\end{proof}
+
+\begin{corollary}[projective charge map]
+令 $q=z(y^{-1}-1)$、$w=yz$。则 $z+q\ne0$，且
+\[
+\boxed{y=\frac{z}{z+q},\qquad
+w=\frac{z^2}{z+q}.}
+\tag{3.4}
+\]
+反过来，对 $z\in\G$、$q\ne-z$，(3.4) 唯一确定 $y,w\in\G$。
+\end{corollary}
+
+\begin{proof}
+$z+q=z/y\ne0$，其余为直接代数运算。反向代入可验证。
+\end{proof}
+
+\begin{remark}
+这一定理说明，在 (3.1) 的 convention 下，后续几何是
+$z\mapsto z^2/(z+q)$，不是 affine translation $z\mapsto z+q$。
+若改用相反 Mellin convention，coefficient formula 也必须同步改写。
+\end{remark}
+
+\section{sum--product joint-charge transform}
+
+令 $\mathscr H=\ell^2(\G\times\G)$。定义 swap 与 diagonal projection：
+\[
+(\mathsf SF)(x,z)=F(z,x),\qquad
+(\mathsf DF)(x,z)=\1_{x=z}F(x,z).
+\tag{4.1}
+\]
+先定义 exact sum--product charge transform
+\[
+(\mathcal AF)(R,P)
+=\sum_{\substack{x,z\in\G\\x+z=R,\ xz=P}}F(x,z),
+\quad R\in\F_p,\ P\in\G,
+\tag{4.2}
+\]
+再定义它在 $P$ 坐标上的 unitary character transform
+\[
+(\mathcal JF)(R,\eta)
+=Q^{-1/2}\sum_{\substack{x,z\in\G\\x+z=R}}
+F(x,z)\eta(xz),
+\quad R\in\F_p,\ \eta\in\Gh.
+\tag{4.3}
+\]
+于是
+\(
+\mathcal JF(R,\eta)=Q^{-1/2}\sum_{P\in\G}(\mathcal AF)(R,P)\eta(P)
+\)；这里使用的是与 (1.2) 相差角色反演 $\eta\mapsto\eta^{-1}$ 的
+unitary convention。
+
+\begin{theorem}[exact sum--product Gram]
+在 counting measure 下，
+\[
+\boxed{\mathcal A^*\mathcal A
+=\mathcal J^*\mathcal J=I+\mathsf S-\mathsf D.}
+\tag{4.4}
+\]
+特别地
+\[
+\boxed{\|\mathcal A\|_{2\to2}
+=\|\mathcal J\|_{2\to2}\le\sqrt2.}
+\tag{4.5}
+\]
+\end{theorem}
+
+\begin{proof}
+对 $F,G\in\mathscr H$，展开内积：
+\[
+\langle\mathcal JF,\mathcal JG\rangle
+=\frac1Q\sum_{R,\eta}
+\sum_{\substack{x+z=R\\x'+z'=R}}
+F(x,z)\overline{G(x',z')}
+\eta\!\left(\frac{xz}{x'z'}\right).
+\]
+由 (1.5)，角色和恰好强迫 $xz=x'z'$。这也正是直接展开
+$\langle\mathcal AF,\mathcal AG\rangle$ 所得的条件。同时有
+$x+z=x'+z'$，故 $(x,z)$ 与 $(x',z')$ 是同一首一二次多项式
+$T^2-RT+xz$ 的有序根；于是 $(x',z')=(x,z)$ 或 $(z,x)$。
+当 $x=z$ 时两种选择重合，须减去一次 diagonal，得到 (4.4)。
+由于 $\mathsf S$ 是酉自伴 involution、$\mathsf D$ 是正交投影，
+$I+\mathsf S-\mathsf D\le2I$，故 (4.5)。
+\end{proof}
+
+\begin{corollary}[对称/反对称分解]
+在对称子空间 $\mathscr H_+=\{F:\mathsf SF=F\}$ 上，
+\[
+I\le\mathcal J^*\mathcal J=2I-\mathsf D\le2I.
+\tag{4.6}
+\]
+在反对称子空间上 $\mathcal J=0$。
+\end{corollary}
+
+\begin{proof}
+对称情形代入 (4.4)。反对称函数在 $x=z$ 上为零，且同一无序根对的两项相消。
+\end{proof}
+
+\begin{remark}
+此结论只给 $L^2$/Bessel assembly 与有界 fibre；它本身不产生
+Schatten-$4$ 或 Schatten-$8$ 的 power saving。
+\end{remark}
+
+\section{projective Cayley 曲线就是 joint-charge 对角}
+
+\begin{theorem}[Vi\`ete 对角字典]
+映射
+\[
+r\in\F_p\setminus\{0,1\}
+\longmapsto
+(x,z)=\left(r^{-1},(1-r)^{-1}\right)
+\tag{5.1}
+\]
+是到集合
+\[
+\Delta=\{(x,z)\in\G\times\G:x+z=xz\}
+\]
+的双射。并且交换 $(x,z)$ 对应 $r\mapsto1-r$。
+\end{theorem}
+
+\begin{proof}
+直接计算
+\[
+x+z=\frac{1}{r}+\frac1{1-r}
+=\frac1{r(1-r)}=xz.
+\]
+反之若 $x+z=xz$，令 $r=x^{-1}$，则
+$1-r=1-x^{-1}=(x-1)/x=z^{-1}$，其中最后一步由
+$z(x-1)=x$ 得到。故逆映射唯一。交换两坐标显然把 $r$ 变为 $1-r$。
+\end{proof}
+
+\begin{corollary}
+在 $\mathcal A$ 的 exact-charge target
+$\ell^2(\F_p\times\G)$ 上，限制 $R=P$ 是乘子
+$\1_{R=P}$，因而是范数 $1$ 的正交投影。不能在
+$\mathcal J$ 的角色坐标 $(R,\eta)$ 中直接写 $R=\eta$；若从
+$\mathcal J$ 出发，必须先对 $\eta$ 作 unitary inverse Mellin。
+\end{corollary}
+
+\section{Cayley 变换与精确 Kloosterman 化}
+
+定义经典 complete Kloosterman sum
+\[
+S(A,C;p)=\sum_{t\in\G}\ep(A/t+Ct).
+\tag{6.1}
+\]
+
+\begin{theorem}[projective complete sum的 Kloosterman identity]
+对任意 $A,C\in\F_p$，
+\[
+\boxed{
+\sum_{r\in\F_p\setminus\{0,1\}}
+\ep\!\left(\frac A r+\frac C{1-r}\right)
+=\ep(A+C)S(A,C;p)-1.}
+\tag{6.2}
+\]
+\end{theorem}
+
+\begin{proof}
+置 $t=r/(1-r)$。这是
+$\F_p\setminus\{0,1\}$ 到 $\F_p\setminus\{0,-1\}$ 的双射，逆为
+$r=t/(1+t)$。并且
+\[
+\frac1r=1+\frac1t,\qquad \frac1{1-r}=1+t.
+\]
+故左侧为
+\[
+\ep(A+C)\sum_{t\in\G\setminus\{-1\}}\ep(A/t+Ct).
+\]
+补上 $t=-1$ 的项，其相位为 $\ep(-A-C)$；乘回外因子后恰为 $1$，得到 (6.2)。
+\end{proof}
+
+\begin{corollary}[generic/degenerate 三分]
+\[
+\left|\sum_{r\ne0,1}\ep(A/r+C/(1-r))\right|
+\le
+\begin{cases}
+2\sqrt p+1,&AC\ne0,\\
+2,&\text{恰有一个 of }A,C\text{ 为 }0,\\
+p-2,&A=C=0.
+\end{cases}
+\tag{6.3}
+\]
+\end{corollary}
+
+\begin{proof}
+$AC\ne0$ 时用 Weil 的 Kloosterman bound
+$|S(A,C;p)|\le2\sqrt p$。若恰有一个为零，非平凡 additive character
+在 $\G$ 上的和为 $-1$。若二者都为零，原和有 $p-2$ 项。
+\end{proof}
+
+\begin{remark}
+(6.2) 是 exact identity；但把单个 entry 的 (6.3) 放入 Schatten trace 时，
+仍需同一 tensor measure 上的 Plancherel/orthogonality。entrywise Weil
+不能自动升级为 operator saving。
+\end{remark}
+
+\section{Gauss--Jacobi coboundary 与循环 telescoping}
+
+对 $\chi\in\Gh$ 定义 Gauss sum
+\[
+\tau(\chi)=\sum_{x\in\G}\chi(x)\ep(x),
+\tag{7.1}
+\]
+对乘法角色 $\alpha,\beta$ 定义 Jacobi sum
+\[
+J(\alpha,\beta)=\sum_{x\in\F_p}\alpha(x)\beta(1-x),
+\tag{7.2}
+\]
+并按通常约定把角色在 $0$ 延拓为 $0$。
+
+\begin{theorem}[normalized Jacobi 是 Gauss phase 的二余边界]
+若 $\alpha,\beta,\alpha\beta$ 均非主角色，令
+\[
+\rho(\chi)=\frac{\tau(\chi)}{\sqrt p},
+\qquad
+\jmath(\alpha,\beta)=\frac{J(\alpha,\beta)}{\sqrt p}.
+\]
+则 $|\rho(\chi)|=1$，并且
+\[
+\boxed{
+\jmath(\alpha,\beta)
+=\rho(\alpha)\rho(\beta)\overline{\rho(\alpha\beta)}.}
+\tag{7.3}
+\]
+\end{theorem}
+
+\begin{proof}
+经典 Gauss--Jacobi 恒等式给
+\[
+J(\alpha,\beta)=\frac{\tau(\alpha)\tau(\beta)}{\tau(\alpha\beta)}.
+\]
+非主角色满足 $|\tau(\chi)|=\sqrt p$，故
+$1/\rho(\chi)=\overline{\rho(\chi)}$。除以 $\sqrt p$ 即得 (7.3)。
+\end{proof}
+
+\begin{corollary}[cocycle identity]
+若下式涉及的每个角色均落在定理的非主适用域，则
+\[
+\boxed{
+\jmath(\alpha,\beta)\jmath(\alpha\beta,\gamma)
+=\jmath(\beta,\gamma)\jmath(\alpha,\beta\gamma).}
+\tag{7.4}
+\]
+\end{corollary}
+
+\begin{proof}
+将 (7.3) 代入两边；所有中间 $\rho$ 因子望远镜相消。
+\end{proof}
+
+\begin{corollary}[闭环 Jacobi phase telescoping]
+设 $\chi_1,\ldots,\chi_n\in\Gh$，令 $\chi_{n+1}=\chi_1$，并假设每个
+$\chi_j$ 与 $\chi_j^{-1}\chi_{j+1}$ 及其乘积均非主。则
+\[
+\prod_{j=1}^n
+\jmath(\chi_j,\chi_j^{-1}\chi_{j+1})
+=\prod_{j=1}^n\rho(\chi_j^{-1}\chi_{j+1}).
+\tag{7.5}
+\]
+特别地，所有依赖中间顶点 $\rho(\chi_j)$ 的 phase 精确相消。
+\end{corollary}
+
+\begin{proof}
+由 (7.3)，第 $j$ 项为
+$\rho(\chi_j)\rho(\chi_j^{-1}\chi_{j+1})
+\overline{\rho(\chi_{j+1})}$。沿闭环相乘即可。
+\end{proof}
+
+\begin{remark}
+若某个角色或乘积为主角色，$|\tau(1)|=1$ 而非 $\sqrt p$，(7.3) 的单位相位
+版本失效。主角色、$t=1$、zero orbit 必须单独拆出；不能用 $p^{o(1)}$ 吞掉。
+\end{remark}
+
+\section{Gauss-square 的 multiplicative Fourier 对偶}
+
+令
+\[
+\sigma(\chi)=\frac{\tau(\chi)^2}{p}
+\quad(\chi\in\Gh),
+\tag{8.1}
+\]
+这里包括主角色，且 $\tau(1)=-1$。
+
+\begin{theorem}[Gauss-square $\leftrightarrow$ Kloosterman]
+对每个 $t\in\G$，
+\[
+\boxed{
+\sum_{\chi\in\Gh}\sigma(\chi)\chi(t)
+=\frac Qp S(1,t^{-1};p).}
+\tag{8.2}
+\]
+若 $\Kl_p(a)=p^{-1/2}S(1,a;p)$，则右侧为
+\((Q/\sqrt p)\Kl_p(t^{-1})\)。
+\end{theorem}
+
+\begin{proof}
+展开并交换求和：
+\begin{align*}
+\sum_\chi\tau(\chi)^2\chi(t)
+&=\sum_{x,y\in\G}\ep(x+y)
+\sum_\chi\chi(xyt)\\
+&=Q\sum_{x\in\G}\ep\!\left(x+\frac1{xt}\right)
+=Q S(1,t^{-1};p).
+\end{align*}
+除以 $p$ 即得结论。
+\end{proof}
+
+\begin{remark}
+这是全角色族的 exact Fourier identity，不是对单个 $\chi$ 的点态估计。
+其价值在于把一个高阶 Gauss phase family降回标准 rank-$2$ Kloosterman geometry；
+但任何后续高矩估计仍需核对其 coefficient 与 support。
+\end{remark}
+
+\section{centered Parseval：主模应该精确删除}
+
+\begin{theorem}[unitary centered Parseval]
+对 $f:\F_p\to\C$ 及 (1.1) 的 Fourier convention，
+\[
+\boxed{
+\sum_{h\ne0}|\widehat f(h)|^2
+=\sum_{x\in\F_p}|f(x)|^2
+-\frac1p\left|\sum_{x\in\F_p}f(x)\right|^2.}
+\tag{9.1}
+\]
+\end{theorem}
+
+\begin{proof}
+Parseval 给 $\sum_h|\widehat f(h)|^2=\sum_x|f(x)|^2$，且
+$\widehat f(0)=p^{-1/2}\sum_xf(x)$。减去 $h=0$ 项即得。
+\end{proof}
+
+\begin{corollary}[非单位化版本]
+若 $\widehat f_{\rm raw}(h)=\sum_xf(x)\ep(-hx)$，则
+\[
+\boxed{
+\sum_{h\ne0}|\widehat f_{\rm raw}(h)|^2
+=p\sum_x|f(x)|^2-\left|\sum_xf(x)\right|^2.}
+\tag{9.2}
+\]
+\end{corollary}
+
+\begin{remark}
+日志中多次出现的
+$p\sum|Q|^2-|\sum Q|^2$ 正是 (9.2)，不是“额外得到一次 $p$ saving”。
+它是删除 principal additive mode 的 exact identity；若 Fourier convention 改为
+unitary，两个 $p$ 因子必须同步改变。
+\end{remark}
+
+\section{fibrewise dilation 与 Schatten transport}
+
+令
+\[
+\mathscr K=\bigoplus_{R\in\G}\ell^2(\F_p).
+\]
+
+\begin{theorem}[charge-dependent additive dilation是酉的]
+定义
+\[
+(\mathcal U f)(R,A)=f(R,A/R).
+\tag{10.1}
+\]
+则 $\mathcal U$ 是 $\mathscr K$ 上的酉算子，逆为
+\((\mathcal U^{-1}f)(R,A)=f(R,AR)\)。
+\end{theorem}
+
+\begin{proof}
+固定 $R\in\G$ 时，$A\mapsto A/R$ 是 $\F_p$ 的置换，故保持该 fibre 的
+$\ell^2$ 内积。对 $R$ 作正交直和即得。
+\end{proof}
+
+\begin{remark}
+必须排除 $R=0$ 或为它另定义一个独立 fibre；在 $R=0$ 上写 $A/R$ 是未定义的。
+此外，(10.1) 只证明该 dilation 本身酉，不证明它可以穿过任意 joint transform。
+后者需要 exact intertwining identity。
+\end{remark}
+
+\begin{theorem}[Schatten ideal property]
+设 $1\le s\le\infty$，$T$ 为有限维算子，$A,B$ 为有界算子。则
+\[
+\boxed{
+\|ATB\|_{S_s}\le\|A\|_{op}\,\|T\|_{S_s}\,\|B\|_{op}.}
+\tag{10.2}
+\]
+特别地，正交投影和酉算子不会增大 Schatten-$s$ 范数。
+\end{theorem}
+
+\begin{proof}
+有限维 Schatten classes 是双边 operator ideals；可由 singular-value
+不等式 $s_j(ATB)\le\|A\|_{op}\|B\|_{op}s_j(T)$ 后对 $j$ 取 $\ell^s$ 范数得到。
+\end{proof}
+
+\begin{corollary}
+若某 exact factorization 为 $S=P_0U\Pi\mathcal AT$，其中 $P_0,\Pi$ 是
+正交投影、$U$ 酉，且 $\mathcal A$ 为 (4.2)，则
+\[
+\|S\|_{S_s}\le\sqrt2\,\|T\|_{S_s}.
+\tag{10.3}
+\]
+\end{corollary}
+
+\begin{remark}
+(10.3) 是条件结论：必须先逐项证明 exact factorization。仅凭“每个组成算子
+看起来像 contraction”不能推断原算子等于它们的乘积。
+\end{remark}
+
+\section{为什么一般 entry shear 不保持 Schatten 范数}
+
+\begin{proposition}[entry multiset 相同不保证 singular values 相同]
+存在两个 $2\times2$ 矩阵，它们的 entries 只是彼此重排，但 Schatten-$4$ 范数不同。
+\end{proposition}
+
+\begin{proof}
+取
+\[
+A=\begin{pmatrix}1&1\\0&0\end{pmatrix},\qquad
+B=\begin{pmatrix}1&0\\0&1\end{pmatrix}.
+\]
+二者都有两个 $1$ 和两个 $0$。但 $A$ 的 singular values 为 $(\sqrt2,0)$，
+$B$ 的 singular values 为 $(1,1)$。故
+\[
+\|A\|_{S_4}^4=4,
+\qquad
+\|B\|_{S_4}^4=2.
+\]
+\end{proof}
+
+\begin{corollary}[合法坐标变换判据]
+要无损运输 Schatten norm，足够的形式是 $T\mapsto UTV$，其中 $U,V$ 酉；
+一般依赖 row 的 column shear、依赖 column 的 row shear或任意 entry bijection
+不在此列，必须另证 intertwining identity。
+\end{corollary}
+
+\section{乘法能量与 Mellin Parseval}
+
+对 $a:\G\to\C$ 定义乘法自相关
+\[
+C_a(t)=\sum_{x\in\G}a(tx)\overline{a(x)}.
+\tag{12.1}
+\]
+
+\begin{theorem}[乘法 Wiener--Khinchin]
+用 (1.2) 的 unitary Mellin convention，有
+\[
+\boxed{
+(\mathcal M C_a)(\chi)=\sqrt Q\,|\mathcal Ma(\chi)|^2.}
+\tag{12.2}
+\]
+从而
+\[
+\boxed{
+\sum_{t\in\G}|C_a(t)|^2
+=Q\sum_{\chi\in\Gh}|\mathcal Ma(\chi)|^4.}
+\tag{12.3}
+\]
+\end{theorem}
+
+\begin{proof}
+展开左侧：
+\begin{align*}
+(\mathcal MC_a)(\chi)
+&=Q^{-1/2}\sum_{t,x}a(tx)\overline{a(x)}\overline{\chi(t)}\\
+&=Q^{-1/2}\sum_{u,x}a(u)\overline{a(x)}
+\overline{\chi(u/x)}\\
+&=\sqrt Q\,(\mathcal Ma)(\chi)\overline{(\mathcal Ma)(\chi)}.
+\end{align*}
+再用 Mellin Parseval 得 (12.3)。
+\end{proof}
+
+\begin{remark}
+这是 exact $L^4$/energy dictionary。它可以把 coefficient fourth moment改写为
+乘法碰撞，但不会自动控制带额外 projective/Kloosterman recoupler 的 Schatten cycle。
+\end{remark}
+
+\section{GCD-carried FSAC：共享素因子的严格修正版}
+
+\begin{theorem}[primitive/GCD-carried factor-scale allocation]\label{thm:gcd-fsac}
+设 $\mu(c)\mu(d)\ne0$，令
+\[
+g=(c,d),\qquad c=ga,\qquad d=gb.
+\tag{13.1}
+\]
+则 $g,a,b$ 两两互素，且
+\[
+\mu(c)\mu(d)=\mu(a)\mu(b).
+\tag{13.2}
+\]
+固定实数 $t_1,t_2$，置
+\[
+u=\frac{t_1+t_2}{2},\qquad v=\frac{t_1-t_2}{2}.
+\]
+若 $m=ab$，则
+\[
+\sum_{\substack{ab=m\\(a,b)=1\\(ab,g)=1}}
+\mu(a)\mu(b)a^{-it_1}b^{-it_2}
+=
+\mathbf1_{(m,g)=1}\mu^2(m)m^{-iu}
+\prod_{q\mid m}\bigl(-2\cos(v\log q)\bigr).
+\tag{13.3}
+\]
+\end{theorem}
+
+\begin{proof}
+$c,d$ squarefree。共同素因子全部恰出现于 $g$，故 $g,a,b$ 两两互素。
+于是
+\[
+\mu(c)\mu(d)=\mu(g)^2\mu(a)\mu(b)=\mu(a)\mu(b).
+\]
+又
+\[
+a^{-it_1}b^{-it_2}=(ab)^{-iu}(a/b)^{-iv}.
+\]
+因 $m$ squarefree，每个 $q\mid m$ 恰可分配到 $a$ 或 $b$。若分到 $a$，
+局部贡献为 $-q^{-iu-iv}$；若分到 $b$，贡献为 $-q^{-iu+iv}$。
+两者相加为 $-2q^{-iu}\cos(v\log q)$；对所有 $q\mid m$ 相乘即得。
+\end{proof}
+
+\begin{corollary}[reciprocal-zeta factorization]\label{cor:gcd-zeta}
+定义
+\[
+A^{(g)}_{u,v}(m)=
+\mathbf1_{(m,g)=1}\mu^2(m)m^{-iu}
+\prod_{q\mid m}\bigl(-2\cos(v\log q)\bigr).
+\tag{13.4}
+\]
+对 $\Re s>1$，
+\[
+\sum_{m\ge1}\frac{A^{(g)}_{u,v}(m)}{m^s}
+=\frac{H_g(s;u,v)}
+{\zeta(s+i(u-v))\zeta(s+i(u+v))},
+\tag{13.5}
+\]
+其中除有限个 $q\mid g$ 的 Euler factors 外，$H_g$ 在 $\Re s>1/2$
+绝对收敛；而这些有限 factors 的总大小在 $s$ 接近 $1$ 时至多为
+$(g/\varphi(g))^{O(1)}$。
+\end{corollary}
+
+\begin{proof}
+令
+\[
+x_q=q^{-s-i(u-v)},\qquad y_q=q^{-s-i(u+v)}.
+\]
+当 $q\nmid g$ 时，左侧局部因子为 $1-x_q-y_q$，故
+\[
+H_{g,q}=\frac{1-x_q-y_q}{(1-x_q)(1-y_q)}
+=1+O(q^{-2\Re s}).
+\]
+当 $q\mid g$ 时，局部因子为 $1$，所以
+$H_{g,q}=((1-x_q)(1-y_q))^{-1}$。前一类 factors 在 $\Re s>1/2$
+绝对收敛；后一类有限，且由
+$\prod_{q\mid g}(1-q^{-1})^{-O(1)}=(g/\varphi(g))^{O(1)}$ 控制。
+\end{proof}
+
+\begin{remark}
+原日志中不带 $g$ 的 FSAC 公式只在 $(c,d)=1$ 时字面成立。定理
+\ref{thm:gcd-fsac} 表明共享素因子不会摧毁 reciprocal-zeta deletion，
+但必须作为独立 square/gcd carrier 保留，不能被 $\mu^2(m)$ 静默删除。
+\end{remark}
+
+\section{Origin-labelled tensorization 与区间自相关}
+
+\begin{theorem}[typed packet reconstruction]\label{thm:typed-packet}
+设
+\[
+a=\prod_{j=1}^Jm_{j,a},\quad b=\prod_{j=1}^Jm_{j,b},\quad
+e=\prod_{j=1}^Jm_{j,e},\quad f=\prod_{j=1}^Jm_{j,f},
+\tag{14.1}
+\]
+且不同 $j$ 保存 disjoint prime occurrences，$\mu(a)\mu(e)\ne0$。则
+\[
+\boxed{
+\mu(a)\mu(e)\log b
+=\sum_{j=1}^{J}
+\left[\mu(m_{j,a})\mu(m_{j,e})\log m_{j,b}\right]
+\prod_{i\ne j}\mu(m_{i,a})\mu(m_{i,e}).}
+\tag{14.2}
+\]
+所以重新分桶后的 coefficient 不是“忘掉来源后的单变量函数”，而是秩至多
+$J$ 的精确 typed tensor。
+\end{theorem}
+
+\begin{proof}
+squarefree support 与 disjoint occurrences 给
+$\mu(a)=\prod_j\mu(m_{j,a})$、$\mu(e)=\prod_j\mu(m_{j,e})$；
+再展开 $\log b=\sum_j\log m_{j,b}$。
+\end{proof}
+
+\begin{corollary}[smooth monomial constraints 的 Fourier--Mellin 分离]
+若 $\Psi\in C_c^\infty(\mathbb R^d)$ 作用于
+$(\log m_1,\ldots,\log m_d)$，则
+\[
+\Psi(\log m_1,\ldots,\log m_d)
+=\int_{\mathbb R^d}\widehat\Psi(\mathbf t)
+\prod_{\nu=1}^dm_\nu^{it_\nu}\,d\mathbf t.
+\tag{14.3}
+\]
+因此固定次数的 smooth support coupling 可精确 tensorize，总 cost 为
+$\|\widehat\Psi\|_{L^1}$。
+\end{corollary}
+
+\begin{proof}
+这是 $\mathbb R^d$ 上的 Fourier inversion。光滑紧支撑使
+$\widehat\Psi$ 快速衰减，故绝对可积并可使用 Fubini。
+\end{proof}
+
+\begin{theorem}[interval autocorrelation 是 triangular weight]
+设 $I\subset\mathbb Z$ 是长度 $H<p/2$ 的区间，
+\[
+w(x)=H^{-1/2}\mathbf1_I(x),\qquad
+\Phi(s)=\sum_xw(x)\ep(sx).
+\]
+则
+\[
+|\Phi(s)|^2=\sum_vY(v)\ep(sv),\qquad
+Y(v)=\left(1-\frac{|v|}{H}\right)_+
+\tag{14.4}
+\]
+（把 $v$ 取为唯一满足 $|v|<p/2$ 的代表）。特别地，
+\[
+\supp Y\subset[-H,H],\qquad \|Y\|_\infty\le1,\qquad
+\operatorname{TV}(Y)=2.
+\tag{14.5}
+\]
+\end{theorem}
+
+\begin{proof}
+展开
+\[
+|\Phi(s)|^2
+=\sum_{x,y}w(x)\overline{w(y)}\ep(s(x-y))
+=\sum_v\left(\sum_yw(y+v)\overline{w(y)}\right)\ep(sv).
+\]
+两个长度 $H$ 区间相距 $v$ 时的交集大小为 $(H-|v|)_+$，故得到
+(14.4)。其斜率在两侧分别为 $\pm H^{-1}$，总变差为 $2$。
+\end{proof}
+
+\begin{remark}
+这说明 Burgess/short-window 步骤中常见的 triangular $Y$ 不是额外平坦性
+假设，而是 normalized interval projection 的精确自相关；若换成任意权，
+则必须重新证明其 support、$\ell^\infty$ 与 variation bounds。
+\end{remark}
+
+\section{Cross-prime character incidence：outer tensor leg 的正交}
+
+\begin{theorem}[双尺度 cross-prime incidence operator]\label{thm:tool-crossprime}
+设 $3\le H_2\le H_1$，$\mathcal P\subset[H_1,2H_1]$、
+$\mathcal R\subset[H_2,2H_2]$ 为素数集合，并排除
+$p=r$。在
+\[
+\bigoplus_{p\in\mathcal P}\ell^2(\widehat{\F_p^\times})
+\quad\hbox{与}\quad
+\bigoplus_{r\in\mathcal R}\ell^2(\widehat{\F_r^\times})
+\]
+之间定义
+\[
+\mathscr U_{(p,\chi),(r,\psi)}=\chi(r)^2\psi(p)^2.
+\tag{15.1}
+\]
+则
+\[
+\boxed{\|\mathscr U\|_{2\to2}
+\ll H_1H_2^{1/2}L^{1/2}},\qquad
+L=1+\frac{\log(4H_1)}{\log H_2}.
+\tag{15.2}
+\]
+对任意 Hilbert space $\mathcal H$，
+$\|\mathscr U\otimes I_{\mathcal H}\|=\|\mathscr U\|$。特别地，
+$H_1=H_2=H$ 时得到 $\|\mathscr U\|\ll H^{3/2}$。
+\end{theorem}
+
+\begin{proof}
+令 $G=\mathscr U\mathscr U^*$。角色正交给
+\[
+G_{(p,\chi),(p',\chi')}
+=\sum_{\substack{r\in\mathcal R,\ r\ne p,p'\\r\mid p^2-p'^2}}
+(r-1)\chi(r)^2\overline{\chi'(r)^2}.
+\tag{15.3}
+\]
+当 $p\ne p'$ 时，$r\mid(p-p')(p+p')$；乘积大小至多 $16H_1^2$，
+故只有 $O(L)$ 个 $H_2$-scale prime $r$。每个 $r$ 产生秩一 block
+$(r-1)v_{p,r}v_{p',r}^*$，而
+$\|v_{p,r}\|_2=\sqrt{p-1}\ll H_1^{1/2}$，所以
+\[
+\|G_{p,p'}\|\ll LH_1H_2.
+\tag{15.4}
+\]
+当 $p=p'$ 时，置 $V_{\chi,r}=\chi(r)^2$。再用角色正交，
+\[
+(V^*V)_{r,r'}=(p-1)\mathbf1_{r^2\equiv r'^2\pmod p}.
+\tag{15.5}
+\]
+对固定 $r$，$r'\equiv\pm r\pmod p$ 在长度 $H_2\le H_1\le p$ 的区间中
+各只有 $O(1)$ 个代表，故 Schur test 给 $\|V\|^2\ll H_1$。于是
+\[
+\|G_{p,p}\|
+=\|V\diag(r-1)V^*\|\ll H_1H_2.
+\tag{15.6}
+\]
+最后以至多 $O(H_1)$ 个 prime indices 作 block Schur：
+\[
+\|G\|\le\sup_p\sum_{p'}\|G_{p,p'}\|\ll LH_1^2H_2.
+\]
+取平方根即得。tensor identity 是 Hilbert 空间算子范数的标准性质。
+\end{proof}
+
+\begin{remark}
+该定理只控制已经严格变成 (15.1) 的 outer character leg。CRT Gauss
+factorization确实产生 $\chi(r)^2\psi(p)^2$，但真实算术 leaf 是否无损变成
+$\mathscr U\otimes I_{\mathcal H}$ 仍需 basis、measure、prefactor 和 exceptional
+characters 的逐项 compiler；不能只凭 (15.2) 宣布整个 P2 block 已证。对完整
+dyadic blocks，朴素 aggregation scale 为
+$H_1H_2(H_1H_2)^{o(1)}$，所以 (15.2) 显示 saving 由较小 prime scale
+$H_2$ 决定，量级为 $H_2^{-1/2}$（允许对数因子）。
+\end{remark}
+
+\section{BP trace pushforward：sum--product 坐标与 divisor rigidity}
+
+\begin{theorem}[trace polynomial 的双 sum--product 化]\label{thm:tool-bptrace}
+对整数 $a,b,c,d$ 定义
+\[
+R(a,b,c,d)=abcd-(a+c)(b+d).
+\tag{16.1}
+\]
+令
+\[
+x=ac,\quad y=a+c,\qquad u=bd,\quad v=b+d.
+\]
+则
+\[
+\boxed{R=xu-yv.}
+\tag{16.2}
+\]
+映射 $(a,c)\mapsto(x,y)$ 的有序 fibre 至多二。固定 $a,c,R$，令
+$A=ac,C=a+c$，则
+\[
+\boxed{(Ab-C)(Ad-C)=AR+C^2.}
+\tag{16.3}
+\]
+\end{theorem}
+
+\begin{proof}
+(16.2) 由展开得到。给定 $(x,y)$ 时，$a,c$ 是
+$T^2-yT+x$ 的有序根，故至多交换二重性。最后
+\[
+(Ab-C)(Ad-C)
+=A^2bd-AC(b+d)+C^2
+=A(Abd-C(b+d))+C^2=AR+C^2.
+\]
+\end{proof}
+
+\begin{corollary}[严格可得的粗 pushforward energy]\label{cor:tool-crude}
+设 $a,b,c,d\in[H,2H]$，并令
+\[
+a_R=\sum_{R(a,b,c,d)=R}
+Y_1(a)Y_2(b)\overline{Y_3(c)Y_4(d)}.
+\tag{16.4}
+\]
+则
+\[
+\boxed{
+\sum_R|a_R|^2\ll_\varepsilon H^{2+\varepsilon}
+\prod_{j=1}^4\|Y_j\|_2^2.}
+\tag{16.5}
+\]
+\end{corollary}
+
+\begin{proof}
+固定 $a,c,R$ 后，(16.3) 把 $(b,d)$ 注入非零整数 $AR+C^2$ 的有序
+因子分解；因 $A\asymp H^2,C\asymp H,b,d\asymp H$，两个左因子均非零。
+故对固定 $(a,c,R)$ 有 $O_\varepsilon(H^\varepsilon)$ 个 $(b,d)$，
+从而每个完整 $R$-fibre 至多 $H^{2+\varepsilon}$。对每个 fibre 用
+Cauchy，再对 $R$ 求和，得到 (16.5)。
+\end{proof}
+
+\begin{remark}[严格适用范围]
+(16.5) 对 bounded weights 给 $H^{6+\varepsilon}$，而最优 BPTPE 希望删除
+前面的 $H^2$。外部 quadratic square-paucity 只数裸 $R$ 值，不能自动吸收
+$a_R$ 的 pushforward multiplicity；weighted square-core BPTPE 因而仍是开放
+analytic target。
+\end{remark}
+
+\section{外部定理：只能按原适用域调用}
+
+本节不把外部论文重新证明为本文定理，只记录经原文核对的调用边界。
+
+\begin{center}
+\begin{longtable}{p{0.24\textwidth}p{0.32\textwidth}p{0.34\textwidth}}
+\toprule
+外部结果 & 原文可提供 & 不能自动推出\\
+\midrule
+\endfirsthead
+\toprule
+外部结果 & 原文可提供 & 不能自动推出\\
+\midrule
+\endhead
+de la Vall\'ee--Poussin zero-free region
+& $\zeta(s)$ 在 $\Re s\ge1-c/\log(|\Im s|+3)$ 的经典无零区域及
+$1/\zeta$ 的标准多对数界
+& RH；越过 zeta 零点的无条件大范围 contour shift\\
+Montgomery--Vaughan singular tail
+& 点态界 $|\widetilde{\mathfrak S}_Y(k)|
+\ll d(k)(\log\log3Y)^2/Y$
+& 在 $Y=\log^B N$ 时 uniform 的任意 log-power saving\\
+Kable (2002)
+& Legendre/Soto--Andrade 作为 Steinberg tensor-square 的 parabolic CG
+coefficients；在 $\ell^2(\F_q,m)$ 中完备正交
+& 我们 counting measure 上的任意 coefficient operator diagonal；DCCS；
+未处理端点权的 unitary splice\\
+Pascadi (2026), Prop. 5.1
+& 有限群、正规子群、不可约表示上的 even Schatten amplification
+& 任意 reducible block；忽略 character denominator；自动 outer-modulus saving\\
+Pascadi (2026), Thm. 7.1
+& 若 $c=dd'e$、$d'\mid d$、$(d,e)=1$，则以
+$G=dMN(M^2+N^2)c^{-3}+f(M^2+N^2)c^{-2}+f/d^2$
+给出 $G^{1/6}$ saving；$M,N$ 的对称表述见 Blomer--Pascadi Thm.~5.4；
+balanced semiprime 可得约 $c^{-1/12}$
+& prime modulus；未验证 coefficient/support/coprimality 的 G3 cell\\
+Blomer--Pascadi (2026), Thm. 1.1
+& 任意模数的 bilinear Kloosterman form；平方根临界区 saving $c^{-1/32}$
+& 变化模数的 outer average；GFT weighted pushforward energy\\
+de la Bret\`eche--Wang--Xu (2026)
+& 固定可分离多项式值的未加权 square-paucity；二次情形最强
+& 任意权 $a_R$ 的 BPTPE；$R=xu-yv$ pushforward 后的 weighted theorem\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\section{Lean-friendly theorem ledger}
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.16\textwidth}p{0.27\textwidth}}
+\toprule
+结果 & 状态 & 主要类型/guard\\
+\midrule
+smooth HWAC/residue & 已完整证明 & smooth partition；$\ell^1$ Fourier\\
+sharp/global-holomorphic HWAC & 已否定 & sharp Wiener norm 发散；无全纯延拓\\
+Möbius zero-orbit resummation & 已完整证明 & $M,X,Y\asymp N$；zeta zero-free input\\
+High-Conductor ZOT & 已完整证明 & smooth arcs；MV pointwise tail\\
+有限 DFT projector & 已完整证明 & $0\le r,j<K$\\
+Mellin inverse & 已完整证明 & $\G$，counting measure\\
+reciprocal fibre & 已完整证明 & $z,z',y,y'\ne0$，$z\ne z'$\\
+projective charge map & 已完整证明 & $q\ne-z$\\
+joint Gram $I+S-D$ & 已完整证明 & exact $(R,P)$ 或 character $(R,\eta)$ 坐标\\
+Vi\`ete diagonal $x+z=xz$ & 已完整证明 & $r\ne0,1$\\
+Cayley--Kloosterman identity & 已完整证明 & 所有 $A,C\in\F_p$\\
+Jacobi coboundary & 已完整证明 & $\alpha,\beta,\alpha\beta$ 非主\\
+Gauss-square Fourier identity & 已完整证明 & 全部乘法角色\\
+centered Parseval & 已完整证明 & 指定 Fourier normalization\\
+fibrewise dilation unitary & 已完整证明 & $R\in\G$\\
+Schatten ideal transport & 已完整证明 & 有限维\\
+一般 shear no-go & 已完整证明 & 显式 $2\times2$ 反例\\
+乘法 autocorrelation $L^4$ identity & 已完整证明 & 指定 Mellin normalization\\
+GCD-carried FSAC & 已完整证明 & squarefree Möbius legs；共享 gcd 显式保留\\
+typed packet reconstruction & 已完整证明 & origin occurrences 不可遗忘\\
+interval autocorrelation & 已完整证明 & normalized interval，$H<p/2$\\
+cross-prime incidence & 已完整证明 & 双 dyadic prime scales、全部角色、排除 $p=r$\\
+BP trace/divisor rigidity & 已完整证明 & 整数短区间；只推出粗 $H^6$ energy\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{形式化说明。}
+上表中的有限域、有限群条目可在有限类型层形式化；Schatten 条目需要
+singular-value theory，HWAC 需要 Fourier/Wiener 与复系数抽取，ZOT 还需要
+Perron、Euler product、经典 zeta 零点自由区及 Montgomery--Vaughan tail 的
+形式化封装。本文没有提供可编译 Lean 文件，故“Lean-friendly”不等于
+“已由 Lean kernel 验证”。
+
+\section{这些性质对下一步决策的含义}
+
+\begin{enumerate}
+\item HWAC 的真正复分析优势是把 smooth arc cutoff 变成绝对可和的 shifted
+coefficient residues；不能把这一点夸张成 cutoff 本身的全纯延拓。
+\item ZOT 表明 zero orbit 应延迟取绝对值：低 conductor 由 minor plateau
+消去，高 conductor 与 major truncation 重组为完整奇异级数。
+\item GFT 最稳定的优势不是“每个 mode 更小”，而是同时保留 additive sum 与
+multiplicative product 后，root multiplicity 从表面上的 $p$ 级降到 swap 二重性。
+\item Jacobi phase在非主闭环中是 coboundary，可被 gauge/telescoping；
+真正困难通常在 coefficient placement 和 exceptional carriers，而非 phase 本身。
+\item projective rational kernel可经 Cayley 变换精确回到经典 Kloosterman；
+但 fixed-entry Weil 与 Schatten assembly必须分开证明。
+\item centered subtraction 是正交投影，不是启发式误差删除；所有 principal/zero
+mode 都应在 Fourier convention 下精确记账。
+\item DCCS 的 fibrewise dilation本身已经是酉的；剩余问题只可能在它与真实
+joint transform/short tensor的相对位置，而不是 dilation 的范数。
+\item shared prime factors 应先进入 gcd carrier，再对互素残余使用 FSAC；
+否则 $\mu^2(m)$ 会错误删除原和中的 $q^2$ 状态。
+\item cross-prime incidence 确实给 canonical outer character leg 一个由较小
+prime scale 决定的 $H_{\min}^{-1/2}$ operator saving（允许对数因子），但不会
+替代 leaf-to-spectral compiler。
+\item BP trace 的优美坐标是 $R=xu-yv$，且固定一对变量后有精确 divisor
+factorization；当前它严格给出粗能量，weighted square-core saving 仍需新定理。
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{Titchmarsh}
+E.~C. Titchmarsh, revised by D.~R. Heath-Brown,
+\emph{The Theory of the Riemann Zeta-function}, 2nd ed., Oxford, 1986.
+
+\bibitem{MVBook}
+H.~L. Montgomery and R.~C. Vaughan,
+\emph{Multiplicative Number Theory I: Classical Theory}, Cambridge, 2007.
+
+\bibitem{GHN2014}
+D.~A. Goldston, J. Ziegler Hunts and T. Ngotiaoco,
+\emph{The Tail of the Singular Series for the Prime Pair and Goldbach Problems},
+arXiv:1409.2151 (2014), especially equations (1.4), (1.8), (1.9).
+\url{https://arxiv.org/abs/1409.2151}
+
+\bibitem{Kable2002}
+A.~C. Kable,
+\emph{Legendre sums, Soto--Andrade sums and Kloosterman sums},
+Pacific J. Math. 206 (2002), 139--157.
+\url{https://msp.org/pjm/2002/206-1/pjm-v206-n1-p09-s.pdf}
+
+\bibitem{Pascadi2026}
+A. Pascadi,
+\emph{Non-abelian amplification and bilinear forms with Kloosterman sums},
+arXiv:2511.08445v2 (2026).
+\url{https://arxiv.org/abs/2511.08445}
+
+\bibitem{BP2026}
+V. Blomer and A. Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311v1 (2026).
+\url{https://arxiv.org/abs/2607.24311}
+
+\bibitem{dBWX2026}
+R. de la Bret\`eche, V.~Y. Wang and M.~W. Xu,
+\emph{Random Multiplicative Functions and Making Squares from Polynomial Values},
+arXiv:2607.06398v1 (2026).
+\url{https://arxiv.org/abs/2607.06398}
+\end{thebibliography}
+
+\end{document}

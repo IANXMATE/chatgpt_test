@@ -1,0 +1,1314 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{xcolor,booktabs,longtable,array,enumitem,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black,citecolor=blue!55!black}
+\setlist{nosep}
+\setlength{\emergencystretch}{3em}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{说明}
+\newtheorem{warning}[theorem]{审计警告}
+
+\newcommand{\T}{\mathbb T}
+\newcommand{\e}{\mathrm e}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\Res}{\operatorname*{Res}}
+\newcommand{\E}{\mathcal E}
+\newcommand{\K}{\mathcal K}
+\newcommand{\LL}{\mathcal L}
+\newcommand{\OPEN}{\textcolor{red!70!black}{\textsf{OPEN}}}
+\newcommand{\REDUCED}{\textcolor{orange!80!black}{\textsf{REDUCED}}}
+\newcommand{\PROVED}{\textcolor{green!45!black}{\textsf{PROVED}}}
+\newcommand{\EXTERNAL}{\textcolor{blue!70!black}{\textsf{EXTERNAL}}}
+\newcommand{\REJECTED}{\textcolor{purple!75!black}{\textsf{REJECTED}}}
+
+\title{GFT--Goldbach 的 G1/G2/G3 严格审计稿\\
+\large HWAC 留数位移、ZOT 零轨转移、条件主定理与最终开放接口}
+\author{依据八份研究日志的最终修正版}
+\date{2026年8月28日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\sloppy
+本文给出研究日志中目前能够诚实支持的完整归约，而不宣称 Goldbach 已证明。
+与前版相比，本文补回被遗漏的 Hardy--Wiener Arc Closure (HWAC) 与
+Zero-Orbit Transfer (ZOT)；同时修正旧日志中两个过强说法：sharp minor-arc
+indicator 一般没有所需的有限 Wiener 范数，且一个仅为 $C^\infty$ 的圆周
+cutoff 不必有可供整体内外闭合的全纯延拓。严格可用的“留数转换”是：先对
+smooth cutoff 作绝对可和 Fourier 展开，再对每个 Fourier mode 使用 Cauchy
+coefficient residue。本文完整证明这个恒等式、Wiener 范数、Möbius 零轨
+Euler product、奇异级数重组与 high-conductor transfer，并把所用的经典
+零点自由区、Siegel--Walfisz 主弧及 Montgomery--Vaughan tail 明列为外部输入。
+最终状态仍为：G1 的完整 typed leaf compiler 开放；G2 缩到 DCCS/KPA8
+接口但开放；G3 的组合骨架、PCRS、临界 fixed-modulus 后端与 cross-prime
+incidence 已在精确适用域内闭合，但 P2a/P2b 从真实 leaf 到 canonical spectral
+model 的全局插入仍缺证书，central P1 outer-prime gate 仍开放。
+因此本文是完整的条件归约与状态证明，不是无条件二元 Goldbach 证明。
+\end{abstract}
+
+\section{约定、表示函数与最终结论的含义}
+
+写 $\e(t)=e^{2\pi i t}$、$\T=\mathbb R/\mathbb Z$。固定
+$W_1,W_2\in C_c^\infty((0,1))$，并令
+\[
+\mathfrak J_W(\lambda)=\int_{\mathbb R}W_1(t)W_2(\lambda-t)\,dt,
+\qquad \mathfrak J_W(1)>0.
+\tag{1.1}
+\]
+定义
+\[
+R_{\Lambda,W}(N)=\sum_{m+n=N}\Lambda(m)\Lambda(n)
+ W_1(m/N)W_2(n/N),                                      \tag{1.2}
+\]
+并以 $R_{\vartheta,W}$ 表示把 $\Lambda$ 换成
+$\vartheta(n)=\log n\,\1_{n\ {m prime}}$ 后的和。
+
+对偶数 $M$，标准 Goldbach 奇异级数为
+\[
+\mathfrak S(M)=2C_2\prod_{\substack{p\mid M\\p>2}}\frac{p-1}{p-2},
+\qquad
+C_2=\prod_{p>2}\left(1-\frac1{(p-1)^2}\right),          \tag{1.3}
+\]
+而对奇数 $M$ 置 $\mathfrak S(M)=0$。其 Ramanujan 展开是
+\[
+\mathfrak S(M)=\sum_{q\ge1}\frac{\mu(q)^2}{\varphi(q)^2}c_q(-M),
+\qquad
+c_q(k)=\sum_{\substack{a\bmod q\\(a,q)=1}}\e(ak/q).   \tag{1.4}
+\]
+
+本文中
+\[
+\boxed{\text{Goldbach}=\mathrm{G1}+\mathrm{G2}+\mathrm{G3}}
+\]
+只表示依赖链：G1 把 fixed-$N$ smooth minor contribution 无损编译成
+balanced 与 polarized leaf；G2、G3 分别控制这两族 leaf。它不是数值等式。
+
+\begin{lemma}[proper prime-power 污染]
+对 $N\ge3$，
+\[
+R_{\Lambda,W}(N)-R_{\vartheta,W}(N)
+=O_W\!\left(N^{1/2}(\log N)^2\right).                  \tag{1.5}
+\]
+\end{lemma}
+
+\begin{proof}
+展开 $\Lambda=\vartheta+(\Lambda-\vartheta)$。每个差项中至少一个变量是
+$p^k\le N$、$k\ge2$。这类整数共有
+\[
+\sum_{k\ge2}\pi(N^{1/k})=O(N^{1/2});
+\]
+$k\ge3$ 的总数为 $O(N^{1/3}\log N)$。另一变量由 $m+n=N$ 唯一确定，
+每个乘积权为 $O_W((\log N)^2)$。两个交叉项及双差项均被同一上界控制。
+\end{proof}
+
+\section{HWAC：smooth arc 的严格 Fourier--留数转换}
+
+\subsection{平滑 major/minor partition}
+
+设 $\mathfrak M^-\subset\mathfrak M^+\subset\T$，其中 $\mathfrak M^-$
+至多是 $J$ 个区间之并，且
+\[
+\operatorname{dist}(\mathfrak M^-,\T\setminus\mathfrak M^+)\ge3\eta,
+\qquad 0<\eta<1/10.                                    \tag{2.1}
+\]
+
+\begin{lemma}[smooth cutoff 与 Wiener 范数]
+存在 $0\le\chi_{\mathfrak M},\psi_{\mathfrak m}\le1$，满足
+\[
+\chi_{\mathfrak M}+\psi_{\mathfrak m}=1,\quad
+\chi_{\mathfrak M}=1\ \hbox{on }\mathfrak M^-,\quad
+\operatorname{supp}\chi_{\mathfrak M}\subset\mathfrak M^+,             \tag{2.2}
+\]
+且若
+\(
+\psi_{\mathfrak m}(\alpha)=\sum_{r\in\mathbb Z}\omega_r\e(r\alpha)
+\)，则
+\[
+\sum_{r\in\mathbb Z}|\omega_r|
+\ll_\rho 1+J\left(1+\log\frac2\eta\right).             \tag{2.3}
+\]
+\end{lemma}
+
+\begin{proof}
+取非负 $\rho\in C_c^\infty((-1,1))$、$\int\rho=1$，并令
+$\rho_\eta(t)=\eta^{-1}\rho(t/\eta)$。把 $\mathfrak M^-$ 在圆周上向外
+扩张 $\eta$ 得 $E$，置
+\[
+\chi_{\mathfrak M}=\1_E*\rho_\eta,\qquad
+\psi_{\mathfrak m}=1-\chi_{\mathfrak M}.               \tag{2.4}
+\]
+(2.1) 立即给 (2.2)。集合 $E$ 仍至多为 $J$ 个区间之并。对 $r\ne0$，
+一个区间 $[a,b]$ 的 Fourier coefficient 满足
+\[
+\left|\int_a^b\e(-r\alpha)\,d\alpha\right|
+=\left|\frac{\e(-rb)-\e(-ra)}{-2\pi ir}\right|
+\le\frac1{\pi|r|};                                    \tag{2.5}
+\]
+故 $|\widehat{\1_E}(r)|\le J/(\pi|r|)$。又因 $\rho$ 光滑紧支撑，
+两次分部积分给
+\[
+|\widehat\rho(\eta r)|\ll_\rho(1+\eta|r|)^{-2}.       \tag{2.6}
+\]
+因此
+\[
+\sum_{r\ne0}|\widehat\chi_{\mathfrak M}(r)|
+\ll J\sum_{r\ge1}\frac1r(1+\eta r)^{-2}
+\ll J\left(1+\log\frac2\eta\right).                  \tag{2.7}
+\]
+加上零频及 $\psi=1-\chi$ 即得 (2.3)。绝对可和性也证明 Fourier 级数
+一致收敛。
+\end{proof}
+
+对标准 logarithmic major arcs，取 $P=(\log N)^B$，中心为 $a/q$、
+$q\le P$，inner/outer widths 分别为 $\asymp P/(qN)$ 与其固定倍数。
+此时 $J\le\sum_{q\le P}\varphi(q)\ll P^2$，且可取 $\eta\asymp N^{-1}$，故
+\[
+\|\psi_{\mathfrak m}\|_{A(\T)}
+:=\sum_r|\omega_r|\ll(\log N)^{2B+1}.                  \tag{2.8}
+\]
+
+\begin{theorem}[HWAC exact identity]
+设
+\[
+F(\alpha)=\sum_xa_x\e(x\alpha),\qquad
+G_z(\alpha)=\sum_yb_z(y)\e(y\alpha)                    \tag{2.9}
+\]
+为有限指数和。则
+\[
+\boxed{
+\int_\T\psi_{\mathfrak m}(\alpha)F(\alpha)G_z(\alpha)
+\e(-N\alpha)\,d\alpha
+=\sum_{r\in\mathbb Z}\omega_rR_z(N-r),}               \tag{2.10}
+\]
+其中
+\[
+R_z(M)=\sum_{x+y=M}a_xb_z(y).                            \tag{2.11}
+\]
+若 $b_z(y)$ 是 $z$ 的有限多项式，则任意 coefficient extraction $[z^j]$
+与 (2.10) 交换。
+\end{theorem}
+
+\begin{proof}
+由 (2.3) 及 (2.9) 的有限性，可用 Tonelli 交换求和与积分：
+\begin{align*}
+I_z(N)
+&=\sum_{r,x,y}\omega_ra_xb_z(y)
+  \int_\T\e((r+x+y-N)\alpha)\,d\alpha\\
+&=\sum_{r,x,y}\omega_ra_xb_z(y)\1_{r+x+y=N}
+=\sum_r\omega_rR_z(N-r).
+\end{align*}
+因 $\omega_r$ 与 $z$ 无关且 $z$-和有限，$[z^j]$ 可逐项通过。
+\end{proof}
+
+\begin{corollary}[严格的 Cauchy 留数版本]
+令 $F(w)=\sum_xa_xw^x$、$G_z(w)=\sum_yb_z(y)w^y$。则 (2.10) 的每一项为
+\[
+R_z(N-r)=[w^{N-r}]F(w)G_z(w)
+=\Res_{w=0}\frac{F(w)G_z(w)}{w^{N-r+1}}.                \tag{2.12}
+\]
+因而 smooth minor contribution 是绝对可和的 coefficient-residue family。
+\end{corollary}
+
+\begin{proof}
+这是 Cauchy coefficient formula。交换 residue family 与 $r$-和由
+$\sum_r|\omega_r|<\infty$ 及 $F,G_z$ 的有限性保证。
+\end{proof}
+
+\begin{warning}[被推翻的全局闭合图像]
+\sloppy
+一般 $C^\infty$ cutoff 的 Fourier 系数只保证快于任意多项式衰减，不保证
+指数衰减，故不必延拓为单位圆邻域内的全纯函数。旧日志中“把整个
+$\psi_+$ 向内、$\psi_-$ 向外闭合”的说法只能作为图像；严格结论是
+(2.12) 的\emph{逐 Fourier mode} 留数。sharp indicator 的 Fourier 系数约为
+$1/|r|$，其 Wiener $\ell^1$ 范数发散，所以 sharp-HWAC 版本为 \REJECTED。
+\end{warning}
+
+\section{ZOT 第一层：Möbius zero orbit 的完整重组}
+
+HWAC 输出 $M=N-r$ 的完整圆系数。对每个这样的 $M$ 使用精确恒等式
+\[
+\Lambda(n)=\sum_{du=n}\mu(d)\log u.                    \tag{3.1}
+\]
+于是
+\[
+R_{\Lambda,W}(M)
+=\sum_{d,e}\mu(d)\mu(e)
+ \sum_{du+ev=M}(\log u)(\log v)
+ W_1(du/N)W_2(ev/N).                                    \tag{3.2}
+\]
+
+固定 $d,e$，置 $g=(d,e)$。若 $g\nmid M$ 则无解；否则写
+$d=gd'$、$e=ge'$、$M=gM'$，其中 $(d',e')=1$。全部整数解沿
+\[
+u=u_0+e't,\qquad v=v_0-d't                              \tag{3.3}
+\]
+参数化。对 $t$ 作一维 Poisson；其 zero frequency 的格点密度是
+$1/[d,e]=g/(de)$。因此所有 $d,e$ 的 zero orbit 精确为
+\[
+Z_0(M)=\int_{\mathbb R}W_1(x/N)W_2((M-x)/N)
+D_M(x,M-x)\,dx,                                         \tag{3.4}
+\]
+其中 $\log_+u=\max(\log u,0)$，且
+\[
+D_M(X,Y)=
+\sum_{\substack{d,e\ge1\\(d,e)\mid M}}
+\mu(d)\mu(e)\frac{(d,e)}{de}
+\log_+(X/d)\log_+(Y/e).                                \tag{3.5}
+\]
+
+\begin{theorem}[Möbius zero-orbit resummation]
+固定 $0<c<C<\infty$。若 $M,X,Y\in[cN,CN]$，则对每个 $A>0$，
+\[
+\boxed{D_M(X,Y)=\mathfrak S(M)+O_{A,c,C}((\log N)^{-A})} \tag{3.6}
+\]
+一致成立。
+\end{theorem}
+
+\begin{proof}
+对 $\Re\sigma,\Re\tau>0$，Perron 恒等式
+\[
+\log_+(X/d)=\frac1{2\pi i}\int_{(c_0)}(X/d)^\sigma
+\frac{d\sigma}{\sigma^2}                               \tag{3.7}
+\]
+给出
+\[
+D_M(X,Y)=\frac1{(2\pi i)^2}\iint
+\mathcal A_M(\sigma,\tau)X^\sigma Y^\tau
+\frac{d\sigma\,d\tau}{\sigma^2\tau^2},               \tag{3.8}
+\]
+其中
+\[
+\mathcal A_M(\sigma,\tau)=
+\sum_{\substack{d,e\ge1\\(d,e)\mid M}}\mu(d)\mu(e)
+\frac{(d,e)}{d^{1+\sigma}e^{1+\tau}}.                  \tag{3.9}
+\]
+当两个实部为正时，该 Euler product 绝对收敛。
+
+因 $d,e$ 在 Möbius 支撑上 squarefree，对每个素数只有四种状态。
+若 $p\nmid M$，状态 $(p\mid d,p\mid e)$ 被禁止，局部因子是
+\[
+1-p^{-1-\sigma}-p^{-1-\tau};                            \tag{3.10}
+\]
+若 $p\mid M$，双重状态多出 gcd 因子 $p$，局部因子是
+\[
+1-p^{-1-\sigma}-p^{-1-\tau}+p^{-1-\sigma-\tau}.        \tag{3.11}
+\]
+故
+\[
+\mathcal A_M(\sigma,\tau)
+=\frac{\mathcal H_M(\sigma,\tau)}
+{\zeta(1+\sigma)\zeta(1+\tau)},                        \tag{3.12}
+\]
+其中
+\begin{align*}
+\mathcal H_M(\sigma,\tau)
+={}&\prod_{p\nmid M}
+\frac{1-p^{-1-\sigma}-p^{-1-\tau}}
+{(1-p^{-1-\sigma})(1-p^{-1-\tau})}\\
+&\times\prod_{p\mid M}
+\frac{1-p^{-1-\sigma}-p^{-1-\tau}+p^{-1-\sigma-\tau}}
+{(1-p^{-1-\sigma})(1-p^{-1-\tau})}.                    \tag{3.13}
+\end{align*}
+第一乘积的局部因子为 $1+O(p^{-2+o(1)})$，第二乘积只在 $p\mid M$
+处修改有限个因子。因此 $\mathcal H_M$ 在 $(0,0)$ 的固定邻域解析；在下述
+零点自由矩形中，它及有限阶导数均为 $\ll(\log 2M)^{O(1)}$。
+
+若 $M$ 为偶数，把 (3.13) 代入 $(0,0)$：$p=2$ 给因子 $2$；对
+$p>2,p\nmid M$ 得 $1-(p-1)^{-2}$；对 $p>2,p\mid M$ 相对基线多出
+$(p-1)/(p-2)$。故
+\[
+\mathcal H_M(0,0)=\mathfrak S(M).                       \tag{3.14}
+\]
+若 $M$ 为奇数，$p=2$ 的 nondividing 因子为 $0$，两边仍相等。
+
+最后给出余项而不隐藏 contour obligation。取
+$T=\exp(\sqrt{\log N})$、$c_0=1/\log N$。经典 de la Vall\'ee--Poussin
+零点自由区及其标准推论给：在 $|t|\le T$、
+$\Re s\ge-\kappa/\log T$ 的矩形中，$\zeta(1+s)\ne0$，且
+$1/\zeta(1+s)\ll(\log T)^{O(1)}$。截断 (3.8) 于高度 $T$；因
+$\sigma^{-2}\tau^{-2}$，原直线的尾部为 $O(T^{-1}(\log N)^{O(1)})$。
+逐次把两条直线移到 $-\kappa/\log T$。唯一穿过的奇点来自
+\[
+\frac1{\zeta(1+s)s^2}=\frac1s+O(1),                    \tag{3.15}
+\]
+所以双 residue 是 (3.14)。新直线带来
+\[
+X^{-\kappa/\log T}+Y^{-\kappa/\log T}
+\ll\exp(-\kappa'\sqrt{\log N}),                        \tag{3.16}
+\]
+而 zeta 与 $\mathcal H_M$ 只损失 $\log^{O(1)}N$；水平边由
+$T^{-1}$ 控制。因此总余项为
+$O(\log^{O(1)}N\,e^{-\kappa'\sqrt{\log N}})$，强于任意
+$(\log N)^{-A}$，得到 (3.6)。这里使用的零点自由区是明确的经典外部输入，
+没有假设 RH。
+\end{proof}
+
+\begin{corollary}[完整 zero-orbit main model]
+只要 $M/N$ 落在一个使 $W_1(t)W_2(M/N-t)$ 支撑远离端点的固定紧集，
+\[
+\boxed{Z_0(M)=N\mathfrak S(M)\mathfrak J_W(M/N)
++O_A(N(\log N)^{-A}).}                                 \tag{3.17}
+\]
+\end{corollary}
+
+\begin{proof}
+在 (3.4) 的支撑上 $x,M-x\asymp N$，故可一致使用 (3.6)。主项积分经
+$x=Nt$ 变为 $N\mathfrak J_W(M/N)$；长度 $O(N)$ 的积分把点态余项放大为
+$O_A(N\log^{-A}N)$（预先在 (3.6) 中把 $A$ 增大一固定量即可）。
+\end{proof}
+
+\section{ZOT 第二层：high-conductor 奇异级数转移}
+
+取 $P=(\log N)^B$。设 major core 包含所有 reduced $a/q$、$q\le P$ 的
+$R/(qN)$ 邻域，major envelope 包含其 $2R/(qN)$ 邻域，其中
+$R=P(\log N)^C$。选取第2节的 smooth partition，并写
+$\psi_{\mathfrak m}=\sum_r\omega_r\e(r\alpha)$。
+
+\begin{lemma}[带 Archimedean 权的 rational sampling]
+令 $J\in C_c^\infty(\mathbb R)$，并定义
+\[
+T_m(N)=\sum_r\omega_rJ(1-r/N)c_m(-(N-r)).               \tag{4.1}
+\]
+对任意 $L>0$：
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item 若 $m\le P$，则
+\[
+T_m(N)\ll_{J,L}\varphi(m)(1+R/m)^{-L};                 \tag{4.2}
+\]
+\item 若 $P<m\le Y:=N/(4R)$，则
+\[
+T_m(N)=J(1)c_m(-N)
++O_{J,L}\bigl(\varphi(m)(1+R/P)^{-L}\bigr).            \tag{4.3}
+\]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+展开 Ramanujan sum。若
+$J(x)=\int_{\mathbb R}\widehat J(t)\e(tx)\,dt$，则对每个 primitive
+$a\bmod m$，
+\begin{align*}
+&\sum_r\omega_rJ(1-r/N)\e(ar/m)\\
+&\qquad=\int\widehat J(t)\e(t)
+\psi_{\mathfrak m}(a/m-t/N)\,dt.                       \tag{4.4}
+\end{align*}
+若 $m\le P$，点 $a/m$ 位于 major core，且到 $\psi$ 非零区域的距离
+$\gg R/(mN)$；故 (4.4) 只可能由 $|t|\gg R/m$ 贡献。由
+$\widehat J(t)\ll_{J,L}(1+|t|)^{-L-2}$ 得每个 $a$ 的贡献
+$O((1+R/m)^{-L})$，对 $\varphi(m)$ 个 $a$ 求和即 (4.2)。
+
+若 $P<m\le N/(4R)$，$a/m$ 不可能落入 major envelope：否则存在
+$q\le P$ 与 reduced $b/q$ 使
+\[
+\frac1{mq}\le|a/m-b/q|\le\frac{2R}{qN},
+\]
+与 $m\le N/(4R)$ 矛盾。事实上它到 envelope 的距离
+$\gg R/(PN)$。故在 (4.4) 中，以 $1$ 代替 $\psi$ 的误差只来自
+$|t|\gg R/P$；主项为 $\int\widehat J(t)\e(t)dt=J(1)$。
+求和得到 (4.3)。
+\end{proof}
+
+\begin{lemma}
+对 $X\ge2$，
+\[
+\sum_{m\le X}\frac{\mu(m)^2}{\varphi(m)}\ll\log X.     \tag{4.5}
+\]
+\end{lemma}
+
+\begin{proof}
+使用 $n/\varphi(n)=\sum_{d\mid n}\mu(d)^2/\varphi(d)$，有
+\[
+\sum_{n\le X}\frac1{\varphi(n)}
+\le\sum_{d\le X}\frac{\mu(d)^2}{d\varphi(d)}
+\sum_{m\le X/d}\frac1m\ll\log X,
+\]
+因为 $\sum_d(d\varphi(d))^{-1}<\infty$。左侧支配 (4.5)。
+\end{proof}
+
+\begin{theorem}[High-Conductor ZOT]
+令
+\[
+\mathfrak S_P(N)=\sum_{m\le P}\frac{\mu(m)^2}{\varphi(m)^2}c_m(-N),
+\qquad
+\widetilde{\mathfrak S}_P(N)=\mathfrak S(N)-\mathfrak S_P(N). \tag{4.6}
+\]
+则 HWAC 后的 zero-orbit minor contribution 满足
+\[
+\boxed{
+Z_{\mathfrak m}^{(0)}(N)
+=N\mathfrak J_W(1)\widetilde{\mathfrak S}_P(N)
++O_A(N(\log N)^{-A}).}                                 \tag{4.7}
+\]
+\end{theorem}
+
+\begin{proof}
+由 (3.17)、(2.10) 及 $\sum|\omega_r|\ll\log^{O(1)}N$，
+\[
+Z_{\mathfrak m}^{(0)}(N)
+=N\sum_r\omega_r\mathfrak S(N-r)\mathfrak J_W(1-r/N)
++O_A(N\log^{-A}N).                                     \tag{4.8}
+\]
+在 (1.4) 中按 $m\le P$、$P<m\le Y=N/(4R)$、$m>Y$ 分段。
+为避免对条件收敛级数作未经许可的换序，先把 (1.4) 截断在 $m\le Q$；
+以下估计对 $Q$ 一致，最后由 (4.10) 令 $Q\to\infty$。
+第一段由 (4.2)、(4.5) 与 $R/P=(\log N)^C$ 为 $O_A(\log^{-A}N)$。
+第二段由 (4.3)、(4.5) 等于
+\[
+\mathfrak J_W(1)\sum_{P<m\le Y}
+\frac{\mu(m)^2}{\varphi(m)^2}c_m(-N)+O_A(\log^{-A}N). \tag{4.9}
+\]
+第三段调用 Montgomery--Vaughan 的点态奇异级数尾界
+\[
+|\widetilde{\mathfrak S}_Y(k)|
+\ll d(k)\frac{(\log\log 3Y)^2}{Y}.                     \tag{4.10}
+\]
+由于 $\mathfrak J_W(1-r/N)$ 的支撑强制 $N-r\asymp N$，标准除数函数
+最大阶给 $d(N-r)=N^{o(1)}$，而 $Y=N/\log^{O(1)}N$。结合
+$\sum|\omega_r|\ll\log^{O(1)}N$，第三段为
+$N^{-1+o(1)}$，特别为 $O_A(\log^{-A}N)$。它同时允许把 (4.9) 的
+上限 $Y$ 延伸至无穷。乘回 (4.8) 外的 $N$ 即得 (4.7)。
+\end{proof}
+
+\begin{definition}[截断主弧外部输入]
+本文使用的经典 Siegel--Walfisz 主弧输入是
+\[
+I_{\mathfrak M}(N)
+=N\mathfrak J_W(1)\mathfrak S_P(N)
++O_A(N(\log N)^{-A}),                                  \tag{MA$_P$}
+\]
+对每个固定 $A$ 及 sufficiently large even $N$ 一致成立。这里 major weight
+是与第2节同一个 $\chi_{\mathfrak M}$；该输入只处理 $q\le P$ 的经典局部密度，
+不暗含 G1/G2/G3。
+\end{definition}
+
+\begin{corollary}[正确的 major/zero bookkeeping]
+由 \textup{(MA$_P$)} 与 (4.7)，
+\[
+I_{\mathfrak M}(N)+Z_{\mathfrak m}^{(0)}(N)
+=N\mathfrak J_W(1)\mathfrak S(N)+O_A(N\log^{-A}N).     \tag{4.11}
+\]
+\end{corollary}
+
+\begin{remark}
+ZOT 不是“zero orbit $=0$”。它证明 minor zero orbit 正好携带 major truncation
+没有包含的 high-conductor singular-series tail。留数位移属于 HWAC；
+Euler-product 与 rational sampling 属于 ZOT。二者必须分开陈述。
+\end{remark}
+
+\section{G1、G2、G3 的最终稳定定义}
+
+\begin{definition}[G1：fixed-$N$ lossless PB--MRDET compiler]
+在先执行 HWAC 与 ZOT 后，记 $\E_{\ne0}(N)$ 为剩余 nonzero-orbit minor
+contribution。G1 要求存在有限、互斥、穷尽的 leaf families
+$\LL_{\rm bal}(N)$、$\LL_{\rm pol}(N)$，使
+\begin{align}
+\E_{\ne0}(N)
+={}&\sum_{\lambda\in\LL_{\rm bal}}c_\lambda
+\K_\lambda^{\rm bal}(N)
++\sum_{\mu\in\LL_{\rm pol}}d_\mu
+\K_\mu^{\rm pol}(N)+O_A(N\log^{-A}N),                 \tag{G1.1}\\
+\sum_\lambda|c_\lambda|+
+\sum_\mu|d_\mu|\ll{}&(\log N)^C.                      \tag{G1.2}
+\end{align}
+每个 leaf 必须携带 shift $M=N-r$、arc Fourier 权、dyadic support、
+prime/factor origin、gcd branch、GFT/Mellin charge、Poisson normalization
+及对 G2/G3 hypotheses 的类型证明。
+\end{definition}
+
+HWAC 已解决“minor cutoff 不能直接用全圆正交”的接口；ZOT 已解决 zero orbit。
+但八份日志没有给出从所有 Vaughan/endpoint branches 到上述 finite typed manifest
+的完整、可独立 replay 的证明。因此 G1 的最终状态仍是 \OPEN。
+
+\begin{definition}[G2：balanced weighted four-cycle]
+对 G1 实际产生的 balanced leaves，一致有
+\[
+\left|\sum_{\lambda\in\LL_{\rm bal}}c_\lambda
+\K_\lambda^{\rm bal}(N)\right|
+\ll_A N(\log N)^{-A}.                                  \tag{G2}
+\]
+\end{definition}
+
+G2 的早期 affine closure 被后续 Mellin-direction replay 推翻；正确 residual 是
+projective/reciprocal。当前已到 centered KPA8/DCCS exact factorization 与
+normalized $m$-$L^8$ insertion，故状态为 \REDUCED，不能标为 PROVED。
+
+\begin{definition}[G3：polarized finite-cell exhaustiveness]
+对 G1 实际产生的 polarized leaves，一致有
+\[
+\left|\sum_{\mu\in\LL_{\rm pol}}d_\mu
+\K_\mu^{\rm pol}(N)\right|
+\ll_A N(\log N)^{-A},                                  \tag{G3}
+\]
+且 cell manifest 互斥、穷尽并保留 prime origins。
+\end{definition}
+
+G3 内部稳定分为
+\[
+\begin{array}{c|c|c}
+\text{cell}&\text{条件}&\text{carrier}\\ \hline
+\mathrm{P1}&\lambda_1>2/3&p\\
+\mathrm{P2a}&\lambda_1\le2/3,\ \lambda_2>1/3&p_1p_2\\
+\mathrm{P2b}&\lambda_1\le2/3,\ \lambda_2\le1/3,
+\ \lambda_1+\lambda_2>5/6&p_1p_2.
+\end{array}                                             \tag{5.1}
+\]
+P2a/P2b 的 fixed-modulus/outer-pair analytic obstruction 在日志中已获得强后端，
+但完整 G1-to-backend normalization 仍未形成独立证书，故严格状态为 \REDUCED。
+P1 的非中心区域已有路由；$P\asymp X^{2/3}$、raw scales $\asymp X^{1/3}$
+的 central 1P outer-prime gate 仍 \OPEN，并被缩到 weighted square-core BPTPE。
+
+\section{G3 的完整可证部分、条件后端与精确剩余}
+
+本节不把日志中的 \texttt{CLOSED} 标签原样照抄。我们把 G3 拆成三层：
+\[
+\boxed{
+\text{typed finite algebra}
+\longrightarrow
+\text{local analytic backend}
+\longrightarrow
+\text{global leaf insertion}.}
+\tag{6.1}
+\]
+第一层的命题在本文逐行证明；第二层若调用外部定理，完整列出其假设；
+第三层若八份记录没有提供 basis-level compiler，则明确保持开放。
+
+\subsection{大素因子骨架与 typed packet reconstruction}
+
+\begin{lemma}[bounded prime skeleton]\label{lem:prime-skeleton}
+设 $n\le X$，并把 $n$ 的素因子按 occurrence 记录。则其中严格大于
+$X^{1/6}$ 的 occurrences 至多五个。因而存在
+\[
+n=P m,\qquad P=q_1\cdots q_s,\quad s\le5,             \tag{6.2}
+\]
+其中 $q_j>X^{1/6}$ 均保留 origin label，而 $m$ 的每个素因子均不超过
+$X^{1/6}$。
+\end{lemma}
+
+\begin{proof}
+若有六个这样的 occurrences，则它们的乘积严格大于
+$(X^{1/6})^6=X$，并整除 $n$，与 $n\le X$ 矛盾。把全部大 occurrences
+乘入 $P$，其余乘入 $m$ 即得结论。这里按 occurrence 而非按不同素数计数，
+所以证明同时覆盖重复素因子。
+\end{proof}
+
+\begin{lemma}[origin-labelled tensor reconstruction]\label{lem:typed-reconstruct}
+设一个 Type--II coefficient 为
+\[
+c(a,b,e,f)=\mu(a)\mu(e)\log b,                         \tag{6.3}
+\]
+其中 $\mu(a)\mu(e)\ne0$。把四类 prime occurrences 分到 $J$ 个桶，并记
+第 $j$ 桶的 typed coordinate 为
+\(
+\mathbf m_j=(m_{j,a},m_{j,b},m_{j,e},m_{j,f})
+\)，满足
+\[
+a=\prod_jm_{j,a},\quad b=\prod_jm_{j,b},\quad
+e=\prod_jm_{j,e},\quad f=\prod_jm_{j,f}.              \tag{6.4}
+\]
+则 $c$ 有秩至多 $J$ 的精确 tensor decomposition
+\[
+\mu(a)\mu(e)\log b
+=\sum_{j=1}^{J}
+ \left[\mu(m_{j,a})\mu(m_{j,e})\log m_{j,b}\right]
+ \prod_{i\ne j}\mu(m_{i,a})\mu(m_{i,e}).             \tag{6.5}
+\]
+若另有固定次数的光滑 monomial support 条件，则它可由多变量 Fourier--Mellin
+反演精确分离，代价为相应 Fourier transform 的 $L^1$ 范数。
+\end{lemma}
+
+\begin{proof}
+$a,e$ squarefree，且不同桶由 disjoint occurrences 构成，故
+$\mu(a)=\prod_j\mu(m_{j,a})$、$\mu(e)=\prod_j\mu(m_{j,e})$。
+再用 $\log b=\sum_j\log m_{j,b}$，逐项分配唯一的 log factor，得到
+(6.5)。若 $\Psi$ 是 log-coordinates 上的光滑紧支撑权，普通 Fourier 反演给
+\[
+\Psi(\mathbf u)=\int_{\mathbb R^d}\widehat\Psi(\mathbf t)
+  e^{i\mathbf t\cdot\mathbf u}\,d\mathbf t;
+\]
+取 $u_\nu=\log m_\nu$ 后每个指数函数成为各坐标的乘积。绝对可积性允许
+Fubini，且总 operator cost 不超过 $\|\widehat\Psi\|_1$。
+\end{proof}
+
+\begin{remark}[三格表的严格地位]\label{rem:pack3}
+日志记录了以下 finite packing certificate：若把大 atom 指数记为
+$\lambda_1\ge\cdots\ge\lambda_J>1/6$，则三桶失败只发生在
+\[
+\begin{array}{c|l}
+J&\text{recorded failure guard}\\ \hline
+1&\lambda_1>2/3,\\
+2&\lambda_1>2/3\ \text{or }\lambda_2>1/3\ \text{or }
+   \lambda_1+\lambda_2>5/6,\\
+3&\lambda_2>1/3,\\
+4,5&\text{none}.
+\end{array}                                             \tag{6.6}
+\]
+从每个 guard 推出存在至多二素 carrier $P>X^{2/3}$ 是立即且严格的：
+$J=1$ 取 $q_1$；其余失败情形取 $q_1q_2$。于是余因子 $n/P<X^{1/3}$。
+但八份 Markdown 没有保存“三桶 admissibility”的完整形式定义和 finite
+polytope certificate，故 (6.6) 到“所有真实 G1 leaves”的全局穷尽性不能
+在本文升级为 \PROVED。无条件可用的替代品是引理~\ref{lem:prime-skeleton}；
+P1/P2a/P2b 则是精确保留 (6.6) 的条件 cell catalog。
+\end{remark}
+
+\begin{remark}[日志中的 noncentral 路由备忘：不升级为定理]
+为避免丢失后续决策信息，原记录还使用局部尺度
+$q\asymp X^\alpha,r\asymp X^\beta$ 与 $\kappa=\alpha+\beta-1$，并留下
+下表。表中“记录的后端”只是一张 routing manifest；除非右栏的 leaf-level
+hypotheses 被逐项恢复，它不参与本文任何 \PROVED 结论。
+\begin{center}
+\begin{tabular}{p{0.24\textwidth}p{0.26\textwidth}p{0.40\textwidth}}
+\toprule
+recorded guard & recorded backend & 严格状态\\
+\midrule
+$\kappa<0$ & smooth Fourier decay
+& \REDUCED：$K\asymp X^\kappa$ 与全部导数范数须从真实 leaf 推出。\\
+$14(\alpha+\beta)+5\max(\alpha,\beta)<17$
+& Bettin--Chandee
+& \EXTERNAL：coefficient 与 interval hypotheses 未在八份日志中完整重述。\\
+1P, noncentral prime modulus
+& Blomer--Pascadi general-length bounds
+& \EXTERNAL：只可按原定理的显式长度函数逐格调用。\\
+carrier $>X^{2/3+\eta}$
+& long dual/complete Fourier
+& \REDUCED：“dual 更长”本身不是估计。\\
+partially fixed denominator
+& Wright/BC supplementary route
+& \EXTERNAL：distribution/Siegel--Walfisz guards 必须另证。\\
+\bottomrule
+\end{tabular}
+\end{center}
+这张表保存了“P1 非中心区已有候选路由”的原始含义，同时阻止把候选路由
+误写成无条件 closure。
+\end{remark}
+
+\subsection{PCRS：carrier 的精确抽取与 Kloosterman 模数隔离}
+
+单边精确 Type--II identity 的相关部分写成
+\[
+-\!\sum_{abef=n}\mu(a)\mu(e)\log b,                  \tag{6.7}
+\]
+双边 leaf 因而具有
+\[
+A b f+B d h=N,\qquad A=ae,                            \tag{6.8}
+\]
+以及另一侧同型的 $B,d,h$ origins。以下命题只依赖这个明确 typed state。
+
+\begin{theorem}[PCRS carrier extraction]\label{thm:pcrs}
+设 (6.8) 的一个 localized leaf 在第一项中带有由至多两个显式 prime
+occurrences 构成的 marked carrier $P$，并且
+\[
+A b f=P C.                                             \tag{6.9}
+\]
+则该 leaf 可精确分成至多三个 log branches，使每个 branch 都具有
+\[
+\boxed{P C+Bdh=N}.                                    \tag{6.10}
+\]
+所有原 support inequalities 仍为 origin-labelled monomial inequalities。
+若 $(P,N)=1$，则
+\[
+Bdh\equiv N\pmod P,\qquad (Bdh,P)=1,                 \tag{6.11}
+\]
+所以可在 genuine raw variables $d,h$ 上作 Poisson，而 $P$ 保持为模数。
+\end{theorem}
+
+\begin{proof}
+写 carrier 在四个 origins 上的分布为
+\[
+P=P_aP_bP_eP_f,\quad
+a=P_aa_0,\ b=P_bb_0,\ e=P_ee_0,\ f=P_ff_0.           \tag{6.12}
+\]
+对 Möbius legs，由 squarefree support，
+\[
+\mu(P_aa_0)\mu(P_ee_0)
+=(-1)^{\omega(P_a)+\omega(P_e)}\mu(a_0)\mu(e_0).    \tag{6.13}
+\]
+$f$ 的 coefficient 是 $1$，故抽出 $P_f$ 不改变权。唯一非乘法的 $b$-权满足
+\[
+\log(P_bb_0)=\log b_0+\sum_{p\mid P_b}\log p.       \tag{6.14}
+\]
+因 $P$ 至多含两个 marked occurrences，右侧至多三项。这给出所称精确
+finite branching；每一项中所有 $P$-occurrences 均成为独立 marked coordinate，
+而剩余乘积定义为 $C$，故得到 (6.10)。原来的 $ab>V$、$e\le U$、
+$ef>U$ 等约束在代入 (6.12) 后仍是 monomial inequalities，没有使用
+majorant 或非法 type-cast。
+
+若 $(P,N)=1$，将 (6.10) 模 $P$ 即得 $Bdh\equiv N$。若 $P$ 的某个
+素因子整除 $Bdh$，它也整除 $N$，与 $(P,N)=1$ 矛盾，故所有需要的逆元合法。
+\end{proof}
+
+\begin{lemma}[repeated-prime carrier 的可忽略性]\label{lem:p2carrier}
+由 $p^2$ 形成且 $p^2>X^{2/3}$ 的 carrier，在 $n\le X$ 中的总支撑数为
+$O(X^{2/3})$；乘任意 $O((\log X)^C)$ 权后仍为 $o(X)$。
+\end{lemma}
+
+\begin{proof}
+$p>X^{1/3}$，故
+\[
+\sum_{p>X^{1/3}}\#\{n\le X:p^2\mid n\}
+\le\sum_{X^{1/3}<p\le X^{1/2}}\left(\frac X{p^2}+1\right)
+\ll X^{2/3}+X^{1/2}.                                  \tag{6.15}
+\]
+最后一句由 $X^{-1/3}(\log X)^C\to0$。
+\end{proof}
+
+\begin{lemma}[fixed-$N$ carrier gcd downgrade]\label{lem:gcd-down}
+在 (6.10) 中若 prime $p\mid(P,N)$，则 $p\mid Bdh$。按
+$v_p(B),v_p(d),v_p(h)$ 作有限个互斥 valuation branches，并从等式两边除去
+一个 $p$，得到 carrier depth 严格减少的同型整数等式。对至多二素 carrier，
+递归至多两步终止。
+\end{lemma}
+
+\begin{proof}
+$p\mid PC$ 且 $p\mid N$，所以 $p\mid Bdh$。用三元 valuation 的值
+$(v_p(B),v_p(d),v_p(h))$ 分割支撑；每个非空 branch 至少一个值为正。
+从含 $p$ 的相应 factor 中提出一个 $p$，并把
+$PC+Bdh=N$ 整体除以 $p$。左侧 carrier 从 $P$ 变为 $P/p$，所以 depth
+减少一。若 log weight 所在变量含 $p$，使用
+$\log(px)=\log p+\log x$ 作两个精确分支。整个操作只含有限分割。
+\end{proof}
+
+\begin{lemma}[double Poisson 的 exact Kloosterman normal form]\label{lem:double-poisson}
+设 $(a,P)=1$，$u,v$ 为有限支撑函数，定义
+\(
+\widehat u_P(k)=\sum_nu(n)e^{-2\pi i kn/P}
+\)
+及同型的 $\widehat v_P$。则
+\[
+\sum_{d,h}u(d)v(h)\mathbf1_{dh\equiv a\ (P)}
+=\frac1{P^2}\sum_{k,\ell\bmod P}
+ \widehat u_P(k)\widehat v_P(\ell)S(k,a\ell;P),       \tag{6.16}
+\]
+其中
+$S(m,n;P)=\sum_{x\in(\mathbb Z/P\mathbb Z)^\times}
+e^{2\pi i(mx+n\bar x)/P}$。
+若 $u,v$ 是尺度 $D,H$ 的光滑权，则重复分部积分把有效 dual lengths 限制为
+$|k|\ll P D^{-1}X^{o(1)}$、$|\ell|\ll P H^{-1}X^{o(1)}$。
+\end{lemma}
+
+\begin{proof}
+对 residue $x\bmod P$，Poisson 的有限形式是
+\[
+\sum_{n\equiv x\ (P)}u(n)=P^{-1}\sum_{k\bmod P}
+\widehat u_P(k)e^{2\pi ikx/P}.                         \tag{6.17}
+\]
+把它及 $v$ 的同型公式代入，并令 $h\equiv a\bar d$，对
+$d\in(\mathbb Z/P\mathbb Z)^\times$ 求和，内和正是 $S(k,a\ell;P)$。
+对 smooth weights 的长度结论是 Fourier transform 的标准分部积分界：
+每次分部积分获得因子 $P/(D|k|)$，任取固定次数即可截断到所述范围。
+\end{proof}
+
+\begin{corollary}[严格的 scale information，而非 backend 结论]
+若 $P>X^{2/3}$ 且 $D,H\le X^{1/3}$，则 (6.16) 的两个有效 dual scales
+均严格大于 $X^{1/3}$。这个不等式本身不推出任何 Blomer--Pascadi 或
+Pascadi bound；还必须逐项验证外部定理的 interval、coprimality、coefficient
+及 outer-averaging hypotheses。
+\end{corollary}
+
+\begin{proof}
+$P/D>X^{1/3}$ 且 $P/H>X^{1/3}$。最后一句是逻辑适用域声明。
+\end{proof}
+
+\subsection{P2a/P2b：临界 fixed-modulus 与 cross-prime 后端}
+
+下列两个结果是本文唯一使用的外部 Kloosterman estimates；它们不是由 GFT
+证明的。
+
+\begin{theorem}[Pascadi composite-modulus input，\EXTERNAL]\label{thm:pascadi}
+设 $c=dd'e$，$d'\mid d$、$(d,e)=1$，$1\le M,N\le c$；$I,J$ 是长度
+$M,N$ 的整数区间，$\alpha,\beta$ 为任意复系数，且
+$a\in(\mathbb Z/c\mathbb Z)^\times$。令 $f$ 为满足 $f^2\mid cd$ 的最大正整数。
+则
+\[
+\left|\sum_{\substack{m\in I,n\in J\\(m,n,c)=1}}
+\alpha_m\beta_nS(am,n;c)\right|
+\ll \|\alpha\|_2\|\beta\|_2c^{1+o(1)}G^{1/6},       \tag{6.18}
+\]
+其中
+\[
+G=\frac{dMN(M^2+N^2)}{c^3}
+ +\frac{f(M^2+N^2)}{c^2}+\frac f{d^2}.                \tag{6.19}
+\]
+这是 \cite[Theorem 5.4]{BP2026} 的对称表述；它由
+\cite[Theorem 7.1]{Pascadi2026} 通过在 $M<N$ 时交换两个变量得到。
+\end{theorem}
+
+\begin{corollary}[squarefree 2P critical backend]\label{cor:2p-fixed}
+设 $c=pr$，$p\ne r$ 为素数，取 $d=r,d'=1,e=p$。若
+$M,N\asymp\sqrt{pr}$ 且 (6.18) 的全部假设成立，则
+\[
+\left|\sum\alpha_m\beta_nS(am,n;pr)\right|
+\ll \|\alpha\|_2\|\beta\|_2(pr)^{1+o(1)}
+\left(\frac1p+\frac1r\right)^{1/6}.                 \tag{6.20}
+\]
+特别地，$p\asymp r\asymp H$ 时得到 $H^{-1/6+o(1)}$ 的相对 saving。
+\end{corollary}
+
+\begin{proof}
+$cd=(pr)r=pr^2$ 且 $p\ne r$，故 (6.19) 中 $f=r$。代入
+$M,N\asymp\sqrt c$ 得第一、二项均为 $O(1/p)$，第三项为 $1/r$。
+这给 (6.20)。
+\end{proof}
+
+\begin{corollary}[P2a/P2b central cell 的严格指数]
+在推论~\ref{cor:2p-fixed} 的全部假设下，再设 $p\ge r$。则相对 saving 为
+$r^{-1/6+o(1)}$。若该较小 prime 来自 (5.1) 的 P2a，便有
+$r>X^{1/3}$，从而 saving 至少为 $X^{-1/18+o(1)}$；若来自 P2b，
+由 large-atom guard $r>X^{1/6}$，saving 至少为 $X^{-1/36+o(1)}$。
+这些指数只属于 $M,N\asymp\sqrt{pr}$ 且 (6.18) 全部类型条件成立的
+fixed-modulus central cell，不自动覆盖任意实际 leaf。
+\end{corollary}
+
+\begin{proof}
+$p\ge r$ 时 $p^{-1}+r^{-1}\asymp r^{-1}$；代入 (6.20) 后分别使用
+$r>X^{1/3}$ 与 $r>X^{1/6}$。
+\end{proof}
+
+\begin{theorem}[Blomer--Pascadi prime critical input，\EXTERNAL]
+若 $c=p$ 为素数、$I,J$ 的长度均不超过 $L\le p$，$(m,n,p)=1$，则
+\cite[Theorem 1.1]{BP2026} 给
+\[
+\sum_{m\in I,n\in J}\alpha_m\beta_nS(am,n;p)
+\ll\|\alpha\|_2\|\beta\|_2p^{1+o(1)}
+\left(\frac{L^{1/8}}{p^{3/32}}+
+      \frac{L^{5/16}}{p^{3/16}}+
+      \frac{L^{2/3}}{p^{7/18}}\right).               \tag{6.21}
+\]
+在 $L=\sqrt p$ 时右侧为
+$\|\alpha\|_2\|\beta\|_2p^{1-1/32+o(1)}$。
+\end{theorem}
+
+\begin{theorem}[双尺度 cross-prime character incidence]\label{thm:cross-prime}
+设 $3\le H_2\le H_1$，$\mathcal P\subset[H_1,2H_1]$、
+$\mathcal R\subset[H_2,2H_2]$ 为素数集合。对
+$p\in\mathcal P,r\in\mathcal R$ 排除 $p=r$，并令
+\[
+\mathscr U_{(p,\chi),(r,\psi)}=\chi(r)^2\psi(p)^2,   \tag{6.22}
+\]
+其中 $\chi$、$\psi$ 遍历模 $p$、$r$ 的全部乘法角色。则
+\[
+\boxed{\|\mathscr U\|_{2\to2}
+\ll H_1H_2^{1/2}L^{1/2}},\qquad
+L=1+\frac{\log(4H_1)}{\log H_2}.                    \tag{6.23}
+\]
+同一估计对 $\mathscr U\otimes I_{\mathcal H}$ 成立，其中 $\mathcal H$
+为任意 Hilbert space。特别地，$H_1=H_2=H$ 时
+$\|\mathscr U\|\ll H^{3/2}$。
+\end{theorem}
+
+\begin{proof}
+记 $G=\mathscr U\mathscr U^*$。由角色正交，$p,p'$ 对应的 block 为
+\[
+G_{(p,\chi),(p',\chi')}
+=\sum_{\substack{r\in\mathcal R,\ r\ne p,p'\\r\mid p^2-p'^2}}
+(r-1)\chi(r)^2\overline{\chi'(r)^2}.                  \tag{6.24}
+\]
+若 $p\ne p'$，则 $r\mid(p-p')(p+p')$。其乘积绝对值至多 $16H_1^2$，
+故位于 $[H_2,2H_2]$ 的不同素因子数至多
+$\log(16H_1^2)/\log H_2\ll L$。每个允许的 $r$ 给出秩一矩阵
+\((r-1)v_{p,r}v_{p',r}^*\)，且
+$\|v_{p,r}\|_2=\sqrt{p-1}\ll H_1^{1/2}$，故
+\[
+\|G_{p,p'}\|\ll LH_1H_2\qquad(p\ne p').            \tag{6.25}
+\]
+
+若 $p=p'$，令 $V_{\chi,r}=\chi(r)^2$。则
+\[
+(V^*V)_{r,r'}=(p-1)\mathbf1_{r^2\equiv r'^2\ (p)}.  \tag{6.26}
+\]
+固定 $r\in[H_2,2H_2]$ 后，两个同余类 $r'\equiv\pm r\pmod p$ 在长度
+$H_2\le H_1\le p$ 的区间内各只有 $O(1)$ 个代表；Schur test 给
+$\|V\|^2\ll H_1$。
+(6.24) 的 diagonal block 为 $V\operatorname{diag}(r-1)V^*$，故仍有
+$\|G_{p,p}\|\ll H_1H_2$。最后对至多 $O(H_1)$ 个 prime blocks 再用
+block Schur test：
+\[
+\|G\|\le\sup_p\sum_{p'\in\mathcal P}\|G_{p,p'}\|
+\ll LH_1^2H_2.
+\]
+取平方根得 (6.23)。Hilbert-valued 结论来自
+$\|\mathscr U\otimes I_{\mathcal H}\|=\|\mathscr U\|$。
+\end{proof}
+
+\begin{corollary}[P2 canonical spectral model 的闭合范围]
+若一个 2P leaf 已经逐 basis、带全部 prefactor 地编译为
+\[
+\sum_{p,r,\chi,\psi}
+\lambda_p\mu_r\chi(r)^2\psi(p)^2
+\langle X_{p,\chi},Y_{r,\psi}\rangle_{\mathcal H},   \tag{6.27}
+\]
+并且 inner vectors 的 norm budget 已由 (6.18) 或相应 PCGFT local theorem
+验证，则 outer prime aggregation 不再造成 $\ell^1$ 损失，而由
+定理~\ref{thm:cross-prime} 控制。对完整 dyadic prime blocks，若较大、较小
+prime scales 分别为 $H_1,H_2$，则相对朴素的 $H_1H_2$ aggregation scale
+获得 $H_2^{-1/2}$（允许对数因子）的 saving。
+\end{corollary}
+
+\begin{proof}
+(6.27) 是
+$\langle X,(\mathscr U\otimes I_{\mathcal H})Y\rangle$；应用
+Cauchy--Schwarz 与定理~\ref{thm:cross-prime}。完整 dyadic blocks 的 row、column
+dimensions 分别为 $H_1^{2+o(1)}$、$H_2^{2+o(1)}$，故朴素 all-ones
+operator scale 为 $H_1H_2(H_1H_2)^{o(1)}$；(6.23) 为
+$H_1H_2^{1/2}(H_1H_2)^{o(1)}$。
+\end{proof}
+
+\begin{warning}[为何这还不能把 P2a/P2b 标成全局 PROVED]
+八份记录给出了 CRT Gauss factorization 与若干 local D6/PCGFT identities，
+但没有保存一个从每个真实 G1 polarized leaf 到 (6.27) 的完整 basis-level
+等式、统一 measure、所有 gcd branches 与 prefactor。因而本文已经严格闭合：
+PCRS、critical fixed-modulus input 的合法应用、cross-prime operator；尚未闭合：
+\[
+\boxed{
+\text{actual P2 leaf}\longrightarrow\text{canonical form (6.27)}.}   \tag{6.28}
+\]
+所以 P2a/P2b 的正确全局状态仍是 \REDUCED，而不是 PROVED。旧日志中
+“dual 较长所以自动进入 square-root backend”的说法也被删除；长度关系必须
+代入 (6.19) 或 (6.21) 检查。
+\end{warning}
+
+\subsection{P1：fixed-prime 已闭合部分与 outer-prime 唯一核心}
+
+\begin{lemma}[短区间乘积 fibre]\label{lem:product-fibre}
+固定 $C>0$。若 $I,J\subset[1,C\sqrt p]$ 是整数区间，则一致于
+$t\in\mathbb F_p$，
+\[
+\#\{(x,y)\in I\times J:xy\equiv t\pmod p\}\ll_{C,\varepsilon}p^\varepsilon.
+\tag{6.29}
+\]
+\end{lemma}
+
+\begin{proof}
+$xy\le C^2p$，故 $xy=t+kp$ 中 $k$ 只有 $O_C(1)$ 个可能值。每个固定
+非零整数 $t+kp=O_C(p)$ 的有序因子分解数至多 $\tau(t+kp)\ll_\varepsilon
+p^\varepsilon$；零值另由正支撑排除。求和即得。
+\end{proof}
+
+\begin{theorem}[P1 fixed-modulus triple Mellin bound]\label{thm:p1fixed}
+设 $p$ 为素数，$(N,p)=1$，$I_1,I_2,I_3\subset[1,C\sqrt p]$，并令
+\[
+T_p=\sum_{B\in I_1}\sum_{k\in I_2}\sum_{\ell\in I_3}
+\beta_B\alpha_k\nu_\ell S(Nk\bar B,-\ell;p),         \tag{6.30}
+\]
+其中所有 variables 均非零模 $p$。则
+\[
+\boxed{|T_p|\ll_{C,\varepsilon}p^{1+\varepsilon}
+\|\alpha\|_2\|\nu\|_2\|\beta\|_2.}               \tag{6.31}
+\]
+\end{theorem}
+
+\begin{proof}
+取 $\tau_p(\chi)=\sum_{x\ne0}\chi(x)e^{2\pi ix/p}$。角色正交逐项给
+\[
+S(a,b;p)=\frac1{p-1}\sum_{\chi\bmod p}
+\tau_p(\chi)^2\overline\chi(ab)                      \tag{6.32}
+\]
+（将 $uv=ab$ 参数化为 $u=ax,v=b\bar x$ 即可验证）。因此 $T_p$ 是
+\[
+\frac1{p-1}\sum_\chi\tau_p(\chi)^2\overline\chi(-N)
+A(\chi)V(\chi)D(\chi),                               \tag{6.33}
+\]
+其中 $A,V,D$ 分别是 $\alpha,\nu,\beta$ 的乘法 Fourier transforms
+（$D$ 的角色方向取逆，范数不变）。principal character 满足
+$|\tau_p(1)|=1$；其余角色满足 $|\tau_p(\chi)|=\sqrt p$。
+
+由乘法 Parseval及引理~\ref{lem:product-fibre}，
+\[
+\sum_\chi|A(\chi)|^4\ll p^{1+\varepsilon}\|\alpha\|_2^4,
+\quad
+\sum_\chi|V(\chi)|^4\ll p^{1+\varepsilon}\|\nu\|_2^4,              \tag{6.34}
+\]
+而 $\sum_\chi|D(\chi)|^2=(p-1)\|\beta\|_2^2$。对 (6.33) 用
+Hölder $(4,4,2)$，并以 $p/(p-1)$ 控制 Gauss prefactor，得到 (6.31)。
+\end{proof}
+
+\begin{corollary}[P1 还缺的准确指数]
+令 $p\asymp H^2$，三个 bounded packets 的长度均为 $H$。则
+(6.31) 给固定 $p$ 的 $H^{7/2+o(1)}$；对 $O(H^2)$ 个 prime moduli
+绝对求和给 $H^{11/2+o(1)}$。若 global raw target 是 $H^{5-o(1)}$，
+则仍缺 outer $H^{-1/2-o(1)}$，fixed-modulus saving 不能自动解决它。
+\end{corollary}
+
+\begin{proof}
+每个 bounded packet 的 $\ell^2$ norm 为 $H^{1/2+o(1)}$；代入
+$p=H^2$ 得 $H^2H^{3/2}=H^{7/2}$。再乘 outer modulus 数量 $O(H^2)$。
+\end{proof}
+
+\begin{lemma}[BP trace 的 sum--product 坐标]\label{lem:bptrace}
+定义
+\[
+R(a,b,c,d)=abcd-(a+c)(b+d).                            \tag{6.35}
+\]
+置 $x=ac,y=a+c,u=bd,v=b+d$，则
+\[
+\boxed{R=xu-yv}.                                      \tag{6.36}
+\]
+映射 $(a,c)\mapsto(ac,a+c)$ 的 fibre 至多二；固定 $a,c,R$，令
+$A=ac,C=a+c$，则
+\[
+\boxed{(Ab-C)(Ad-C)=AR+C^2}.                          \tag{6.37}
+\]
+\end{lemma}
+
+\begin{proof}
+(6.36) 是展开。给定 $(x,y)$，$a,c$ 是 $T^2-yT+x$ 的两个根，故有序
+fibre 至多二。最后
+\[
+(Ab-C)(Ad-C)=A^2bd-AC(b+d)+C^2=A(Abd-C(b+d))+C^2,
+\]
+而括号内正是 $R$。
+\end{proof}
+
+\begin{proposition}[当前可证的粗 BPTPE]\label{prop:crude-bptpe}
+若 $a,b,c,d\in[H,2H]\cap\mathbb Z$，$Y_j$ 为任意复权，并定义
+\[
+a_R=\sum_{R(a,b,c,d)=R}Y_1(a)Y_2(b)\overline{Y_3(c)Y_4(d)},           \tag{6.38}
+\]
+则
+\[
+\sum_R|a_R|^2\ll_\varepsilon H^{2+\varepsilon}
+\prod_{j=1}^4\|Y_j\|_2^2.                            \tag{6.39}
+\]
+对 bounded packets，右侧为 $H^{6+\varepsilon}$。
+\end{proposition}
+
+\begin{proof}
+固定 $a,c,R$ 后，(6.37) 把 $(b,d)$ 注入整数
+$AR+C^2$ 的有序因子分解。在 $a,b,c,d\in[H,2H]$ 上，
+$A=ac\ge H^2$、$C=a+c\le4H$，故当 $H>4$ 时
+$Ab-C$ 与 $Ad-C$ 均非零，从而 $AR+C^2\ne0$。于是通常的整数因子函数界
+给出 $O_\varepsilon(H^\varepsilon)$ 个选择；有限范围 $1\le H\le4$ 可吸收进常数。
+再选 $(a,c)$，每个 $R$-fibre 的 cardinality 至多 $H^{2+\varepsilon}$。
+对每个 fibre 用 Cauchy，再对 $R$ 求和；所有四元组恰出现一次，于是
+\[
+\sum_R|a_R|^2
+\le (\max_R\#R^{-1}(R))
+\sum_{a,b,c,d}|Y_1(a)Y_2(b)Y_3(c)Y_4(d)|^2,
+\]
+即 (6.39)。
+\end{proof}
+
+\begin{definition}[optimal 与 weighted square-core BPTPE，\OPEN]
+最强的期望界是删除 (6.39) 中的 $H^2$：
+\[
+\sum_R|a_R|^2\ll H^{\varepsilon}\prod_j\|Y_j\|_2^2. \tag{6.40}
+\]
+outer-prime Legendre channel 实际只要求较弱但更有针对性的 square-core 界。
+令 $F(R)=R(R+4)$，目标为
+\[
+\sum_{\substack{R_1,R_2\\F(R_1)F(R_2)=\square}}
+|a_{R_1}a_{R_2}|
+\ll H^\varepsilon\prod_j\|Y_j\|_2^2.                 \tag{6.41}
+\]
+日志把 (6.41) 命名为 weighted square-core BPTPE。
+\end{definition}
+
+\begin{warning}[dBWX 的真实作用域]
+\cite[Proposition 6.1]{dBWX2026} 对任意固定 separable quadratic polynomial
+$F$ 证明：$1\le n_i\le L$ 且 $F(n_1)\cdots F(n_4)$ 为平方的非对角
+四元组有 $O_{F,\varepsilon}(L^{3/2+\varepsilon})$ 个。它可应用于
+$F(R)=R(R+4)$ 的\emph{裸 $R$-变量}；但 (6.41) 的 $a_R$ 是四个短变量的
+高重数 pushforward。该外部定理没有自动控制这些 weights，故不能用它把
+(6.41) 标成已证。
+\end{warning}
+
+\subsection{G3 的最终逐层状态}
+
+\begin{longtable}{p{0.30\textwidth}p{0.16\textwidth}p{0.45\textwidth}}
+\toprule
+对象&状态&本文已提供的证书\\ \midrule
+\endfirsthead
+\toprule 对象&状态&证书\\ \midrule\endhead
+bounded prime skeleton&\PROVED&引理~\ref{lem:prime-skeleton}。\\
+typed packet reconstruction&\PROVED&精确有限 tensor identity (6.5)。\\
+exact three-cell exhaustiveness&\REDUCED&三格 guard 被保留；原 finite packing
+admissibility/certificate 未包含在日志，不能冒充全局定理。\\
+PCRS carrier extraction&\PROVED&定理~\ref{thm:pcrs}，适用于明确的 typed TT leaf。\\
+repeated prime/gcd branches&\PROVED&引理~\ref{lem:p2carrier}、\ref{lem:gcd-down}。\\
+double Poisson normal form&\PROVED&引理~\ref{lem:double-poisson}。\\
+2P critical fixed modulus&\EXTERNAL&推论~\ref{cor:2p-fixed}，须满足 (6.18) 的全部假设。\\
+cross-prime outer incidence&\PROVED&定理~\ref{thm:cross-prime}。\\
+P2a/P2b global blocks&\REDUCED&缺 actual-leaf $\to$ (6.27) 的 basis-level
+normalization/measure 证书。\\
+P1 fixed modulus&\PROVED&定理~\ref{thm:p1fixed}。\\
+P1 trace coordinates/divisor rigidity&\PROVED&引理~\ref{lem:bptrace}。\\
+P1 crude energy&\PROVED&命题~\ref{prop:crude-bptpe}，尺度 $H^{6+o(1)}$。\\
+P1 weighted square-core BPTPE&\OPEN&目标 (6.41)，正好是 central outer-prime gap。\\
+G3 as a global leaf theorem&\OPEN&须同时补 three-cell manifest、P2 insertion
+及 P1 (6.41)。\\
+\bottomrule
+\end{longtable}
+
+\begin{remark}[Lean 审查边界]
+引理~\ref{lem:prime-skeleton}、\ref{lem:typed-reconstruct}、
+\ref{lem:p2carrier}、\ref{lem:gcd-down}、\ref{lem:bptrace} 只需有限和、整除、
+多项式恒等式和 Cauchy--Schwarz，可直接翻译为 Lean 定理。定理
+\ref{thm:cross-prime} 还需有限群角色正交与 block Schur；定理
+\ref{thm:p1fixed} 还需 Gauss 和、divisor bound。定理~\ref{thm:pascadi} 与
+Blomer--Pascadi 输入在当前 mathlib 中只能作为带完整 hypotheses 的外部公理接口。
+这里的 \texttt{Lean-friendly} 不等于声称已经存在通过编译的 Lean 文件。
+\end{remark}
+
+\section{条件性 Goldbach 主定理}
+
+\begin{theorem}[G1+G2+G3 推出 sufficiently-large Goldbach]
+假设 \textup{(MA$_P$)}，并假设 G1、G2、G3 对每个充分大的偶数 $N$ 一致成立。
+则每个充分大的偶数是两个素数之和。
+\end{theorem}
+
+\begin{proof}
+由 G1、G2、G3，minor nonzero orbit 为 $O_A(N\log^{-A}N)$。由 (4.11)，
+major arcs 与 minor zero orbit 合为
+$N\mathfrak J_W(1)\mathfrak S(N)+O_A(N\log^{-A}N)$。所以
+\[
+R_{\Lambda,W}(N)
+=N\mathfrak J_W(1)\mathfrak S(N)+o(N).                 \tag{7.1}
+\]
+偶数 $N$ 满足 $\mathfrak S(N)\ge2C_2>0$，故右侧 $\gg_WN$。由 (1.5)，
+\[
+R_{\vartheta,W}(N)
+=R_{\Lambda,W}(N)+O_W(N^{1/2}\log^2N)>0                \tag{7.2}
+\]
+对充分大 $N$ 成立，因此存在素数 $p_1,p_2$ 使 $p_1+p_2=N$。
+\end{proof}
+
+\begin{remark}
+这只证明 sufficiently-large 版本。完整“每个偶数 $N\ge4$”还需要可计算阈值
+$N_0$ 及有限验证；日志未提供二者。
+\end{remark}
+
+\section{命名漂移、最终状态与被推翻结论}
+
+早期 local-SOMK 三分是 zero orbit、balanced nonzero、polarized nonzero。
+后期稳定命名则是 G1=compiler、G2=balanced、G3=polarized；G3 内部另有
+P1/P2a/P2b。ZOT 属于 G1 前端的 zero-orbit 路由，不属于稳定定义下的 G3。
+
+\begin{longtable}{p{0.28\textwidth}p{0.16\textwidth}p{0.47\textwidth}}
+\toprule
+对象 & 状态 & 可审计结论\\ \midrule
+\endfirsthead
+\toprule 对象 & 状态 & 可审计结论\\ \midrule\endhead
+smooth HWAC 与 modewise residue & \PROVED
+& (2.3)、(2.10)、(2.12) 已完整证明。\\
+sharp-HWAC / cutoff 整体全纯闭合 & \REJECTED
+& sharp cutoff 的 Wiener 范数发散；$C^\infty$ 不蕴含 annular holomorphy。\\
+Möbius zero-orbit Euler product & \PROVED
+& (3.9)--(3.17)，依赖明确写出的经典 zeta zero-free region。\\
+High-Conductor ZOT & \PROVED
+& (4.7)，依赖 Montgomery--Vaughan 点态 tail (4.10)。\\
+G1 complete typed leaf manifest & \OPEN
+& HWAC/ZOT 只是其已闭合子模块，不能替代完整 compiler induction。\\
+G2 old affine replay & \REJECTED
+& Mellin inverse 共轭方向错误；详见配套 G2 稿。\\
+G2 corrected projective route & \REDUCED
+& DCCS exact splice 与 normalized high moment 尚开放。\\
+G3 finite typed algebra & \PROVED
+& bounded skeleton、typed reconstruction、PCRS、gcd/repeated-prime 与
+double Poisson 已逐行证明。\\
+G3 P2a/P2b local backend & \PROVED/\EXTERNAL
+& critical fixed modulus 按 Pascadi 原假设调用；cross-prime incidence 在
+定理~\ref{thm:cross-prime} 中完整证明。\\
+G3 P2a/P2b global insertion & \REDUCED
+& actual leaf 到 canonical spectral form (6.27) 的 basis/measure/prefactor
+证书尚缺。\\
+G3 central P1 proved part & \PROVED
+& fixed modulus、sum--product trace、divisor rigidity 与 $H^{6+o(1)}$
+粗能量界均已证明。\\
+G3 central P1 final gate & \OPEN
+& reduced to weighted square-core BPTPE (6.41)。\\
+Binary Goldbach & \OPEN
+& 条件蕴含已证，三个全局 obligation 未齐。\\
+\bottomrule
+\end{longtable}
+
+\section{Lean 形式化 ledger}
+
+本文没有附带可编译 Lean 文件；“Lean-ready”只表示 proof obligations 已被拆开。
+建议依次形式化：
+\begin{enumerate}
+\item 有限 Fourier 展开、Wiener 绝对收敛交换、Cauchy coefficient residue；
+\item $d,e$ 解集参数化、Poisson zero-frequency 密度与 Euler local factors；
+\item 把 zeta zero-free region、Montgomery--Vaughan tail、Siegel--Walfisz
+major arcs 封装成带完整假设的 external theorem records；
+\item rational separation (4.3) 及 sampling integral (4.4)；
+\item origin-labelled G1 leaf AST；只有该 induction 完成后才能调用 G2/G3；
+\item 所有 $p^{o(1)}$ 改写为 $\forall\varepsilon>0\,\exists C_\varepsilon$。
+\end{enumerate}
+
+\section{结论}
+
+严格依赖图为
+\[
+\boxed{
+\begin{array}{c}
+\text{smooth partition}\xrightarrow{\rm HWAC}
+\text{shifted full-circle coefficients}\\
+\downarrow\\
+\text{zero orbit}\xrightarrow{\rm ZOT}
+\text{singular-series tail}\quad(\PROVED)\\
+\text{nonzero orbit}\xrightarrow{\rm G1}
+\text{balanced G2}+\text{polarized G3}\\
+\downarrow\\
+R_{\vartheta,W}(N)>0.
+\end{array}}
+\]
+第一条和 ZOT 已在本文完整证明；G3 中所有可由现有记录闭合的 finite/compiler、
+fixed-modulus、cross-prime 与 trace-pushforward 子命题也已逐行补证；
+最后一条仍是条件推论。G1、G2、G3 的开放接口已经逐项标出。因此本文既最大限度
+保存现有成果，也没有把 local/conditional closure 误报成 Goldbach 证明。
+
+\begin{thebibliography}{9}
+\bibitem{Titchmarsh}
+E.~C. Titchmarsh, revised by D.~R. Heath-Brown,
+\emph{The Theory of the Riemann Zeta-function}, 2nd ed., Oxford, 1986;
+classical zero-free region and bounds for $1/\zeta(s)$.
+
+\bibitem{MVBook}
+H.~L. Montgomery and R.~C. Vaughan,
+\emph{Multiplicative Number Theory I: Classical Theory}, Cambridge, 2007;
+Perron formula, divisor bounds, and Siegel--Walfisz theory.
+
+\bibitem{VaughanHL}
+R.~C. Vaughan,
+\emph{The Hardy--Littlewood Method}, 2nd ed., Cambridge, 1997;
+smooth Goldbach major arcs and Vaughan identities.
+
+\bibitem{GHN2014}
+D.~A. Goldston, J. Ziegler Hunts and T. Ngotiaoco,
+\emph{The Tail of the Singular Series for the Prime Pair and Goldbach Problems},
+arXiv:1409.2151 (2014), especially (1.4), (1.8), (1.9).
+\url{https://arxiv.org/abs/1409.2151}
+
+\bibitem{Kable2002}
+A.~C. Kable,
+\emph{Legendre sums, Soto--Andrade sums and Kloosterman sums},
+Pacific J. Math. 206 (2002), 139--157.
+\url{https://msp.org/pjm/2002/206-1/pjm-v206-n1-p09-s.pdf}
+
+\bibitem{Pascadi2026}
+A. Pascadi,
+\emph{Non-abelian amplification and bilinear forms with Kloosterman sums},
+arXiv:2511.08445v2 (2026).
+\url{https://arxiv.org/abs/2511.08445}
+
+\bibitem{BP2026}
+V. Blomer and A. Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311v1 (2026).
+\url{https://arxiv.org/abs/2607.24311}
+
+\bibitem{dBWX2026}
+R. de la Bret\`eche, V.~Y. Wang and M.~W. Xu,
+\emph{Random Multiplicative Functions and Making Squares from Polynomial Values},
+arXiv:2607.06398v1 (2026).
+\url{https://arxiv.org/abs/2607.06398}
+\end{thebibliography}
+
+\end{document}
