@@ -1,0 +1,727 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.35cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{xcolor,booktabs,longtable,array,enumitem,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black,citecolor=blue!55!black}
+\setlist{nosep}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\newtheorem{proposition}[theorem]{命题}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{适用范围}
+\newtheorem{warning}[theorem]{警告}
+
+\newcommand{\F}{\mathbb F}
+\newcommand{\C}{\mathbb C}
+\newcommand{\G}{\F_p^\times}
+\newcommand{\Gh}{\widehat{\G}}
+\newcommand{\ee}{\mathrm e}
+\newcommand{\ep}{e_p}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Kl}{\operatorname{Kl}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\eps}{\varepsilon}
+
+\title{GFT 可复用工具箱与优美恒等式\\
+\large 有限域、有限群与算子层的严格版本及适用范围}
+\author{从八份研究日志中筛选并重新证明}
+\date{2026年8月28日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本文只保留能够在给定定义下完整证明的 GFT 性质，不保留任何依赖未证
+Goldbach 接口的“候选定理”。核心包括：有限 hit-count 的精确 DFT projector；
+unitary Mellin 的方向审计；sum--product joint-charge transform 的 exact Gram；
+reciprocal fibre 与 projective map；Cayley 变量把有理 complete sum精确化为
+Kloosterman sum；Gauss--Jacobi coboundary 与循环 telescoping；Gauss-square
+序列的 multiplicative Fourier/Kloosterman 对偶；centered Parseval；
+fibrewise dilation 的酉性与 Schatten ideal property；以及“一般 entry shear
+不保持 Schatten 范数”的反例。每条定理都标明 characteristic、非主角色、
+非零分母、measure 与 normalization 的适用范围。
+\end{abstract}
+
+\section{统一约定}
+
+除非另有说明，$p$ 为奇素数，$\F_p$ 为 $p$ 元域，
+$\G=\F_p^\times$，$Q=|\G|=p-1$，$\Gh$ 为所有乘法角色。
+取非平凡加法角色
+\[
+\ep(x)=\exp(2\pi i x/p).
+\]
+所有有限集合上的 $\ell^2$ 默认使用 counting measure。
+
+加法 unitary Fourier 变换定义为
+\[
+\widehat f(h)=p^{-1/2}\sum_{x\in\F_p}f(x)\ep(-hx),
+\tag{1.1}
+\]
+乘法 unitary Mellin 变换定义为
+\[
+(\mathcal M f)(\chi)=Q^{-1/2}\sum_{x\in\G}f(x)\overline{\chi(x)}.
+\tag{1.2}
+\]
+其逆为
+\[
+f(x)=Q^{-1/2}\sum_{\chi\in\Gh}(\mathcal Mf)(\chi)\chi(x).
+\tag{1.3}
+\]
+
+基础正交关系为
+\begin{align}
+\sum_{h\in\F_p}\ep(hx)&=p\,\1_{x=0},                 \tag{1.4}\\
+\sum_{\chi\in\Gh}\chi(x)&=Q\,\1_{x=1}\qquad(x\in\G). \tag{1.5}
+\end{align}
+
+\section{有限 hit-count 的精确 DFT projector}
+
+\begin{theorem}[有限计数选择器]
+设 $K\ge1$，$r,j\in\{0,1,\ldots,K-1\}$。则
+\[
+\boxed{
+\1_{r=j}=\frac1K\sum_{\ell=0}^{K-1}
+\exp\!\left(\frac{2\pi i\ell(r-j)}K\right).}
+\tag{2.1}
+\]
+\end{theorem}
+
+\begin{proof}
+若 $r=j$，每项为 $1$。若 $r\ne j$，右侧是公比不为 $1$ 而 $K$ 次方为
+$1$ 的几何级数，故和为 $0$。
+\end{proof}
+
+\begin{remark}
+若一个算术计数 $R(n)$ 已先验满足 $0\le R(n)<K$，则 (2.1) 精确选择
+$R(n)=j$。若只知道 $R(n)$ 是整数而无此范围，右侧选择的是
+$R(n)\equiv j\pmod K$；这两个陈述不能混用。
+\end{remark}
+
+\section{Mellin 方向与 reciprocal fibre}
+
+\begin{lemma}[unitary Mellin 的逆向]
+若
+\[
+W(y)=Q^{-1/2}\sum_{D\in\Gh}\overline{D(y)}\widetilde W(D),
+\]
+则
+\[
+\boxed{\widetilde W(D)=Q^{-1/2}\sum_{y\in\G}D(y)W(y).}
+\tag{3.1}
+\]
+\end{lemma}
+
+\begin{proof}
+代入右侧并交换求和，内层
+$Q^{-1}\sum_y D(y)\overline{D'(y)}=\1_{D=D'}$。
+\end{proof}
+
+\begin{theorem}[Mellin--Jacobi reciprocal support]
+取 $z,z',y,y'\in\G$ 且 $z\ne z'$，令
+\[
+r=z/z',\qquad a=(r-1)/r,\qquad b=1-r.
+\]
+若 $x\in\F_p\setminus\{0,1\}$ 满足
+\[
+yax=1,\qquad y'b(1-x)=1,
+\tag{3.2}
+\]
+则
+\[
+\boxed{z(y^{-1}-1)=z'(y'^{-1}-1).}
+\tag{3.3}
+\]
+\end{theorem}
+
+\begin{proof}
+因 $a=(z-z')/z$、$b=(z'-z)/z'$，由 (3.2)
+\[
+x=\frac{z}{y(z-z')},\qquad
+1-x=-\frac{z'}{y'(z-z')}.
+\]
+相加得到 $z/y-z'/y'=z-z'$，整理即 (3.3)。
+\end{proof}
+
+\begin{corollary}[projective charge map]
+令 $q=z(y^{-1}-1)$、$w=yz$。则 $z+q\ne0$，且
+\[
+\boxed{y=\frac{z}{z+q},\qquad
+w=\frac{z^2}{z+q}.}
+\tag{3.4}
+\]
+反过来，对 $z\in\G$、$q\ne-z$，(3.4) 唯一确定 $y,w\in\G$。
+\end{corollary}
+
+\begin{proof}
+$z+q=z/y\ne0$，其余为直接代数运算。反向代入可验证。
+\end{proof}
+
+\begin{remark}
+这一定理说明，在 (3.1) 的 convention 下，后续几何是
+$z\mapsto z^2/(z+q)$，不是 affine translation $z\mapsto z+q$。
+若改用相反 Mellin convention，coefficient formula 也必须同步改写。
+\end{remark}
+
+\section{sum--product joint-charge transform}
+
+令 $\mathscr H=\ell^2(\G\times\G)$。定义 swap 与 diagonal projection：
+\[
+(\mathsf SF)(x,z)=F(z,x),\qquad
+(\mathsf DF)(x,z)=\1_{x=z}F(x,z).
+\tag{4.1}
+\]
+先定义 exact sum--product charge transform
+\[
+(\mathcal AF)(R,P)
+=\sum_{\substack{x,z\in\G\\x+z=R,\ xz=P}}F(x,z),
+\quad R\in\F_p,\ P\in\G,
+\tag{4.2}
+\]
+再定义它在 $P$ 坐标上的 unitary character transform
+\[
+(\mathcal JF)(R,\eta)
+=Q^{-1/2}\sum_{\substack{x,z\in\G\\x+z=R}}
+F(x,z)\eta(xz),
+\quad R\in\F_p,\ \eta\in\Gh.
+\tag{4.3}
+\]
+于是
+\(
+\mathcal JF(R,\eta)=Q^{-1/2}\sum_{P\in\G}(\mathcal AF)(R,P)\eta(P)
+\)；这里使用的是与 (1.2) 相差角色反演 $\eta\mapsto\eta^{-1}$ 的
+unitary convention。
+
+\begin{theorem}[exact sum--product Gram]
+在 counting measure 下，
+\[
+\boxed{\mathcal A^*\mathcal A
+=\mathcal J^*\mathcal J=I+\mathsf S-\mathsf D.}
+\tag{4.4}
+\]
+特别地
+\[
+\boxed{\|\mathcal A\|_{2\to2}
+=\|\mathcal J\|_{2\to2}\le\sqrt2.}
+\tag{4.5}
+\]
+\end{theorem}
+
+\begin{proof}
+对 $F,G\in\mathscr H$，展开内积：
+\[
+\langle\mathcal JF,\mathcal JG\rangle
+=\frac1Q\sum_{R,\eta}
+\sum_{\substack{x+z=R\\x'+z'=R}}
+F(x,z)\overline{G(x',z')}
+\eta\!\left(\frac{xz}{x'z'}\right).
+\]
+由 (1.5)，角色和恰好强迫 $xz=x'z'$。这也正是直接展开
+$\langle\mathcal AF,\mathcal AG\rangle$ 所得的条件。同时有
+$x+z=x'+z'$，故 $(x,z)$ 与 $(x',z')$ 是同一首一二次多项式
+$T^2-RT+xz$ 的有序根；于是 $(x',z')=(x,z)$ 或 $(z,x)$。
+当 $x=z$ 时两种选择重合，须减去一次 diagonal，得到 (4.4)。
+由于 $\mathsf S$ 是酉自伴 involution、$\mathsf D$ 是正交投影，
+$I+\mathsf S-\mathsf D\le2I$，故 (4.5)。
+\end{proof}
+
+\begin{corollary}[对称/反对称分解]
+在对称子空间 $\mathscr H_+=\{F:\mathsf SF=F\}$ 上，
+\[
+I\le\mathcal J^*\mathcal J=2I-\mathsf D\le2I.
+\tag{4.6}
+\]
+在反对称子空间上 $\mathcal J=0$。
+\end{corollary}
+
+\begin{proof}
+对称情形代入 (4.4)。反对称函数在 $x=z$ 上为零，且同一无序根对的两项相消。
+\end{proof}
+
+\begin{remark}
+此结论只给 $L^2$/Bessel assembly 与有界 fibre；它本身不产生
+Schatten-$4$ 或 Schatten-$8$ 的 power saving。
+\end{remark}
+
+\section{projective Cayley 曲线就是 joint-charge 对角}
+
+\begin{theorem}[Vi\`ete 对角字典]
+映射
+\[
+r\in\F_p\setminus\{0,1\}
+\longmapsto
+(x,z)=\left(r^{-1},(1-r)^{-1}\right)
+\tag{5.1}
+\]
+是到集合
+\[
+\Delta=\{(x,z)\in\G\times\G:x+z=xz\}
+\]
+的双射。并且交换 $(x,z)$ 对应 $r\mapsto1-r$。
+\end{theorem}
+
+\begin{proof}
+直接计算
+\[
+x+z=\frac{1}{r}+\frac1{1-r}
+=\frac1{r(1-r)}=xz.
+\]
+反之若 $x+z=xz$，令 $r=x^{-1}$，则
+$1-r=1-x^{-1}=(x-1)/x=z^{-1}$，其中最后一步由
+$z(x-1)=x$ 得到。故逆映射唯一。交换两坐标显然把 $r$ 变为 $1-r$。
+\end{proof}
+
+\begin{corollary}
+在 $\mathcal A$ 的 exact-charge target
+$\ell^2(\F_p\times\G)$ 上，限制 $R=P$ 是乘子
+$\1_{R=P}$，因而是范数 $1$ 的正交投影。不能在
+$\mathcal J$ 的角色坐标 $(R,\eta)$ 中直接写 $R=\eta$；若从
+$\mathcal J$ 出发，必须先对 $\eta$ 作 unitary inverse Mellin。
+\end{corollary}
+
+\section{Cayley 变换与精确 Kloosterman 化}
+
+定义经典 complete Kloosterman sum
+\[
+S(A,C;p)=\sum_{t\in\G}\ep(A/t+Ct).
+\tag{6.1}
+\]
+
+\begin{theorem}[projective complete sum的 Kloosterman identity]
+对任意 $A,C\in\F_p$，
+\[
+\boxed{
+\sum_{r\in\F_p\setminus\{0,1\}}
+\ep\!\left(\frac A r+\frac C{1-r}\right)
+=\ep(A+C)S(A,C;p)-1.}
+\tag{6.2}
+\]
+\end{theorem}
+
+\begin{proof}
+置 $t=r/(1-r)$。这是
+$\F_p\setminus\{0,1\}$ 到 $\F_p\setminus\{0,-1\}$ 的双射，逆为
+$r=t/(1+t)$。并且
+\[
+\frac1r=1+\frac1t,\qquad \frac1{1-r}=1+t.
+\]
+故左侧为
+\[
+\ep(A+C)\sum_{t\in\G\setminus\{-1\}}\ep(A/t+Ct).
+\]
+补上 $t=-1$ 的项，其相位为 $\ep(-A-C)$；乘回外因子后恰为 $1$，得到 (6.2)。
+\end{proof}
+
+\begin{corollary}[generic/degenerate 三分]
+\[
+\left|\sum_{r\ne0,1}\ep(A/r+C/(1-r))\right|
+\le
+\begin{cases}
+2\sqrt p+1,&AC\ne0,\\
+2,&\text{恰有一个 of }A,C\text{ 为 }0,\\
+p-2,&A=C=0.
+\end{cases}
+\tag{6.3}
+\]
+\end{corollary}
+
+\begin{proof}
+$AC\ne0$ 时用 Weil 的 Kloosterman bound
+$|S(A,C;p)|\le2\sqrt p$。若恰有一个为零，非平凡 additive character
+在 $\G$ 上的和为 $-1$。若二者都为零，原和有 $p-2$ 项。
+\end{proof}
+
+\begin{remark}
+(6.2) 是 exact identity；但把单个 entry 的 (6.3) 放入 Schatten trace 时，
+仍需同一 tensor measure 上的 Plancherel/orthogonality。entrywise Weil
+不能自动升级为 operator saving。
+\end{remark}
+
+\section{Gauss--Jacobi coboundary 与循环 telescoping}
+
+对 $\chi\in\Gh$ 定义 Gauss sum
+\[
+\tau(\chi)=\sum_{x\in\G}\chi(x)\ep(x),
+\tag{7.1}
+\]
+对乘法角色 $\alpha,\beta$ 定义 Jacobi sum
+\[
+J(\alpha,\beta)=\sum_{x\in\F_p}\alpha(x)\beta(1-x),
+\tag{7.2}
+\]
+并按通常约定把角色在 $0$ 延拓为 $0$。
+
+\begin{theorem}[normalized Jacobi 是 Gauss phase 的二余边界]
+若 $\alpha,\beta,\alpha\beta$ 均非主角色，令
+\[
+\rho(\chi)=\frac{\tau(\chi)}{\sqrt p},
+\qquad
+\jmath(\alpha,\beta)=\frac{J(\alpha,\beta)}{\sqrt p}.
+\]
+则 $|\rho(\chi)|=1$，并且
+\[
+\boxed{
+\jmath(\alpha,\beta)
+=\rho(\alpha)\rho(\beta)\overline{\rho(\alpha\beta)}.}
+\tag{7.3}
+\]
+\end{theorem}
+
+\begin{proof}
+经典 Gauss--Jacobi 恒等式给
+\[
+J(\alpha,\beta)=\frac{\tau(\alpha)\tau(\beta)}{\tau(\alpha\beta)}.
+\]
+非主角色满足 $|\tau(\chi)|=\sqrt p$，故
+$1/\rho(\chi)=\overline{\rho(\chi)}$。除以 $\sqrt p$ 即得 (7.3)。
+\end{proof}
+
+\begin{corollary}[cocycle identity]
+若下式涉及的每个角色均落在定理的非主适用域，则
+\[
+\boxed{
+\jmath(\alpha,\beta)\jmath(\alpha\beta,\gamma)
+=\jmath(\beta,\gamma)\jmath(\alpha,\beta\gamma).}
+\tag{7.4}
+\]
+\end{corollary}
+
+\begin{proof}
+将 (7.3) 代入两边；所有中间 $\rho$ 因子望远镜相消。
+\end{proof}
+
+\begin{corollary}[闭环 Jacobi phase telescoping]
+设 $\chi_1,\ldots,\chi_n\in\Gh$，令 $\chi_{n+1}=\chi_1$，并假设每个
+$\chi_j$ 与 $\chi_j^{-1}\chi_{j+1}$ 及其乘积均非主。则
+\[
+\prod_{j=1}^n
+\jmath(\chi_j,\chi_j^{-1}\chi_{j+1})
+=\prod_{j=1}^n\rho(\chi_j^{-1}\chi_{j+1}).
+\tag{7.5}
+\]
+特别地，所有依赖中间顶点 $\rho(\chi_j)$ 的 phase 精确相消。
+\end{corollary}
+
+\begin{proof}
+由 (7.3)，第 $j$ 项为
+$\rho(\chi_j)\rho(\chi_j^{-1}\chi_{j+1})
+\overline{\rho(\chi_{j+1})}$。沿闭环相乘即可。
+\end{proof}
+
+\begin{remark}
+若某个角色或乘积为主角色，$|\tau(1)|=1$ 而非 $\sqrt p$，(7.3) 的单位相位
+版本失效。主角色、$t=1$、zero orbit 必须单独拆出；不能用 $p^{o(1)}$ 吞掉。
+\end{remark}
+
+\section{Gauss-square 的 multiplicative Fourier 对偶}
+
+令
+\[
+\sigma(\chi)=\frac{\tau(\chi)^2}{p}
+\quad(\chi\in\Gh),
+\tag{8.1}
+\]
+这里包括主角色，且 $\tau(1)=-1$。
+
+\begin{theorem}[Gauss-square $\leftrightarrow$ Kloosterman]
+对每个 $t\in\G$，
+\[
+\boxed{
+\sum_{\chi\in\Gh}\sigma(\chi)\chi(t)
+=\frac Qp S(1,t^{-1};p).}
+\tag{8.2}
+\]
+若 $\Kl_p(a)=p^{-1/2}S(1,a;p)$，则右侧为
+\((Q/\sqrt p)\Kl_p(t^{-1})\)。
+\end{theorem}
+
+\begin{proof}
+展开并交换求和：
+\begin{align*}
+\sum_\chi\tau(\chi)^2\chi(t)
+&=\sum_{x,y\in\G}\ep(x+y)
+\sum_\chi\chi(xyt)\\
+&=Q\sum_{x\in\G}\ep\!\left(x+\frac1{xt}\right)
+=Q S(1,t^{-1};p).
+\end{align*}
+除以 $p$ 即得结论。
+\end{proof}
+
+\begin{remark}
+这是全角色族的 exact Fourier identity，不是对单个 $\chi$ 的点态估计。
+其价值在于把一个高阶 Gauss phase family降回标准 rank-$2$ Kloosterman geometry；
+但任何后续高矩估计仍需核对其 coefficient 与 support。
+\end{remark}
+
+\section{centered Parseval：主模应该精确删除}
+
+\begin{theorem}[unitary centered Parseval]
+对 $f:\F_p\to\C$ 及 (1.1) 的 Fourier convention，
+\[
+\boxed{
+\sum_{h\ne0}|\widehat f(h)|^2
+=\sum_{x\in\F_p}|f(x)|^2
+-\frac1p\left|\sum_{x\in\F_p}f(x)\right|^2.}
+\tag{9.1}
+\]
+\end{theorem}
+
+\begin{proof}
+Parseval 给 $\sum_h|\widehat f(h)|^2=\sum_x|f(x)|^2$，且
+$\widehat f(0)=p^{-1/2}\sum_xf(x)$。减去 $h=0$ 项即得。
+\end{proof}
+
+\begin{corollary}[非单位化版本]
+若 $\widehat f_{\rm raw}(h)=\sum_xf(x)\ep(-hx)$，则
+\[
+\boxed{
+\sum_{h\ne0}|\widehat f_{\rm raw}(h)|^2
+=p\sum_x|f(x)|^2-\left|\sum_xf(x)\right|^2.}
+\tag{9.2}
+\]
+\end{corollary}
+
+\begin{remark}
+日志中多次出现的
+$p\sum|Q|^2-|\sum Q|^2$ 正是 (9.2)，不是“额外得到一次 $p$ saving”。
+它是删除 principal additive mode 的 exact identity；若 Fourier convention 改为
+unitary，两个 $p$ 因子必须同步改变。
+\end{remark}
+
+\section{fibrewise dilation 与 Schatten transport}
+
+令
+\[
+\mathscr K=\bigoplus_{R\in\G}\ell^2(\F_p).
+\]
+
+\begin{theorem}[charge-dependent additive dilation是酉的]
+定义
+\[
+(\mathcal U f)(R,A)=f(R,A/R).
+\tag{10.1}
+\]
+则 $\mathcal U$ 是 $\mathscr K$ 上的酉算子，逆为
+\((\mathcal U^{-1}f)(R,A)=f(R,AR)\)。
+\end{theorem}
+
+\begin{proof}
+固定 $R\in\G$ 时，$A\mapsto A/R$ 是 $\F_p$ 的置换，故保持该 fibre 的
+$\ell^2$ 内积。对 $R$ 作正交直和即得。
+\end{proof}
+
+\begin{remark}
+必须排除 $R=0$ 或为它另定义一个独立 fibre；在 $R=0$ 上写 $A/R$ 是未定义的。
+此外，(10.1) 只证明该 dilation 本身酉，不证明它可以穿过任意 joint transform。
+后者需要 exact intertwining identity。
+\end{remark}
+
+\begin{theorem}[Schatten ideal property]
+设 $1\le s\le\infty$，$T$ 为有限维算子，$A,B$ 为有界算子。则
+\[
+\boxed{
+\|ATB\|_{S_s}\le\|A\|_{op}\,\|T\|_{S_s}\,\|B\|_{op}.}
+\tag{10.2}
+\]
+特别地，正交投影和酉算子不会增大 Schatten-$s$ 范数。
+\end{theorem}
+
+\begin{proof}
+有限维 Schatten classes 是双边 operator ideals；可由 singular-value
+不等式 $s_j(ATB)\le\|A\|_{op}\|B\|_{op}s_j(T)$ 后对 $j$ 取 $\ell^s$ 范数得到。
+\end{proof}
+
+\begin{corollary}
+若某 exact factorization 为 $S=P_0U\Pi\mathcal AT$，其中 $P_0,\Pi$ 是
+正交投影、$U$ 酉，且 $\mathcal A$ 为 (4.2)，则
+\[
+\|S\|_{S_s}\le\sqrt2\,\|T\|_{S_s}.
+\tag{10.3}
+\]
+\end{corollary}
+
+\begin{remark}
+(10.3) 是条件结论：必须先逐项证明 exact factorization。仅凭“每个组成算子
+看起来像 contraction”不能推断原算子等于它们的乘积。
+\end{remark}
+
+\section{为什么一般 entry shear 不保持 Schatten 范数}
+
+\begin{proposition}[entry multiset 相同不保证 singular values 相同]
+存在两个 $2\times2$ 矩阵，它们的 entries 只是彼此重排，但 Schatten-$4$ 范数不同。
+\end{proposition}
+
+\begin{proof}
+取
+\[
+A=\begin{pmatrix}1&1\\0&0\end{pmatrix},\qquad
+B=\begin{pmatrix}1&0\\0&1\end{pmatrix}.
+\]
+二者都有两个 $1$ 和两个 $0$。但 $A$ 的 singular values 为 $(\sqrt2,0)$，
+$B$ 的 singular values 为 $(1,1)$。故
+\[
+\|A\|_{S_4}^4=4,
+\qquad
+\|B\|_{S_4}^4=2.
+\]
+\end{proof}
+
+\begin{corollary}[合法坐标变换判据]
+要无损运输 Schatten norm，足够的形式是 $T\mapsto UTV$，其中 $U,V$ 酉；
+一般依赖 row 的 column shear、依赖 column 的 row shear或任意 entry bijection
+不在此列，必须另证 intertwining identity。
+\end{corollary}
+
+\section{乘法能量与 Mellin Parseval}
+
+对 $a:\G\to\C$ 定义乘法自相关
+\[
+C_a(t)=\sum_{x\in\G}a(tx)\overline{a(x)}.
+\tag{12.1}
+\]
+
+\begin{theorem}[乘法 Wiener--Khinchin]
+用 (1.2) 的 unitary Mellin convention，有
+\[
+\boxed{
+(\mathcal M C_a)(\chi)=\sqrt Q\,|\mathcal Ma(\chi)|^2.}
+\tag{12.2}
+\]
+从而
+\[
+\boxed{
+\sum_{t\in\G}|C_a(t)|^2
+=Q\sum_{\chi\in\Gh}|\mathcal Ma(\chi)|^4.}
+\tag{12.3}
+\]
+\end{theorem}
+
+\begin{proof}
+展开左侧：
+\begin{align*}
+(\mathcal MC_a)(\chi)
+&=Q^{-1/2}\sum_{t,x}a(tx)\overline{a(x)}\overline{\chi(t)}\\
+&=Q^{-1/2}\sum_{u,x}a(u)\overline{a(x)}
+\overline{\chi(u/x)}\\
+&=\sqrt Q\,(\mathcal Ma)(\chi)\overline{(\mathcal Ma)(\chi)}.
+\end{align*}
+再用 Mellin Parseval 得 (12.3)。
+\end{proof}
+
+\begin{remark}
+这是 exact $L^4$/energy dictionary。它可以把 coefficient fourth moment改写为
+乘法碰撞，但不会自动控制带额外 projective/Kloosterman recoupler 的 Schatten cycle。
+\end{remark}
+
+\section{外部定理：只能按原适用域调用}
+
+本节不把外部论文重新证明为本文定理，只记录经原文核对的调用边界。
+
+\begin{center}
+\begin{longtable}{p{0.24\textwidth}p{0.32\textwidth}p{0.34\textwidth}}
+\toprule
+外部结果 & 原文可提供 & 不能自动推出\\
+\midrule
+\endfirsthead
+\toprule
+外部结果 & 原文可提供 & 不能自动推出\\
+\midrule
+\endhead
+Kable (2002)
+& Legendre/Soto--Andrade 作为 Steinberg tensor-square 的 parabolic CG
+coefficients；在 $\ell^2(\F_q,m)$ 中完备正交
+& 我们 counting measure 上的任意 coefficient operator diagonal；DCCS；
+未处理端点权的 unitary splice\\
+Pascadi (2026), Prop. 5.1
+& 有限群、正规子群、不可约表示上的 even Schatten amplification
+& 任意 reducible block；忽略 character denominator；自动 outer-modulus saving\\
+Pascadi (2026), Thm. 1.2
+& 特定 composite modulus factorization 下的 bilinear Kloosterman bound；
+balanced semiprime 可得约 $c^{-1/12}$ saving
+& prime modulus；未验证 coefficient/support/coprimality 的 G3 cell\\
+Blomer--Pascadi (2026), Thm. 1.1
+& 任意模数的 bilinear Kloosterman form；平方根临界区 saving $c^{-1/32}$
+& 变化模数的 outer average；GFT weighted pushforward energy\\
+de la Bret\`eche--Wang--Xu (2026)
+& 固定可分离多项式值的未加权 square-paucity；二次情形最强
+& 任意权 $a_R$ 的 BPTPE；$R=xu-yv$ pushforward 后的 weighted theorem\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\section{Lean-friendly theorem ledger}
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.16\textwidth}p{0.27\textwidth}}
+\toprule
+结果 & 状态 & 主要类型/guard\\
+\midrule
+有限 DFT projector & 已完整证明 & $0\le r,j<K$\\
+Mellin inverse & 已完整证明 & $\G$，counting measure\\
+reciprocal fibre & 已完整证明 & $z,z',y,y'\ne0$，$z\ne z'$\\
+projective charge map & 已完整证明 & $q\ne-z$\\
+joint Gram $I+S-D$ & 已完整证明 & exact $(R,P)$ 或 character $(R,\eta)$ 坐标\\
+Vi\`ete diagonal $x+z=xz$ & 已完整证明 & $r\ne0,1$\\
+Cayley--Kloosterman identity & 已完整证明 & 所有 $A,C\in\F_p$\\
+Jacobi coboundary & 已完整证明 & $\alpha,\beta,\alpha\beta$ 非主\\
+Gauss-square Fourier identity & 已完整证明 & 全部乘法角色\\
+centered Parseval & 已完整证明 & 指定 Fourier normalization\\
+fibrewise dilation unitary & 已完整证明 & $R\in\G$\\
+Schatten ideal transport & 已完整证明 & 有限维\\
+一般 shear no-go & 已完整证明 & 显式 $2\times2$ 反例\\
+乘法 autocorrelation $L^4$ identity & 已完整证明 & 指定 Mellin normalization\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{形式化说明。}
+上表所有“已完整证明”条目均可在有限类型层形式化；唯一需要分析库的是
+Schatten singular-value theory。本文没有提供可编译 Lean 文件，故“Lean-friendly”
+不等于“已由 Lean kernel 验证”。
+
+\section{这些性质对下一步决策的含义}
+
+\begin{enumerate}
+\item GFT 最稳定的优势不是“每个 mode 更小”，而是同时保留 additive sum 与
+multiplicative product 后，root multiplicity 从表面上的 $p$ 级降到 swap 二重性。
+\item Jacobi phase在非主闭环中是 coboundary，可被 gauge/telescoping；
+真正困难通常在 coefficient placement 和 exceptional carriers，而非 phase 本身。
+\item projective rational kernel可经 Cayley 变换精确回到经典 Kloosterman；
+但 fixed-entry Weil 与 Schatten assembly必须分开证明。
+\item centered subtraction 是正交投影，不是启发式误差删除；所有 principal/zero
+mode 都应在 Fourier convention 下精确记账。
+\item DCCS 的 fibrewise dilation本身已经是酉的；剩余问题只可能在它与真实
+joint transform/short tensor的相对位置，而不是 dilation 的范数。
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{Kable2002}
+A.~C. Kable,
+\emph{Legendre sums, Soto--Andrade sums and Kloosterman sums},
+Pacific J. Math. 206 (2002), 139--157.
+\url{https://msp.org/pjm/2002/206-1/pjm-v206-n1-p09-s.pdf}
+
+\bibitem{Pascadi2026}
+A. Pascadi,
+\emph{Non-abelian amplification and bilinear forms with Kloosterman sums},
+arXiv:2511.08445v2 (2026).
+\url{https://arxiv.org/abs/2511.08445}
+
+\bibitem{BP2026}
+V. Blomer and A. Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311v1 (2026).
+\url{https://arxiv.org/abs/2607.24311}
+
+\bibitem{dBWX2026}
+R. de la Bret\`eche, V.~Y. Wang and M.~W. Xu,
+\emph{Random Multiplicative Functions and Making Squares from Polynomial Values},
+arXiv:2607.06398v1 (2026).
+\url{https://arxiv.org/abs/2607.06398}
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,398 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.45cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{xcolor,booktabs,longtable,array,enumitem,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black,citecolor=blue!55!black}
+\setlist{nosep}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{说明}
+
+\newcommand{\F}{\mathbb F}
+\newcommand{\T}{\mathbb T}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\LL}{\mathcal L}
+\newcommand{\E}{\mathcal E}
+\newcommand{\K}{\mathcal K}
+\newcommand{\OPEN}{\textcolor{red!70!black}{\textsf{OPEN}}}
+\newcommand{\REDUCED}{\textcolor{orange!80!black}{\textsf{REDUCED}}}
+\newcommand{\PROVED}{\textcolor{green!45!black}{\textsf{PROVED}}}
+\newcommand{\EXTERNAL}{\textcolor{blue!70!black}{\textsf{EXTERNAL}}}
+
+\title{GFT--Goldbach 的 G1/G2/G3 归约\\
+\large 条件性主定理、版本消歧与可形式化状态审计}
+\author{依据八份研究日志重建的审计稿}
+\date{2026年8月28日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本文把多轮聊天中不断变动的记号冻结为一个可审计的三模块归约。
+严格结论不是“Goldbach 已证明”，而是：在一个标准的加权圆法主弧输入下，
+若 G1 给出 fixed-$N$、pre-Bessel、保留 minor-arc 核和变量来源的无损编译，
+且 G2、G3 分别控制编译所得的 balanced 与 polarized residual，
+则所有充分大的偶数都是两个素数之和。
+本文证明这一条件蕴含，解释 G1 的确切内容，消除“G3 有三块”与后来
+G1/G2/G3 命名之间的歧义，并给出截至日志末端的保守状态：
+G1 开放；G2 已缩到 DCCS/KPA8 类型拼接与高矩回代，但仍开放；
+G3 的两素数载体与大部分有限格路由已有强后端，中央单素数 outer-prime gate
+仍开放。任何聊天中的 \textsf{PROVED} 标签，若没有在本文中给出完整陈述与证明，
+均不被提升为无条件定理。
+\end{abstract}
+
+\section{结论先行：这里的“Goldbach = G1+G2+G3”是什么意思}
+
+符号“$=$”不是数值等式，也不是三个彼此独立的充分条件；它是一个串行依赖：
+\[
+\boxed{
+\mathrm{G1}\quad\Longrightarrow\quad
+\bigl(\mathrm{G2}\oplus\mathrm{G3}\bigr)
+\quad\Longrightarrow\quad
+\E_{\mathfrak m}(N)=o(N)
+\quad\Longrightarrow\quad
+\text{Goldbach for sufficiently large even }N.}
+\]
+G1 负责证明真实 fixed-$N$ minor arc \emph{确实到达}局部核；G2/G3 才负责估计这些核。
+因此即使局部估计很强，没有 G1 也不能回到 Goldbach；反之只有 G1 而没有
+G2/G3，也只是把困难改写了一次。
+
+\paragraph{审计判决。}
+上述\emph{条件蕴含}可以严格证明；三个条件本身在所给八份日志中没有全部证明。
+故本文不声称强 Goldbach 猜想已经解决。
+
+\section{从加权表示函数到 Goldbach}
+
+令
+\[
+\Lambda(n)=\begin{cases}\log p,&n=p^k,\ k\ge1,\\0,&\text{otherwise},\end{cases}
+\qquad
+\vartheta(n)=\begin{cases}\log p,&n=p,\\0,&\text{otherwise}.
+\end{cases}
+\]
+固定非负 $W\in C_c^\infty((0,1))$，并假设
+\(
+\mathfrak J_W:=\int_0^1W(t)W(1-t)\,dt>0.
+\)
+定义
+\[
+R_{\Lambda,W}(N)
+=\sum_{m+n=N}\Lambda(m)\Lambda(n)W(m/N)W(n/N),
+\]
+并以 $R_{\vartheta,W}(N)$ 类似定义素数--素数表示函数。
+
+\begin{lemma}[真素数与素数幂的差]
+对 $N\ge3$，有
+\[
+R_{\Lambda,W}(N)-R_{\vartheta,W}(N)
+=O_W\!\left(N^{1/2}(\log N)^2\right).
+\]
+\end{lemma}
+
+\begin{proof}
+差项中至少有一侧是 proper prime power $p^k$，$k\ge2$。
+不超过 $N$ 的这类数有 $O(N^{1/2})$ 个；每个乘积权至多 $(\log N)^2$，
+且另一变量由 $m+n=N$ 唯一确定。交换两侧只改变绝对常数。
+\end{proof}
+
+对偶数 $N$，记标准 Goldbach 奇异级数
+\[
+\mathfrak S(N)=2C_2\prod_{\substack{p\mid N\\p>2}}\frac{p-1}{p-2}>0,
+\qquad
+C_2=\prod_{p>2}\left(1-\frac1{(p-1)^2}\right)>0.
+\]
+
+\begin{definition}[主弧输入]
+记 $L=\log N$。本文把下式作为经典圆法的外部输入：对任意固定 $A>0$，
+\[
+\int_{\mathfrak M}S_\Lambda(\alpha)^2e(-N\alpha)\,d\alpha
+=\mathfrak S(N)\mathfrak J_WN+O_{A,W}(NL^{-A}),
+\tag{MA}
+\]
+其中 $S_\Lambda$ 含有与 $W$ 一致的光滑权。
+\end{definition}
+
+这一定义只冻结本文需要的接口；它不把任何尚未证明的 GFT 编译步骤藏入“标准主弧”。
+
+\section{G1、G2、G3 的稳定定义}
+
+\subsection{G1：fixed-$N$ pre-Bessel PB--MRDET 编译器}
+
+设 $\E_{\rm hard}(N)$ 为做完主弧、Type-I/easy 分支、显式 endpoint 修正后
+仍需处理的 minor-arc nonzero-orbit 项。G1 是下列\emph{恒等式级}陈述。
+
+\begin{definition}[G1]
+对每个充分大的偶数 $N$ 和任意 $A>0$，存在有限指标集
+$\LL_{\rm bal}(N)$、$\LL_{\rm pol}(N)$、系数 $c_\lambda,d_\mu$ 及
+type-correct 局部核 $\K_\lambda^{\rm bal}(N)$、
+$\K_\mu^{\rm pol}(N)$，使得
+\begin{align}
+\E_{\rm hard}(N)
+={}&\sum_{\lambda\in\LL_{\rm bal}(N)}c_\lambda
+\K_\lambda^{\rm bal}(N)
++\sum_{\mu\in\LL_{\rm pol}(N)}d_\mu
+\K_\mu^{\rm pol}(N)
++O_A(NL^{-A}),                                           \tag{G1.1}\\
+\sum_\lambda|c_\lambda|+\sum_\mu|d_\mu|
+\ll{}& L^{C},                                             \tag{G1.2}
+\end{align}
+其中每个核保留 $N$、minor-arc Fourier 核、dyadic support、
+prime/factor origin、gcd 分支、GFT/Mellin charge 与 Poisson prefactor。
+\end{definition}
+
+G1 的关键不是得到一个形似
+\(Abf+Bdh=N\) 的式子，而是证明 minor-arc 截断没有被非法替换成全圆正交性。
+一般地
+\[
+\int_{\mathfrak m}e\bigl((\Phi-N)\alpha\bigr)\,d\alpha
+=\widehat{1_{\mathfrak m}}(N-\Phi),
+\]
+而不是 $1_{\Phi=N}$。任何合法 G1 都必须运输这个 Fourier 核，或证明一个
+具有可控 Wiener 范数的等价 shifted family。
+
+\subsection{G2：balanced weighted four-cycle}
+
+\begin{definition}[G2]
+对 G1 实际产生的 balanced kernels 及其实际系数，有一致重构界
+\[
+\left|\sum_{\lambda\in\LL_{\rm bal}(N)}
+c_\lambda\K_\lambda^{\rm bal}(N)\right|
+\ll_{A,W}NL^{-A}.                                         \tag{G2}
+\]
+这里的 G2 是 reconstructed/weighted 陈述；它不要求每个冻结的 GFT mode
+分别满足更强的点态界。
+\end{definition}
+
+在日志的局部记号中，G2 是 WPMR/PR4 的 weighted finite-field four-cycle，
+目标通常等价于某个 centered covariance 的
+\(S_4^4\ll p^{3/2+o(1)}\) 型界。该等价必须连同全部 $p,Q=p-1$
+因子逐式证明，不能仅由量纲猜测。
+
+\subsection{G3：polarized/unbalanced finite-cell exhaustiveness}
+
+\begin{definition}[G3]
+对 G1 实际产生的所有 polarized residual，有
+\[
+\left|\sum_{\mu\in\LL_{\rm pol}(N)}
+d_\mu\K_\mu^{\rm pol}(N)\right|
+\ll_{A,W}NL^{-A},                                         \tag{G3}
+\]
+并且 $\LL_{\rm pol}(N)$ 的 cell manifest 是穷尽、互斥且保留变量来源的。
+\end{definition}
+
+日志中 G3 的因子几何被压缩为三类：
+\[
+\begin{array}{c|c|c}
+\text{cell}&\text{尺度条件（示意）}&\text{载体}\\ \hline
+\mathrm{P1}&\lambda_1>2/3& p\\
+\mathrm{P2a}&\lambda_1\le2/3,\ \lambda_2>1/3&p_1p_2\\
+\mathrm{P2b}&\lambda_1\le2/3,\ \lambda_2\le1/3,
+\ \lambda_1+\lambda_2>5/6&p_1p_2.
+\end{array}
+\tag{3.1}
+\]
+这些阈值只有在 packing theorem 与原始 support 条件被完整写入后才可使用。
+
+\section{条件性 Goldbach 主定理}
+
+\begin{theorem}[G1+G2+G3 推出充分大二元 Goldbach]
+假设主弧输入 \textup{(MA)}、所有 easy/Type-I 与 prime-power 修正为 $o(N)$，
+并且 G1、G2、G3 对每个充分大的偶数 $N$ 一致成立。则存在 $N_0$，使每个
+偶数 $N\ge N_0$ 都可写成两个素数之和。
+\end{theorem}
+
+\begin{proof}
+由 G1.1 及 G2、G3，
+\[
+\E_{\rm hard}(N)=O_A(NL^{-A}).
+\]
+加回已经控制的 easy/Type-I 分支，取 $A$ 足够大，得到完整 minor arcs
+$\E_{\mathfrak m}(N)=o(N)$。与 (MA) 相加，
+\[
+R_{\Lambda,W}(N)=\mathfrak S(N)\mathfrak J_WN+o(N).
+\]
+对偶数 $N$，$\mathfrak S(N)\mathfrak J_W>0$，故右侧对充分大 $N$ 为正且
+为 $\gg_WN$。由素数幂差引理，
+\[
+R_{\vartheta,W}(N)
+=R_{\Lambda,W}(N)+O_W(N^{1/2}L^2)>0
+\]
+对充分大偶数成立。于是至少存在素数 $p_1,p_2$，满足 $p_1+p_2=N$。
+\end{proof}
+
+\begin{remark}[“充分大”与完整猜想]
+上一定理本身只给 sufficiently-large Goldbach。要得到“每个 $N\ge4$”，
+还需对有限区间 $4\le N<N_0$ 作独立验证；八份日志没有提供一个可计算的
+$N_0$ 与相应验证证书，因此本文不把两者合并为完整无条件证明。
+\end{remark}
+
+\section{命名漂移：所谓“三块 G3”应怎样理解}
+
+日志中出现过两套分类，若不分开会产生表面矛盾。
+
+\begin{center}
+\begin{tabular}{p{0.27\textwidth}p{0.30\textwidth}p{0.30\textwidth}}
+\toprule
+分类层级 & 三分法 & 后来的 G1/G2/G3 命名\\
+\midrule
+Local SOMK 轨道
+& zero orbit；balanced nonzero；polarized nonzero
+& zero orbit 为前置 bookkeeping；balanced 成为 G2；polarized 成为 G3\\
+全局剩余障碍
+& 不适用
+& G1=PB--MRDET；G2=balanced WPMR/PR4；G3=polarized finite cells\\
+G3 内部 finite cells
+& P1；P2a；P2b
+& 仍统称 G3，不再与 zero/balanced 混合\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+因此“local SOMK 的三块已有两块完成、最后一块只余渣滓”是较早口径；
+后来把最后的 polarized 块单独命名为 G3。本文采用后一口径。
+
+\section{截至日志末端的严格状态}
+
+\begin{longtable}{p{0.25\textwidth}p{0.14\textwidth}p{0.52\textwidth}}
+\toprule
+模块 & 状态 & 审计说明\\
+\midrule
+\endfirsthead
+\toprule
+模块 & 状态 & 审计说明\\
+\midrule
+\endhead
+标准加权主弧与奇异级数正性 & \EXTERNAL
+& 可作为经典外部输入；不包含 GFT 的 minor-arc 编译。\\
+有限循环群 DFT/Mellin 正交、sum--product 有限纤维
+& \PROVED & 可在有限和层面完全形式化；见配套 toolkit 稿。\\
+G1 / PB--MRDET
+& \OPEN & 日志给出 HWAC/shifted-MRDET 等候选链，但没有一个把真实
+minor-arc cutoff、全部叶子、误差与类型同时闭合的最终 theorem。\\
+G2 / balanced WPMR--PR4
+& \REDUCED & 旧 affine replay 因 Mellin 共轭方向错误而失效；新路线到
+CRAF/KPA8，最后停在 DCCS exact operator factorization 与 $m$-$L^8$
+资源的同一 normalization 回代。不得标为 closed。\\
+G3 / 2P cells
+& \REDUCED & 固定 semiprime modulus 有 Pascadi 的强后端；但从日志核到
+外层加权总和仍需逐 cell 检查 coprimality、长度、模分解与 coefficient norms。\\
+G3 / PCRS typing
+& \REDUCED & “Poisson raw legs 自动来自同一 $X^{1/3}$ cofactor”的强版本
+已被日志自己否定；较弱的 carrier isolation 是可行的 origin invariant，但
+仍需嵌入完整 G1 manifest。\\
+G3 / central 1P outer-prime
+& \OPEN & 被缩到 BP trace pushforward 的 weighted square-core paucity；
+现有 polynomial-square paucity 是未加权 $P(n)$ 计数，不能直接控制 GFT 权 $a_R$。\\
+Binary Goldbach
+& \OPEN & 条件归约成立，但三个全局 obligation 未全部证明。\\
+\bottomrule
+\end{longtable}
+
+\section{G1 的精确定义：它到底要证明什么}
+
+G1 可以用以下 proof-object 表达。每个 leaf $\lambda$ 至少包含：
+\[
+\lambda=(N,\,\text{arc kernel},\,\text{dyadic boxes},\,
+\text{origin labels},\,\text{gcd branch},\,\text{GFT charges},\,
+\text{Poisson scales}).
+\]
+一个 Lean-friendly 的 G1 不应只返回一个复数等式，而应返回：
+\begin{enumerate}[label=\textup{(G1-\arabic*)}]
+\item 一个有限 leaf 列表及其互斥/穷尽证明；
+\item 从原 minor-arc 和到 leaf 和的精确恒等式或有显式误差的等式；
+\item 每次变量替换的双射、定义域与非零分母证明；
+\item 每个 Fourier/Poisson/Mellin 变换的归一化常数；
+\item 绝不把 $\widehat{1_{\mathfrak m}}(N-\Phi)$ 偷换成 $1_{\Phi=N}$；
+\item zero orbit 被删除还是并入奇异级数的互斥 bookkeeping；
+\item 输出 kernel 满足 G2 或 G3 theorem 的全部 hypotheses 的证明。
+\end{enumerate}
+这就是 G1 比“代数上写出一个 determinant equation”强得多的地方。
+
+\section{Lean 形式化边界}
+
+“Lean-friendly”在本文中意为：每个有限域恒等式可被拆成有限类型、有限和、
+显式分母 guard 与范数不等式；并不声称本文已经附带可编译 Lean 源码。
+推荐的形式化层次为：
+\begin{enumerate}
+\item \textbf{Finite algebra layer}：$\F_p$、字符正交、DFT/Mellin、有限矩阵与
+Schatten 范数；可完全形式化。
+\item \textbf{Exact compiler layer}：Vaughan identities、dyadic partitions、
+origin-labelled AST 与每个 leaf 的语义保持；这是 G1 的核心。
+\item \textbf{Analytic import layer}：把 Blomer--Pascadi、Pascadi 等论文定理
+封装成带全部假设的结构，禁止“只导入结论指数”。
+\item \textbf{Asymptotic layer}：所有 $p^{o(1)}$ 改写成
+$\forall\eps>0,\exists C_\eps$ 的量词陈述。
+\end{enumerate}
+
+\section{外部定理的适用范围警告}
+
+\begin{itemize}
+\item Blomer--Pascadi 的平方根临界 saving 是固定模数、双线性 Kloosterman 形式的
+定理；它不自动提供 outer-prime 平均。
+\item Pascadi 的 non-abelian amplification 在有限群不可约表示上成立，且分母
+来自字符在正规子群上的质量；“multiplicity-one”本身不推出任意 coefficient
+operator diagonal。
+\item Kable 的 Legendre/Soto--Andrade 正交性位于带端点质量的
+$\ell^2(\F_q,m)$；迁移到本文的 counting measure 必须显式处理权重。
+\item de la Bret\`eche--Wang--Xu 的 quadratic polynomial square-paucity
+不包含本文的 GFT pushforward 权 $a_R$。加权版本是新的 obligation。
+\end{itemize}
+
+\section{最终依赖图与下一步}
+
+\[
+\boxed{
+\begin{array}{c}
+\text{standard major arcs + exact endpoint algebra}\\
+\Downarrow\\
+\mathrm{G1:\ fixed\text{-}N\ lossless\ PB\!\!-
+MRDET}\quad(\OPEN)\\
+\Downarrow\\
+\begin{matrix}
+\mathrm{G2:\ balanced\ WPMR/PR4}\ (\REDUCED)
+&+&
+\mathrm{G3:\ polarized\ cells}\ (\REDUCED/\OPEN)
+\end{matrix}\\
+\Downarrow\\
+\E_{\mathfrak m}(N)=o(N)\\
+\Downarrow\\
+R_{\vartheta,W}(N)>0.
+\end{array}}
+\]
+
+短期最小任务不是再宣布一个新的总定理，而是：先完成 G2 的 DCCS
+kernel-by-kernel identity 与 normalization replay；并行的 G3 最小解析目标是
+central 1P weighted square-core BPTPE。G1 仍是最终把局部成果接回 fixed-$N$
+Goldbach 的最大接口。
+
+\begin{thebibliography}{9}
+\bibitem{Kable2002}
+A.~C. Kable,
+\emph{Legendre sums, Soto--Andrade sums and Kloosterman sums},
+Pacific J. Math. 206 (2002), 139--157.
+\url{https://msp.org/pjm/2002/206-1/pjm-v206-n1-p09-s.pdf}
+
+\bibitem{Pascadi2026}
+A. Pascadi,
+\emph{Non-abelian amplification and bilinear forms with Kloosterman sums},
+arXiv:2511.08445v2 (2026).
+\url{https://arxiv.org/abs/2511.08445}
+
+\bibitem{BP2026}
+V. Blomer and A. Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311v1 (2026).
+\url{https://arxiv.org/abs/2607.24311}
+
+\bibitem{dBWX2026}
+R. de la Bret\`eche, V.~Y. Wang and M.~W. Xu,
+\emph{Random Multiplicative Functions and Making Squares from Polynomial Values},
+arXiv:2607.06398v1 (2026).
+\url{https://arxiv.org/abs/2607.06398}
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,423 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.45cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{xcolor,booktabs,longtable,array,enumitem,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,urlcolor=blue!55!black,citecolor=blue!55!black}
+\setlist{nosep}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{remark}[theorem]{说明}
+
+\newcommand{\F}{\mathbb F}
+\newcommand{\G}{\F_p^\times}
+\newcommand{\what}{\widehat}
+\newcommand{\OPEN}{\textcolor{red!70!black}{\textsf{OPEN}}}
+\newcommand{\PASS}{\textcolor{green!45!black}{\textsf{PASS}}}
+\newcommand{\FAIL}{\textcolor{red!70!black}{\textsf{FAIL}}}
+\newcommand{\REDUCED}{\textcolor{orange!80!black}{\textsf{REDUCED}}}
+
+\title{G2 最终封口为何失败，以及应怎样修复\\
+\large 从 WJCTLS replay 到 DCCS--KPA8 的逐层审计}
+\author{依据最终对话分支重建的技术报告}
+\date{2026年8月28日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本文说明 balanced G2 为何在多次“即将关闭”之后仍不能通过严格审计。
+最早的最终 replay 中，标量乘法 $Q^4/p^5\asymp p^{-1}$ 本身正确，
+但 $D,D'$ Mellin inversion 的共轭方向被混用；正确支撑是 reciprocal/projective
+fibre，而非 affine fibre，因此后续 additive Moyal/SWAFM 与 WJCTLS 逻辑断开。
+后续工作把正确 residual 依次压到 CRAF、centered KPA8 与 diagonal
+sum--product charge，但最新链仍缺 DCCS 的 exact operator factorization，
+以及同一 normalization 下把实际 $m$-$L^8$ 资源送入 Schatten-$8$ target 的证明。
+本文给出可检验的修复顺序、禁止捷径及 Lean proof obligations。
+\end{abstract}
+
+\section{最终判决}
+
+截至所给日志末端，最稳妥的状态是
+\[
+\boxed{\mathrm{G2}\quad\textbf{尚未关闭}.}
+\]
+更准确地，存在两次不同层级的审计：
+\begin{enumerate}
+\item 旧 WJCTLS $\to$ affine diagonalization $\to$ SWAFM 链在 Mellin
+共轭方向处 \FAIL；
+\item 修正后的 reciprocal/projective 链已到
+\[
+\mathrm{CRAF}\to\mathrm{KPA8}\to\mathrm{DCCS},
+\]
+但 DCCS 仍只有候选 factorization，没有逐指标证明；KPA8 的数值界也不能由
+NOFA 的 $L^2$ Bessel 性质自动推出。
+\end{enumerate}
+因此“只差一个 $p$ 的 normalization”已经不是当前正确描述；当前缺口是
+\emph{operator type splice + normalized high-moment insertion}。
+
+\section{旧 replay：算术正确，逻辑拼接错误}
+
+固定奇素数 $p$，令 $Q=p-1$。日志中的 fully-cross WJCTLS quadratic form为
+\[
+\mathcal Q
+=Q^{-3}\sum_{\gamma,z,z',D,D'}
+\widetilde W_\gamma(z,D)
+\overline{\widetilde W_\gamma(z',D')}
+\mathfrak K(z/z';D,D').
+\tag{2.1}
+\]
+generic Jacobi kernel写成
+\[
+\mathfrak K(r;D,D')=Q\sqrt p\,\Theta_r(D,D'),
+\]
+故首个 exact scalar 为
+\[
+Q^{-3}Q\sqrt p=\frac{\sqrt p}{Q^2}.
+\tag{2.2}
+\]
+
+后续日志曾把四段 prefactor 乘为
+\[
+\frac{\sqrt p}{Q^2}\cdot\frac Q{\sqrt p}\cdot pQ
+\cdot\left(\frac Q{p^{3/2}}\right)^4
+=\boxed{\frac{Q^4}{p^5}}
+=p^{-1}\bigl(1+O(p^{-1})\bigr).
+\tag{2.3}
+\]
+这个算术等式是正确的。错误是第三、第四个因子来自一条并不适用于正确 fibre
+的 affine-Moyal 链；所以 (2.3) 不是 WJCTLS 的证明证书。
+
+\section{首个致命点：Mellin inverse 的方向}
+
+取单位化 Mellin 约定
+\[
+\mathcal W_\gamma(z,y)
+=Q^{-1/2}\sum_{D\in\widehat\G}\overline{D(y)}
+\widetilde W_\gamma(z,D).
+\tag{3.1}
+\]
+由字符正交，其逆变换必须是
+\[
+\widetilde W_\gamma(z,D)
+=Q^{-1/2}\sum_{y\in\G}D(y)\mathcal W_\gamma(z,y).
+\tag{3.2}
+\]
+不能在 (3.1) 使用 $\overline{D(y)}$，却在下游按另一个 convention
+使用 inverse。
+
+令
+\[
+J(D,\overline{D'})=\sum_{x\in\F_p}D(x)\overline{D'(1-x)},
+\quad
+a=\frac{r-1}{r},\quad b=1-r.
+\]
+把 (3.2) 代入含 $D(a)D(x)$ 与 $\overline{D'(b(1-x))}$ 的核。
+字符正交给出的支撑为
+\[
+\boxed{yax=1},\qquad \boxed{y'b(1-x)=1},
+\tag{3.3}
+\]
+而不是 $y=ax$、$y'=b(1-x)$。
+
+\begin{proposition}[正确的 reciprocal fibre]
+设 $z,z'\in\G$ 且 $z\ne z'$，$r=z/z'$。在 (3.3) 上有
+\[
+\boxed{z(y^{-1}-1)=z'(y'^{-1}-1).}
+\tag{3.4}
+\]
+\end{proposition}
+
+\begin{proof}
+由 $a=(z-z')/z$、$b=(z'-z)/z'$，(3.3) 给
+\[
+x=\frac{z}{y(z-z')},\qquad
+1-x=-\frac{z'}{y'(z-z')}.
+\]
+相加并使用 $x+(1-x)=1$，得到
+$z/y-z'/y'=z-z'$，即 (3.4)。
+\end{proof}
+
+旧链使用的是
+\(z(y-1)=z'(y'-1)\)。这两个式子不能与同一个 coefficient formula
+同时成立；把 $y$ 改名成 $y^{-1}$ 会同步改变 short coefficient 中
+$u(yz)$ 的方向，因而不是无害重标号。
+
+\section{为什么 affine SWAFM 不能再接回去}
+
+令
+\[
+q=z(y^{-1}-1),\qquad w=yz.
+\]
+则
+\[
+q=z\left(\frac zw-1\right),\qquad
+\boxed{w=\frac{z^2}{z+q}},
+\tag{4.1}
+\]
+而不是 $w=z+q$。故真实 residual 是 projective correlation：
+\[
+S_\gamma^{\rm rec}(q)
+=\sum_\alpha m(\alpha)\overline{m(\alpha\gamma)}
+\sum_{z\ne0,-q}\overline{U_\alpha(z)}
+U_{\alpha\gamma}\!\left(\frac{z^2}{z+q}\right).
+\tag{4.2}
+\]
+所需目标为
+\[
+\boxed{
+\sum_{\gamma,q}|S_\gamma^{\rm rec}(q)|^2
+\ll p^{5/2+o(1)}.}
+\tag{4.3}
+\]
+旧 affine SWAFM 即便作为独立命题成立，也不估计 (4.2)。
+
+\section{正确路线已推进到哪里}
+
+日志随后没有再次强行使用错误 fibre，而是做了如下合法的结构压缩：
+\[
+\text{reciprocal WSRE}
+\Longrightarrow \text{two-chart projective/M\"obius frame}
+\Longrightarrow \mathrm{CRAF}
+\Longrightarrow \mathrm{KPA8}.
+\]
+其中最稳定的代数结论是：对 $r\in\F_p\setminus\{0,1\}$，令
+\[
+x=r^{-1},\qquad z=(1-r)^{-1}.
+\]
+则
+\[
+R:=x+z=\frac1{r(1-r)}=xz=:P.
+\tag{5.1}
+\]
+因此 projective Kloosterman curve是 sum--product joint-charge space中的
+对角 $R=P$。
+
+定义 exact sum--product charge transform
+\[
+(\mathcal AF)(R,P)
+=\sum_{\substack{x,z\in\G\\x+z=R,\ xz=P}}F(x,z),
+\quad R\in\F_p,\ P\in\G,
+\tag{5.2}
+\]
+以及它在 $P$ 坐标上的 unitary character-coordinate 版本
+\[
+(\mathcal JF)(R,\eta)
+=Q^{-1/2}\sum_{\substack{x,z\in\G\\x+z=R}}
+F(x,z)\eta(xz).
+\tag{5.3}
+\]
+两者只相差 $P$ 坐标上的 unitary Mellin 变换。直接用字符正交可证
+\[
+\boxed{\mathcal A^*\mathcal A
+=\mathcal J^*\mathcal J=I+\mathsf S-\mathsf D},
+\qquad \|\mathcal A\|_{2\to2}=\|\mathcal J\|_{2\to2}\le\sqrt2,
+\tag{5.4}
+\]
+其中 $\mathsf S$ 交换 $(x,z)$，$\mathsf D$ 投影到 $x=z$。
+限制 $R=P$ 是 $\mathcal A$ 的 exact-charge target space上的正交投影，范数为 $1$。
+在 $\mathcal J$ 的 $(R,\eta)$ 坐标中不能直接比较 $R$ 与角色 $\eta$；必须先
+作 inverse Mellin。这一层类型转换是 DCCS 必须显式包含的。
+
+\paragraph{但这仍不等于 KPA8。}
+KPA8 的 centered coefficient为
+\[
+B^\circ(A,r)
+=\sum_w y(rw+Ar(1-r))\overline{y(w)}-\mu_y.
+\tag{5.5}
+\]
+用 (5.1) 后，平移量含有
+\[
+Ar(1-r)=AP^{-1}.
+\tag{5.6}
+\]
+所以 coefficient 不是先固定一个 $F(x,z)$ 再做 $\mathcal J$；它是
+依赖 joint product charge $P$ 的 family。正是这一点阻止了
+“NOFA $\Rightarrow$ KPA8”的一句话证明。
+
+\section{最新最小接口：DCCS}
+
+令
+\[
+\mathscr H=\bigoplus_{R\in\G}\ell^2(\F_p),
+\]
+并在每个 $R$-fibre 定义 additive dilation
+\[
+(\mathcal U_{\rm fib}f)(R,A)=f(R,A/R).
+\tag{6.1}
+\]
+因为 $A\mapsto A/R$ 是 $\F_p$ 的置换，$\mathcal U_{\rm fib}$ 是酉算子。
+令 $\Pi_\Delta$ 为 $R=P$ 的正交投影，$\Pi_0^\perp$ 为删除 additive
+zero mode 的正交投影。候选 DCCS identity 是
+\[
+\boxed{
+\mathcal S_{\rm KPA8}
+=\Pi_0^\perp\mathcal U_{\rm fib}\Pi_\Delta
+\mathcal A\mathcal C_y,}
+\tag{6.2}
+\]
+允许一个显式的 swap symmetrizer、已声明的标量常数，以及当输入最初写在
+$(R,\eta)$ 坐标时所需的 inverse Mellin。
+
+\paragraph{当前状态。}
+(6.1) 的酉性已证；$\Pi_\Delta$、$\Pi_0^\perp$ 的 contraction 性已证；
+但 (6.2) 尚未从 (5.5) 对每个 basis vector逐项推出，故
+\[
+\boxed{\mathrm{DCCS}\;=\;\OPEN.}
+\]
+
+\section{为什么 DCCS 成立后仍需一次高矩回代}
+
+KPA8 的数值目标是
+\[
+\boxed{\|B^\circ\|_{S_8}^8\ll p^{6+o(1)}.}
+\tag{7.1}
+\]
+若 (6.2) 成立，ideal property 只给“assembly 不再产生额外 rank loss”：
+\[
+\|\mathcal S_{\rm KPA8}\|_{S_8}
+\le \sqrt2\,\|\mathcal C_y\|_{S_8}.
+\tag{7.2}
+\]
+它不会凭空证明右侧达到 (7.1) 的尺度。
+
+日志声称已有 normalized multiplier $m$ 的资源
+\[
+\sum_\chi|m(\chi)|^4\ll p^{o(1)},
+\qquad
+\sum_\chi|m(\chi)|^8\ll p^{-1/4+o(1)}.
+\tag{7.3}
+\]
+在最终证明中必须同时给出：$m$ 的精确定义、principal character 的处理、
+support、Fourier normalization，以及 (7.3) 如何在 (6.2) 的同一 Hilbert
+measure 中成为 (7.1)。否则“已有高矩”仍只是接口名。
+
+\section{另一个不可忽略的外部类型问题：Kable 的 measure}
+
+Kable 的定理确实把 Legendre 与 Soto--Andrade sums 解释为两个 Steinberg
+表示的 parabolic Clebsch--Gordan coefficients，并证明完备正交性；但原定理的
+Hilbert space 是 $\ell^2(\F_q,m)$，其中 $\pm1$ 的质量为 $q+1$，其他点质量为 $1$。
+所以正式拼接必须证明下列三者之一：
+\begin{enumerate}
+\item 我们的 operator 本来就在同一个 weighted measure 上；
+\item 端点权通过显式 diagonal conjugation 被运输；
+\item $\pm1$ 分支被精确拆为有限秩 carrier，并在目标尺度内单独估计。
+\end{enumerate}
+仅写“CG basis 是 unitary”而不说明 measure，不能通过同行或 Lean 审计。
+
+\section{推荐的封口顺序}
+
+\begin{enumerate}[label=\textbf{Step \arabic*.}]
+\item \textbf{冻结 convention。} 全文只用一个 additive Fourier、一个
+multiplicative Mellin 约定；把每个 inverse 写在定义旁。
+\item \textbf{定义带 measure 的有限 Hilbert spaces。} 对每个 index 指明
+$\F_p$ 或 $\F_p^\times$、counting 或 probability measure，以及矩阵的 row/column 类型。
+\item \textbf{先证 DCCS kernel identity。} 对输入 basis
+$\delta_{x,z,A}$ 逐项计算 (6.2) 两边；不用 $\asymp$、不用范数、也不用外部估计。
+\item \textbf{处理 $R=0$、$r=0,1$、$x=z$、$\pm1$。} 每个 exceptional
+branch须有显式投影或有限秩项，不能藏入 $p^{o(1)}$。
+\item \textbf{证明 Schatten transport。} 从 exact identity 用
+$\|AXB\|_{S_8}\le\|A\|_{op}\|X\|_{S_8}\|B\|_{op}$，记录唯一的 $\sqrt2$。
+\item \textbf{把 (7.3) 送入 actual short tensor。} 这一步必须是等式或一次
+明确 Hölder，不得把 $L^2$ Bessel 当作 $S_8$ saving。
+\item \textbf{做一次从 KPA8 到 G2 的全标量 replay。} 顺序固定为
+\[
+\mathrm{DCCS}\Rightarrow\mathrm{KPA8}\Rightarrow\mathrm{CRAF}
+\Rightarrow\mathrm{WSRE}\Rightarrow\mathrm{WJCTLS}\Rightarrow\mathrm{G2},
+\]
+每个箭头给 exact scalar 与 domain bijection。
+\end{enumerate}
+
+\paragraph{如果 Step 3 失败。}
+不要再引入新命名。把两边相减，得到显式 commutator/residual
+\[
+\mathcal R_{\rm DCCS}
+=\mathcal S_{\rm KPA8}
+-\Pi_0^\perp\mathcal U_{\rm fib}\Pi_\Delta\mathcal A\mathcal C_y,
+\]
+然后只估计这个 residual。这样能判断问题究竟是一个有限秩 endpoint、
+一个 swap multiplicity，还是 $P$-dependent dilation 与 joint transform 不交换。
+
+\section{禁止再次使用的捷径}
+
+\begin{longtable}{p{0.39\textwidth}p{0.50\textwidth}}
+\toprule
+禁止陈述 & 原因\\
+\midrule
+\endfirsthead
+\toprule
+禁止陈述 & 原因\\
+\midrule
+\endhead
+$Q^4/p^5\sim p^{-1}$ 因而 WJCTLS 已证
+& 标量正确，但中间 affine-Moyal 箭头不适用于 reciprocal fibre。\\
+$y\mapsto y^{-1}$ 是无害重命名
+& 它同时改变 coefficient $u(yz)$ 的方向；混用两种 convention 是 type error。\\
+entrywise bijection/shear 保持 Schatten 范数
+& 只有左右酉乘与合适的 unitary conjugation 保持 singular values；一般 entry
+重排不保持。\\
+NOFA $L^2$ Bessel 自动给 KPA8 $S_8$
+& Bessel 只控制 assembly multiplicity，不创造高矩 saving。\\
+multiplicity-one 自动使 coefficient operator diagonal
+& 还需证明实际 operator 与 irreducible direct sum 的 intertwining identity。\\
+Kable 正交基在 counting measure 下无条件酉
+& 原文有特殊端点权；measure 必须运输。\\
+数值小素数测试证明渐近定理
+& 数值测试只能发现错误，不能提供一致常数与所有 $p$ 的证明。\\
+\bottomrule
+\end{longtable}
+
+\section{Lean theorem ledger}
+
+\begin{center}
+\begin{tabular}{p{0.43\textwidth}p{0.18\textwidth}p{0.26\textwidth}}
+\toprule
+obligation & 状态 & 形式化备注\\
+\midrule
+Mellin inversion (3.1)--(3.2) & \PASS & 有限字符正交\\
+reciprocal fibre (3.4) & \PASS & 有限域代数，分母 guard\\
+projective map (4.1) & \PASS & 双射及 $z+q\ne0$\\
+joint Gram (5.4) & \PASS & 有限和，Vi\`ete fibres\\
+$R=P$ projection & \PASS & 正交投影\\
+fibre dilation (6.1) & \PASS & fibrewise permutation\\
+DCCS exact factorization (6.2) & \OPEN & 必须逐 basis 证明\\
+Kable measure splice & \OPEN & weighted/unweighted 类型\\
+$m$-$L^8$ 到 actual tensor & \OPEN & exact normalization\\
+KPA8 numerical target & \OPEN & 依赖前两项\\
+WJCTLS/G2 final replay & \OPEN & 只能在 KPA8 后执行\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{最简研究建议}
+
+下一刀应只做 DCCS：把 (5.5) 在 $(x,z,A)$ basis 上展开，与 (6.2) 两边逐项比较。
+这一步是有限维线性代数，不需要新的 Burgess、Weil、Katz 或 non-abelian
+amplification。只有 exact identity 通过后，才值得消费 (7.3) 并跑最后 exponent ledger。
+若 DCCS 通过，G2 很可能确实只剩一次机械 normalization；若不通过，
+残差本身将成为唯一且诚实的新目标。
+
+\begin{thebibliography}{9}
+\bibitem{Kable2002}
+A.~C. Kable,
+\emph{Legendre sums, Soto--Andrade sums and Kloosterman sums},
+Pacific J. Math. 206 (2002), 139--157.
+\url{https://msp.org/pjm/2002/206-1/pjm-v206-n1-p09-s.pdf}
+
+\bibitem{Pascadi2026}
+A. Pascadi,
+\emph{Non-abelian amplification and bilinear forms with Kloosterman sums},
+arXiv:2511.08445v2 (2026), especially Proposition 5.1.
+\url{https://arxiv.org/abs/2511.08445}
+
+\bibitem{BP2026}
+V. Blomer and A. Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311v1 (2026).
+\url{https://arxiv.org/abs/2607.24311}
+\end{thebibliography}
+
+\end{document}
