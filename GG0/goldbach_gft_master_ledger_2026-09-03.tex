@@ -1,0 +1,1482 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2.25cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{xcolor,booktabs,longtable,array,enumitem,listings}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{3em}
+\setlist{nosep}
+\allowdisplaybreaks
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{audit}[theorem]{审计结论}
+\newtheorem{obligation}[theorem]{证明义务}
+\newtheorem{warning}[theorem]{禁用推理}
+\newtheorem{remark}[theorem]{说明}
+
+\newcommand{\e}{\mathrm e}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\F}{\mathbb F}
+\newcommand{\G}{\F_p^\times}
+\newcommand{\Gh}{\widehat{\G}}
+\newcommand{\T}{\mathbb T}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Kl}{\operatorname{Kl}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Res}{\operatorname*{Res}}
+\newcommand{\PROVED}{\textcolor{green!40!black}{\textsf{PROVED}}}
+\newcommand{\EXTERNAL}{\textcolor{blue!65!black}{\textsf{EXTERNAL}}}
+\newcommand{\CONDITIONAL}{\textcolor{orange!75!black}{\textsf{CONDITIONAL}}}
+\newcommand{\REDUCED}{\textcolor{orange!85!black}{\textsf{REDUCED}}}
+\newcommand{\OPEN}{\textcolor{red!70!black}{\textsf{OPEN}}}
+\newcommand{\REJECTED}{\textcolor{purple!70!black}{\textsf{REJECTED}}}
+\newcommand{\EVIDENCE}{\textcolor{cyan!45!black}{\textsf{EVIDENCE}}}
+
+\lstset{basicstyle=\ttfamily\small,columns=fullflexible,breaklines=true,
+  frame=single,keepspaces=true,showstringspaces=false}
+
+\title{Goldbach--GFT 研究总账与接管档案\\
+\large G1/G2/G3、双线性公约、TPC4--Vieta--CJS 链与可复用工具箱}
+\author{严格审计合并稿}
+\date{2026年9月3日}
+
+\begin{document}
+\maketitle
+\sloppy
+
+\begin{abstract}
+本文是供新窗口、合作者和形式化验证者接管的单文件研究总账。它不宣称已经证明
+二元 Goldbach。所有陈述被分为 \PROVED、\EXTERNAL、\CONDITIONAL、
+\REDUCED、\OPEN、\REJECTED 六类；每个关键箭头均记录对象类型、量词、
+归一化、例外轨道与依赖。最重要的新进展是：fixed-$N$ minor-arc Wiener 编译、
+ramified 二维 Poisson、Kloosterman 到真实 reciprocal packet、真实 packet 的
+Mellin--Jacobi--Sali\'e 双线性分解、difference-product Gram、复值 parity-fibred
+TPC4、coherent mixed polarization、两层 Vieta sheet 与 discriminant cone
+重构均已有精确有限证明。当前最早缺失的代数箭头是 G1 每个 coherent balanced
+block 的 orientation-by-orientation $TT^*$ assembly；通过它之后，首个真正新的
+解析命题是实际自相关 packet 类上的 PCCJS/connected CJS 四复制协方差。
+G3 的有限代数、部分 fixed-modulus 与 cross-prime 后端已有证书，但完整 cell
+manifest、P2 插入与 central P1 weighted square-core BPTPE 仍未同时闭合。
+“Lean-ready”在本文只表示量词和类型已拆到可形式化接口；本文没有冒充存在已由
+Lean kernel 编译通过的工程。
+\end{abstract}
+
+\tableofcontents
+
+\section{如何在新窗口接管}
+
+接管者应按如下顺序工作，不能从末端的漂亮公式倒推并跳过 provenance：
+\begin{enumerate}
+\item 先读第~\ref{sec:status} 节的状态表和第~\ref{sec:forbidden} 节的禁用推理；
+\item 再核对第~\ref{sec:goldbach-bridge} 节的 Goldbach 有限误差桥；
+\item G1/G2 的当前接续点是第~\ref{sec:frontier} 节的
+  \textup{G1-ASM} 与 \textup{PCCJS}；
+\item G3 的当前接续点是第~\ref{sec:g3} 节的三项全局证书；
+\item 任何新“闭合”都必须把第~\ref{sec:lean} 节的 proof obligation 从
+  \OPEN 改成带证明的 \PROVED，而不是只改自然语言标签。
+\end{enumerate}
+
+\begin{audit}[本稿的逻辑强度]
+本稿证明若 classical major-arc 输入、G1、G2、G3 及有效有限验证全部成立，
+则二元 Goldbach 成立；它没有证明这些开放输入。反向的“Goldbach 推出
+G1/G2/G3”既未主张也无理由成立。因此项目口号
+\(
+\mathrm{Goldbach}=\mathrm{G1}+\mathrm{G2}+\mathrm{G3}
+\)
+表示一条充分的 proof-record 分解，不是逻辑双条件。
+\end{audit}
+
+\section{状态语言、对象域与归一化}
+
+\subsection{状态语义}
+
+\begin{center}
+\begin{tabular}{p{0.18\textwidth}p{0.72\textwidth}}
+\toprule
+标签&严格含义\\ \midrule
+\PROVED&在本文给定定义下由有限代数、正交、重排或明确写出的标准分析步骤证明。\\
+\EXTERNAL&调用外部文献中的定理；只有逐项满足其原假设时才能使用。\\
+\CONDITIONAL&由明确列出的假设推出；不把假设计作已证。\\
+\REDUCED&原目标已由等价/充分归约缩到更小接口，但接口仍开放。\\
+\OPEN&尚无完整证书，或来源记录不足以重放。\\
+\REJECTED&有反例、类型不匹配或缺失箭头，不能再作为证明步骤。\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{统一有限域 convention}
+
+除非另说明，$p$ 为奇素数，$Q=p-1$，$\G=\F_p^\times$，
+$\Gh$ 为乘法角色群，$\e_p(x)=\exp(2\pi i x/p)$。有限集合上的 $\ell^2$
+采用 counting measure。加法 unitary Fourier 与乘法 unitary Mellin 定义为
+\begin{align}
+ \widehat f(h)&=p^{-1/2}\sum_{x\in\F_p}f(x)\e_p(-hx),
+                                                        \tag{N.1}\\
+ (\mathcal Mf)(\chi)&=Q^{-1/2}\sum_{x\in\G}f(x)\overline{\chi(x)},
+                                                        \tag{N.2}\\
+ f(x)&=Q^{-1/2}\sum_{\chi\in\Gh}(\mathcal Mf)(\chi)\chi(x).\tag{N.3}
+\end{align}
+基础正交式为
+\[
+ \sum_{h\in\F_p}\e_p(hx)=p\1_{x=0},\qquad
+ \sum_{\chi\in\Gh}\chi(x)=Q\1_{x=1}.
+ \tag{N.4}
+\]
+任何改用 raw Fourier 的公式必须同时改变 Parseval 与所有 $p$ 次幂；禁止混用。
+
+\subsection{渐近量词}
+
+本文中“一致有 $F_N\ll_A N(\log N)^{-A}$”的正式含义是
+\[
+ \forall A>0\ \exists C_A>0\ \exists N_A\in\mathbb N\ 
+ \forall\text{ even }N\ge N_A:\quad
+ |F_N|\le C_A N(\log N)^{-A}.                       \tag{N.5}
+\]
+而 $p^{o(1)}$ 在形式化时必须展开成
+$\forall\varepsilon>0\ \exists C_\varepsilon$ 的不等式，不能保留为类型不明的符号。
+
+\section{Goldbach 表示函数与有限误差桥}
+\label{sec:goldbach-bridge}
+
+固定非负 $W_1,W_2\in C_c^\infty((0,1))$，并令
+\[
+ \mathfrak J_W(\lambda)=\int_{\mathbb R}W_1(t)W_2(\lambda-t)\,dt,
+ \qquad \mathfrak J_W(1)>0.                         \tag{GB.1}
+\]
+定义
+\begin{align}
+ R_{\Lambda,W}(N)&=\sum_{m+n=N}\Lambda(m)\Lambda(n)
+ W_1(m/N)W_2(n/N),                                  \tag{GB.2}\\
+ R_{\vartheta,W}(N)&=\sum_{m+n=N}\vartheta(m)\vartheta(n)
+ W_1(m/N)W_2(n/N),                                  \tag{GB.3}
+\end{align}
+其中 $\vartheta(n)=\log n\,\1_{n\text{ prime}}$。对偶数 $N$，
+\[
+ \mathfrak S(N)=2C_2\prod_{\substack{p\mid N\\p>2}}\frac{p-1}{p-2}
+ \ge 2C_2>0.                                        \tag{GB.4}
+\]
+
+\begin{lemma}[proper prime-power 污染，\PROVED]
+对 $N\ge3$，
+\[
+ R_{\Lambda,W}(N)-R_{\vartheta,W}(N)
+ =O_W\!\left(N^{1/2}(\log N)^2\right).              \tag{GB.5}
+\]
+\end{lemma}
+\begin{proof}
+展开 $\Lambda=\vartheta+(\Lambda-\vartheta)$。每个差项至少有一个变量为
+$p^k\le N$、$k\ge2$；其总数为 $O(N^{1/2})$。由 $m+n=N$，另一变量唯一，
+且每项至多 $O_W((\log N)^2)$。两个交叉项与双差项同样估计。
+\end{proof}
+
+\begin{theorem}[finite error-budget bridge，\PROVED]
+固定偶数 $N$。若实数
+$R_\Lambda,R_{\mathbb P},M,Z,E,B,P,D,T$ 与非负误差
+$\epsilon_0,\epsilon_1,\epsilon_2,\epsilon_3,\epsilon_{\rm pp}$ 满足
+\begin{align}
+ R_\Lambda&=M+Z+E, & E&=B+P+D,                      \tag{BR.1}\\
+ |M+Z-T|&\le\epsilon_0,& |D|&\le\epsilon_1,
+ &|B|&\le\epsilon_2,&|P|&\le\epsilon_3,           \tag{BR.2}\\
+ |R_\Lambda-R_{\mathbb P}|&\le\epsilon_{\rm pp}, &&&& \tag{BR.3}
+\end{align}
+则
+\begin{align}
+ |R_\Lambda-T|&\le\epsilon_0+\epsilon_1+\epsilon_2+\epsilon_3,
+                                                        \tag{BR.4}\\
+ R_{\mathbb P}&\ge T-(\epsilon_0+\epsilon_1+\epsilon_2+
+ \epsilon_3+\epsilon_{\rm pp}).                     \tag{BR.5}
+\end{align}
+若右端严格为正且 $R_{\mathbb P}=R_{\vartheta,W}(N)$，则 $N$ 是两素数之和。
+\end{theorem}
+\begin{proof}
+由前两等式，
+$R_\Lambda-T=(M+Z-T)+D+B+P$；三角不等式给 (BR.4)。再用
+$R_{\mathbb P}\ge R_\Lambda-|R_\Lambda-R_{\mathbb P}|$ 得 (BR.5)。
+$R_{\vartheta,W}$ 是非负项之和；严格正意味着至少一对素数 $m+n=N$。
+\end{proof}
+
+\begin{theorem}[项目的条件 Goldbach 定理，\CONDITIONAL]
+假设 classical smooth major-arc 估计与 ZOT 给
+\[
+ M+Z=N\mathfrak J_W(1)\mathfrak S(N)+O_A(N\log^{-A}N),\tag{GB.6}
+\]
+并且 G1、G2、G3 对所有充分大偶数一致成立。则每个充分大偶数是两素数之和。
+若所有常数有效并得到阈值 $N_0$，再验证 $4\le N<N_0$ 的有限集合，则得到完整
+二元 Goldbach。
+\end{theorem}
+\begin{proof}
+在 bridge 中取 $T=N\mathfrak J_W(1)\mathfrak S(N)$，$E$ 为 nonzero orbit，
+$B,P,D$ 分别为 G1 的 balanced、polarized、defect。G2、G3 控制 $B,P$，
+G1 控制 $D$，(GB.5) 控制 prime powers。由 (GB.4)，$T\gg_W N$；所有误差
+为 $o(N)$ 时 (BR.5) 严格为正。
+\end{proof}
+
+\section{GFT 的严格定义与能做、不能做的事}
+\label{sec:gft}
+
+\begin{definition}[typed GFT]
+本项目中的 generalized Fourier transform (GFT) 不是单一神奇积分核，而是一个
+\emph{保留 provenance 的可组合变换族}。一个 GFT stage 是记录
+\[
+ (X,\mu_X;Y,\mu_Y;K;\mathcal E;\mathcal R),          \tag{GFT.1}
+\]
+其中 $X,Y$ 是带 measure 的输入/输出类型，$K(y,x)$ 是核，
+$(Tf)(y)=\sum_xK(y,x)f(x)$ 或相应积分；$\mathcal E$ 是 exact inverse/Gram/
+pushforward certificate；$\mathcal R$ 是未被变换丢弃的字段，如 additive shift、
+factor origin、gcd branch、factor-count charge、shell、Vieta sheet、orientation、
+principal/endpoint tag 与物理 prefactor。
+\end{definition}
+
+目前使用的 GFT 坐标包括：
+\begin{enumerate}
+\item additive Fourier：对和式约束、Poisson dual frequency 与 discriminant 变量对角化；
+\item multiplicative Mellin：对比例、乘积、角色与 Gauss/Jacobi phase 对角化；
+\item factor-count Fourier：$\Omega(n)$ 的有限频谱，$\theta=\pi$ 为 parity fibre；
+\item factor-scale spectrum：$P_r^{(X)}(n)=\sum_{p^a\Vert n}a(\log p/\log X)^r$；
+\item sum--product/Vieta pushforward：同时保留 $x+z$ 与 $xz$，把 fibre 降到交换二重性；
+\item discriminant/cone transform：$X^2-4YZ$ 的物理 slice 与 $a^2=bc$ 的频域 cone；
+\item sheet/orientation channel：不能把二次 Vieta cover 或相反 orientation 压成标量。
+\end{enumerate}
+
+\begin{audit}[GFT 的真正优势]
+GFT 的优势是选择使约束低 fibre、使 phase 成 coboundary、使 principal mode 可精确
+删除、并把多个来源分量放进同一 coherent covariance；它本身不制造 power saving。
+pure repartition、unitary change of variables 或 exact model glue 只守恒信息和范数。
+若最后对 refined leaves 分别取绝对值，新增标签反而会毁掉 cross-leaf cancellation。
+\end{audit}
+
+\begin{theorem}[有限 prime projector，\PROVED]
+若 $2\le q\le X$、$q$ squarefree 且整数 $M>\log_2X$，则
+\[
+ \1_{q\text{ prime}}=\mu^2(q)\frac1M\sum_{\nu=0}^{M-1}
+ \exp\!\left(\frac{2\pi i\nu}{M}(\Omega(q)-1)\right).\tag{GFT.2}
+\]
+\end{theorem}
+\begin{proof}
+$0\le\Omega(q)<M$，有限角色正交恰好选择 $\Omega(q)=1$；在 squarefree 且
+$q\ge2$ 的域内这等价于 $q$ 为素数。
+\end{proof}
+
+式 (GFT.2) 说明完整 factor-count frequency 比单一 parity frequency 更能
+\emph{识别}素数，但仍不估计相应 Fourier coefficient 的质量。
+
+\section{parity barrier 与双线性公约}
+\label{sec:bilinear}
+
+\subsection{FI 型公约与精确压缩}
+
+设 $\mathcal R\subset\mathbb N^2$ 有限，
+\[
+ \gamma(n,C)=\sum_{\substack{d\mid n\\d\le C}}\mu(d),\qquad
+ S_m=\sum_{n:(m,n)\in\mathcal R}\gamma(n,C)\mu(mn)a_{mn}.\tag{BA.1}
+\]
+Friedlander--Iwaniec 型 bilinear axiom 要求在允许尺度上一致有
+$\sum_m|S_m|\ll_A X(\log X)^{-A}$。这是绕开 parity barrier 的额外输入，
+不是普通 sieve 公理的推论，也不是本项目已经证明的定理。
+
+\begin{lemma}[有限 $\ell^1$ duality，\PROVED]
+\[
+ \sum_m|S_m|=\sup_{|\alpha_m|\le1}\left|\sum_m\alpha_mS_m\right|.\tag{BA.2}
+\]
+\end{lemma}
+\begin{proof}
+上界是三角不等式；反向取 $\alpha_m=\overline{S_m}/|S_m|$（$S_m=0$ 时任取）。
+\end{proof}
+
+\begin{lemma}[guarded Möbius cancellation，\PROVED]
+对所有正整数 $m,d,e$，
+\[
+ \boxed{\mu(mde)\mu(d)=\mu^2(mde)\mu(me).}           \tag{BA.3}
+\]
+\end{lemma}
+\begin{proof}
+若 $mde$ 非 squarefree，两边均为零；否则 $m,d,e$ 两两互素且 squarefree，
+$\mu(mde)\mu(d)=\mu(m)\mu(d)^2\mu(e)=\mu(me)$。
+\end{proof}
+
+去掉 $\mu^2(mde)$ 是错的：$m=1,e=2,d=2$ 时左端为零而 $\mu(me)=-1$。
+
+定义 factor-origin coefficient
+\[
+ A_{\alpha,d}(q)=\sum_{\substack{m\mid q\\(m,dq/m)\in\mathcal R}}\alpha_m.
+                                                               \tag{BA.4}
+\]
+
+\begin{theorem}[exact parity-cofactor compression，\PROVED]
+\[
+ \boxed{\sum_m|S_m|=
+ \sup_{|\alpha_m|\le1}\left|
+ \sum_{d\le C}\sum_{q\ge1}\mu^2(dq)\mu(q)
+ A_{\alpha,d}(q)a_{dq}\right|.}                     \tag{BA.5}
+\]
+\end{theorem}
+\begin{proof}
+在 (BA.2) 中写 $n=de$，用 (BA.3)，再令 $q=me$；对同一 $q$ 的全部来源
+$m\mid q$ 求和即得。所有和有限，所以只是双射重指标。
+\end{proof}
+
+在 $\mu^2(dq)$ 支撑上，$\mu(q)=\e^{i\pi\Omega(q)}$。因此 (BA.5) 只有
+一个 parity carrier，位于 complementary cofactor $q$；$d$ 只携带短尺度。
+并且
+\[
+ \sum_{\substack{d\le C\\dq\le x}}\mu^2(dq)|A_{\alpha,d}(q)|^2
+ \ll x(1+\log C)(\log(2x))^3,                       \tag{BA.6}
+\]
+因为 $|A_{\alpha,d}(q)|\le\tau(q)$，且
+$\sum_{q\le Q}\mu^2(q)\tau(q)^2\ll Q(\log 2Q)^3$。故 factor origin
+只有 polylogarithmic $\ell^2$ 代价，不是缺失 $N^{1/2}$ 的来源。
+
+\subsection{双线性公约在 GFT 中的位置}
+
+令
+\[
+ \Theta_\theta(q)=\mu^2(q)\e^{i\theta\Omega(q)}.
+\]
+所有 downstream stage 若对 physical coefficient 线性且字段不遗失，则
+\[
+ \mathcal T(P_{d,\theta})|_{\theta=\pi}=\mathcal T(P_{d,\pi}).\tag{BA.7}
+\]
+所以 FI 公约是完整 factor-count spectral family 的一个 $\theta=\pi$ matrix
+coefficient；它可以是更高 connected GFT cluster theorem 的 bounded contraction，
+但必须证明 contraction、measure 与 prefactor。仅仅落在同一代数簇上不够。
+
+\section{G1、G2、G3 的稳定定义与配套关系}
+\label{sec:g123}
+
+\begin{definition}[G1：fixed-$N$ lossless typed compiler]
+在 HWAC/ZOT 后令 $\mathcal E_{\ne0}(N)$ 为 nonzero-orbit minor contribution。
+G1 要求存在有限、互斥、穷尽的 balanced/polarized families，使
+\begin{align}
+ \mathcal E_{\ne0}(N)
+ &=\sum_{\lambda\in\mathcal L_{\rm bal}}c_\lambda
+   \mathcal K_\lambda^{\rm bal}(N)
+  +\sum_{\mu\in\mathcal L_{\rm pol}}d_\mu
+   \mathcal K_\mu^{\rm pol}(N)+\Delta_{1,A}(N),      \tag{G1.1}\\
+ |\Delta_{1,A}(N)|&\le C_AN(\log N)^{-A},             \tag{G1.2}\\
+ \sum_\lambda|c_\lambda|+\sum_\mu|d_\mu|
+ &\le C_A(\log N)^C.                                 \tag{G1.3}
+\end{align}
+每个 leaf 必须带 shift、arc coefficient、dyadic scale、factor origin、gcd
+branch、factor-count/Mellin charge、companion scalar、orientation、sheet、
+principal/endpoint tag 与 Poisson normalization。
+\end{definition}
+
+\begin{definition}[G2：coherent balanced estimate]
+\[
+ \left|\sum_{\lambda\in\mathcal L_{\rm bal}}c_\lambda
+ \mathcal K_\lambda^{\rm bal}(N)\right|
+ \ll_A N(\log N)^{-A}.                               \tag{G2}
+\]
+它只对 G1 真实产生的 coherent family 提要求，不是任意向量的 cone estimate。
+\end{definition}
+
+\begin{definition}[G3：polarized finite-cell estimate]
+\[
+ \left|\sum_{\mu\in\mathcal L_{\rm pol}}d_\mu
+ \mathcal K_\mu^{\rm pol}(N)\right|
+ \ll_A N(\log N)^{-A},                               \tag{G3}
+\]
+并要求 P1/P2a/P2b manifest 互斥、穷尽并保存 prime origins。
+\end{definition}
+
+\begin{audit}[为何 G1 与 G2 必须配套]
+G2 的 domain 正是 G1 的 image。G1 过粗会丢 parity、sheet 或 orientation，
+使 G2 命题为假；G1 过细但逐 leaf 取绝对值会丢 coherent cancellation。
+当前 Pareto 方案是“记录细、估计不碎”：保留完整 typed record，却在所有 direction、
+shift、companion scalar 和两张 sheet 上共同做 covariance。G3 与 G1 也配套，因为
+polarized cell 与 carrier 必须由同一 compiler 的 exhaustive route label 产生；
+但 G3 的 analytic backend 与 G2 的 PCCJS 是不同义务。
+\end{audit}
+
+\section{G1 前端：fixed-$N$ Wiener、Poisson 与真实 packet}
+\label{sec:g1front}
+
+\subsection{sharp finite-band 与 smooth HWAC}
+
+令 $E\subset\T$ 可测，$S_A(\alpha)=\sum_mA_m\e(m\alpha)$、
+$S_B(\alpha)=\sum_nB_n\e(n\alpha)$、
+$C(M)=\sum_{m+n=M}A_mB_n$。
+
+\begin{theorem}[finite-band Wiener compiler，\PROVED]
+\[
+ \boxed{\int_E S_A(\alpha)S_B(\alpha)\e(-N\alpha)d\alpha
+ =\sum_{t\in\mathbb Z}\widehat{\1_E}(-t)C(N+t).}    \tag{WP.1}
+\]
+因为 $A,B$ 有限支撑，实际只有有限个 $t$。若 $E$ 是至多 $J$ 个区间之不交并，
+\[
+ \sum_{|t|\le T}|\widehat{\1_E}(t)|\ll J(1+\log T).\tag{WP.2}
+\]
+\end{theorem}
+\begin{proof}
+展开有限和，积分给
+$\widehat{\1_E}(N-m-n)$，再按 $m+n=N+t$ 分组。一个区间 $I$ 满足
+$|\widehat{\1_I}(t)|\le\min(|I|,(\pi|t|)^{-1})$；对 components 与 harmonic
+series 求和得 (WP.2)。
+\end{proof}
+
+若用边界宽度 $\eta$ 的 $C^\infty$ partition，则其 Fourier 系数绝对可和且
+\[
+ \sum_t|\omega_t|\ll 1+J\left(1+\log\frac2\eta\right).\tag{WP.3}
+\]
+每个 shifted coefficient 还可写成 Cauchy coefficient residue。这里 residue
+是逐 Fourier mode 使用；$C^\infty$ cutoff 不保证圆环全纯，sharp indicator
+的完整 Wiener $\ell^1$ 也发散。
+
+\subsection{ZOT：zero orbit 与奇异级数尾部}
+
+令
+\[
+ D_M(X,Y)=\sum_{\substack{d,e\ge1\\(d,e)\mid M}}
+ \mu(d)\mu(e)\frac{(d,e)}{de}
+ \log_+(X/d)\log_+(Y/e).                             \tag{ZOT.1}
+\]
+
+\begin{theorem}[M\"obius zero-orbit resummation，\EXTERNAL]
+若 $M,X,Y\asymp N$，则在 classical zeta zero-free region 与相应
+$1/\zeta$ bounds 下，对每个 $A>0$，
+\[
+ D_M(X,Y)=\mathfrak S(M)+O_A((\log N)^{-A}).          \tag{ZOT.2}
+\]
+故完整 Poisson zero orbit 为
+\[
+ Z_0(M)=N\mathfrak S(M)\mathfrak J_W(M/N)
+ +O_A(N(\log N)^{-A}).                               \tag{ZOT.3}
+\]
+与 denominator $q\le P$ 的 major arcs 相加时，minor zero orbit 恰补上
+high-conductor singular-series tail，而不是一个要单独证明很小的误差。
+\end{theorem}
+
+\begin{audit}[ZOT 的外部边界]
+内部代数是：Perron 把两个 $\log_+$ 变成双复积分；按
+$g=(d,e)$ 作 Euler product；局部因子分离出 reciprocal zeta factors；移动 contour
+并取 $(0,0)$ residue 得奇异级数。定量 remainder 使用 classical zero-free region。
+从 truncated 到 full singular series 还使用 Montgomery--Vaughan 型 pointwise tail。
+所以 ZOT 的重组逻辑已闭合，但这些解析输入在 Lean 中必须是显式 external records。
+\end{audit}
+
+\subsection{ramified 二维 Poisson}
+
+令
+\[
+ \mathcal C_{q,B,M}(W)=\sum_{\substack{x,y\in\mathbb Z\\Bxy\equiv M\ (q)}}W(x,y),
+ \quad g=(B,q).
+\]
+
+\begin{theorem}[ramified Poisson，\PROVED]
+若 $g\nmid M$，则 $\mathcal C_{q,B,M}=0$。若 $g\mid M$，令
+$Q=q/g$、$B'=B/g$、$M'=M/g$、$c\equiv M'\overline{B'}\pmod Q$，则
+\begin{align}
+ \mathcal C_{q,B,M}(W)
+ &=Q^{-2}\sum_{k,\ell\in\mathbb Z}\widehat W(k/Q,\ell/Q)
+   \mathcal K_Q(c;k,\ell),                           \tag{RP.1}\\
+ \mathcal K_Q(c;k,\ell)
+ &=\sum_{\substack{\delta\mid(c,Q)\\\delta\mid\ell}}
+ \delta S\!\left(k,\frac\ell\delta\frac c\delta;\frac Q\delta\right).
+                                                               \tag{RP.2}
+\end{align}
+\end{theorem}
+\begin{proof}
+除以 $g$ 后为 $xy\equiv c\pmod Q$。对每个 residue class 作二维 Poisson 得
+(RP.1)。按 $\delta=(x,Q)$ 分割；$x=\delta x'$，congruence 强迫
+$\delta\mid c$。$y$ 的 $\delta$ 个 lifts 之和除非 $\delta\mid\ell$ 否则为零，
+非零时留下模 $Q/\delta$ 的 Kloosterman sum，即 (RP.2)。
+\end{proof}
+
+若 $W(x,y)=\Phi(x/X_1,y/X_2)$，物理因子是 $X_1X_2/Q^2$，dual lengths
+是 $Q/X_1,Q/X_2$。generic prime branch 单 frame 是 $p^{-2}$，四 frame
+是 $p^{-8}$；不得再乘一个来源不明的 $p^{-2}$。
+
+\subsection{Kloosterman frame 到 reciprocal packet}
+
+令
+\[
+ A(u)=\sum_k\alpha(k)\e_p(ku),\quad
+ B(v)=\sum_\ell\beta(\ell)\e_p(\ell v),\quad
+ w_c(u)=A(u)B(c/u).
+\]
+
+\begin{theorem}[KRP，\PROVED]
+\[
+ \boxed{\sum_{k,\ell}\alpha(k)\beta(\ell)S(k,c\ell+\lambda;p)
+ =\sum_{u\in\G}w_c(u)\e_p(\lambda/u).}              \tag{KRP.1}
+\]
+\end{theorem}
+\begin{proof}
+打开 Kloosterman sum，以 $u$ 为 unit variable，交换有限和；$k$ 与 $\ell$
+内和分别是 $A(u)$ 与 $B(c/u)$。
+\end{proof}
+
+这一步保留 companion scalar $c$、prime/factor origin 与 shift；coherent leaf
+sum 先在线性 physical packet $W=\sum c_tw_t$ 中合并。
+
+\section{真实 packet 的 CJS 双线性分解}
+\label{sec:cjs}
+
+对 $f:\G\to\C$ 使用临时 convention
+$\widehat f^{\,\times}(\chi)=Q^{-1/2}\sum_uf(u)\chi(u)$。设
+$\alpha(0)=\beta(0)=0$，定义
+\[
+ a(\theta)=\sum_{k\in\G}\alpha(k)\theta(k),\qquad
+ b(\varphi)=\sum_{\ell\in\G}\beta(\ell)\varphi(\ell),
+\]
+\[
+ \mathcal L(\chi,\theta)=p^{-1}\tau(\bar\theta)
+ \tau(\overline{\chi\theta}),\qquad
+ \mathsf T_c(a,b)(\chi)=Q^{-1/2}\sum_\theta
+ \mathcal L(\chi,\theta)\theta(c)a(\theta)b(\chi\theta).\tag{CJS.0}
+\]
+令
+$S_w(k)=\sum_uw(u)\e_p(k/u)$、
+$Z_w=p\sum|w|^2-|\sum w|^2$、$D_w=Z_w^{-1/2}S_w$。
+
+\begin{theorem}[actual packet Mellin recoupling，\PROVED]
+\[
+ \boxed{\widehat{D_{w_c}}^{\,\times}(\chi)
+ =\frac{p\tau(\chi)\chi(c)}{Q\sqrt{Z_{w_c}}}
+ \mathsf T_c(a,b)(\chi).}                            \tag{CJS.1}
+\]
+除 $\chi=1,\theta=1,\chi\theta=1$ 三条 principal lines 外，全部 Gauss
+multiplier 是 unit phase，并保留 total-charge relation $(\theta,\chi\theta)$。
+\end{theorem}
+\begin{proof}
+Gauss summation给
+$\widehat A^\times(\psi)=Q^{-1/2}\tau(\psi)a(\bar\psi)$ 与
+$\widehat{B(c/\cdot)}^\times(\varphi)=Q^{-1/2}\varphi(c)
+\tau(\bar\varphi)b(\varphi)$。pointwise product 的 Mellin transform 是
+normalized convolution；再用
+$\widehat{S_w}^{\,\times}(\chi)=\tau(\chi)\widehat w^{\,\times}(\chi)$。
+\end{proof}
+
+\begin{proposition}[twisted Jacobi--Sali\'e Gram，\PROVED]
+令 $\delta=\theta_2\bar\theta_1$。则
+\[
+ \frac1Q\sum_\chi\mathcal L(\chi,\theta_1)
+ \overline{\mathcal L(\chi,\theta_2)}\chi(x)
+ =\frac{\tau(\bar\theta_1)\overline{\tau(\bar\theta_2)}}{p^2}
+ \begin{cases}
+ Q\1_{\theta_1=\theta_2},&x=1,\\
+ \bar\theta_1(x)\bar\delta(x-1)\tau(\delta),&x\ne1.
+ \end{cases}                                         \tag{CJS.2}
+\]
+generic off-diagonal modulus恰为 $p^{-1/2}$；$\delta=1,x\ne1$ 时为 $p^{-1}$。
+\end{proposition}
+\begin{proof}
+打开依赖 $\chi$ 的两个 Gauss sums；角色正交强迫两个 unit variables 的比例。
+剩余和在 $x=1$ 时为 $Q\1_{\delta=1}$，在 $x\ne1$ 时为
+$\bar\delta(x-1)\tau(\delta)$。
+\end{proof}
+
+对 $x\in\G$ 令
+$(\mathsf L_xa)(\chi)=Q^{-1/2}\sum_\theta
+\mathcal L(\chi,\theta)\theta(x)a(\theta)$。
+
+\begin{theorem}[difference-product Gram 与 bilinear Plancherel，\PROVED]
+若
+\[
+ C_{\ell,m}^{(c)}(\alpha)=\sum_\chi\chi(\ell)(\mathsf L_{c\ell}a)(\chi)
+ \overline{\chi(m)(\mathsf L_{cm}a)(\chi)},
+\]
+则
+\[
+ C_{\ell,m}^{(c)}(\alpha)=\frac{Q^2}{p^2}
+ \begin{cases}
+ pA_2-|\sum_k\alpha(k)|^2,&\ell=m,\\[1mm]
+ \sum_{k\ne n}\alpha(k)\overline{\alpha(n)}
+ S(1,c(\ell-m)(k-n);p)-A_2,&\ell\ne m,
+ \end{cases}                                         \tag{CJS.3}
+\]
+其中 $A_2=\sum|\alpha|^2$。令 additive autocorrelations
+$R_\alpha(h)=\sum_n\alpha(n+h)\overline{\alpha(n)}$ 与 $R_\beta$ 同型，则
+\begin{align}
+ \|\mathsf T_c(a,b)\|_2^2
+ &=\frac{Q^2}{p^2}\left(p\|\alpha\|_2^2\|\beta\|_2^2
+ +\mathfrak B_c(\alpha,\beta)\right),               \tag{CJS.4}\\
+ \mathfrak B_c(\alpha,\beta)
+ &=\sum_{h,d\in\F_p}R_\alpha(h)R_\beta(d)S(1,chd;p).\tag{CJS.5}
+\end{align}
+若 $\mathcal A(t)=\sum_k\alpha(k)\e_p(tk)$，则亦有
+\[
+ \mathfrak B_c=\sum_{u\in\G}\e_p(u)
+ \sum_{d\in\F_p}R_\beta(d)|\mathcal A(cd/u)|^2.    \tag{CJS.6}
+\]
+\end{theorem}
+\begin{proof}
+在 $\ell\ne m$ 时把 (CJS.2) 代入，并置
+$\delta=\theta_2\bar\theta_1$。所有 $\theta_1$ phase 精确消去，留下
+$\bar\delta(c(\ell-m))$。第二次角色正交给
+\[
+ \sum_\theta\tau(\bar\theta)\overline{\tau(\bar\delta\bar\theta)}
+ a(\theta)\overline{a(\delta\theta)}
+ =Q\tau(\delta)\sum_{k\ne n}\alpha(k)\bar\alpha(n)\bar\delta(k-n)
+\]
+（$\delta=1$ 另给 $Q(pA_2-|\sum\alpha|^2)$）。再用
+$\sum_\delta\tau(\delta)^2\bar\delta(t)=QS(1,t;p)$ 得 (CJS.3)。
+把 $b(\chi\theta)$ 展开并按 $h=k-n,d=\ell-m$ 重排得 (CJS.4)--(CJS.5)；
+打开 Kloosterman sum并用 autocorrelation Fourier identity 得 (CJS.6)。
+\end{proof}
+
+\begin{audit}[CJS 的意义与局限]
+这是双线性公约在 generalized frequency 中目前最精确的实际表示：universal
+diagonal 之后，首个 connected term 是两条\emph{实际短自相关}之间的
+Kloosterman pairing。entrywise $p^{-1/2}$ 不自动给 operator norm；必须把
+autocorrelation、companion scalar 与所有 cone directions 保持 coherent。
+现有 arbitrary-coefficient 临界 Kloosterman 界只给较小 saving，不能直接通过
+后续四复制 contraction 恢复所需半次幂。
+\end{audit}
+
+\section{complex TPC4、coherent polarization 与 Vieta cone}
+\label{sec:tpc4}
+
+令 $D:\G\to\C$，
+\[
+ q_r(k)=D(k)\overline{D(rk)},\quad
+ G_D(P,H)=\sum_{r\ne1}q_r\!\left(\frac{H}{r(1-r)}\right)
+ q_r\!\left(\frac{P(1-r)}H\right).                  \tag{TPC.1}
+\]
+置 $f_h(v)=D(h/v)\overline{D(v)}$（并零延拓到 $v=0$）、
+$A_h(z)=\sum_a\overline{f_h(a)}f_h(a+a^2z)$。
+
+\begin{theorem}[actual kernel 是 parabolic four-cycle，\PROVED]
+\[
+ \boxed{A_h(z)=G_D(h,-hz)},                           \tag{TPC.2}
+\]
+且
+\[
+ \sum_{P,H}|G_D(P,H)|^2
+ =\sum_{h}\sum_{t\ne1}\sum_{a,c}
+ \overline{f_h(a)}f_h(at)f_h(c)
+ \overline{f_h(t^2c+at(1-t))}.                       \tag{TPC.3}
+\]
+\end{theorem}
+\begin{proof}
+在 $A_h(z)$ 置 $r=1+az$，直接展开得到 (TPC.2)。为得 (TPC.3)，先把
+$z$-和补到 $\F_p$，展开平方，写第二 base point 为 $b=ta$，再置
+$c=a+a^2z$；$t=1$ 项恰好抵消补入的 $z=0$ 项。
+\end{proof}
+
+对 physical packet $w$ 定义
+\[
+ \mathcal U_w(a,b,c)=\sum_{r\in\G}
+ \overline{S_w(ar)}S_w(br)S_w(r)\overline{S_w(cr)},  \tag{TPC.4}
+\]
+及 surface
+\[
+ \mathcal S_{\rm pf}=\{(a,b,c)\in(\G)^3:b^2=c(a^2-a+b),\ a\ne b\}.
+                                                               \tag{TPC.5}
+\]
+
+\begin{theorem}[complex parity-fibred TPC4，\PROVED]
+\[
+ \boxed{E_{\rm TPC4}(D_w)=Z_w^{-4}
+ \sum_{(a,b,c)\in\mathcal S_{\rm pf}}
+ \mathcal U_w(a,b,c)\overline{\mathcal U_w(a^{-1},b^{-1},c^{-1})}.}
+                                                               \tag{TPC.6}
+\]
+并且 $|\mathcal S_{\rm pf}|=(p-2)^2$。
+\end{theorem}
+\begin{proof}
+从 (TPC.3) 打开八个 $D_w$ 因子；以 $r=h/c_0$ 收集两个四次 packet。
+变量替换
+$a=x^{-1}$、$b=(xt)^{-1}$、$c=[t(t+x(1-t))]^{-1}$
+给到 (TPC.5) 的双射，得到公式和点数。
+\end{proof}
+
+对八个 packet 定义 slotwise mixed form
+\[
+ \mathfrak T(w_1,\ldots,w_8)=\sum_{\mathcal S_{\rm pf}}
+ \mathcal U[w_1,w_2,w_3,w_4](a,b,c)
+ \overline{\mathcal U[w_5,w_6,w_7,w_8](a^{-1},b^{-1},c^{-1})}.
+                                                               \tag{TPC.7}
+\]
+
+\begin{theorem}[coherent mixed-TPC4，\PROVED]
+若 $W=\sum_\lambda c_\lambda w_\lambda$，则
+\[
+ \mathfrak T(W,\ldots,W)=\sum_{\lambda_1,\ldots,\lambda_8}
+ \overline{c_{\lambda_1}}c_{\lambda_2}c_{\lambda_3}
+ \overline{c_{\lambda_4}}c_{\lambda_5}
+ \overline{c_{\lambda_6}}\overline{c_{\lambda_7}}c_{\lambda_8}
+ \mathfrak T(w_{\lambda_1},\ldots,w_{\lambda_8}).  \tag{TPC.8}
+\]
+\end{theorem}
+\begin{proof}
+$w\mapsto S_w$ 线性；逐 slot 展开，conjugate-linear slots 恰为
+$1,4,6,7$。没有任何不等式。
+\end{proof}
+
+因此只估计 all-$\lambda$-equal 的 diagonal packet 会漏掉真实 cross-leaf terms。
+
+\subsection{background、pairing 与 shared-prime incidence}
+
+打开 (TPC.4) 得
+\[
+ \mathcal U_w(a,b,c)=\sum_{u_1,\ldots,u_4}
+ \bar w(u_1)w(u_2)w(u_3)\bar w(u_4)
+ \left(p\1_{-a/u_1+b/u_2+1/u_3-c/u_4=0}-1\right).  \tag{TPC.9}
+\]
+$-1$ 是 principal multiplicative background，不可用三角不等式删除；$w\equiv1$
+给出两个 $Q^4$ 级项相消成 $Q$ 的显式反例。
+
+唯一 ordinary pairing curve 是
+$\mathcal P=\{(1,b,b):b\ne1\}$。若 $L=|\supp w|<p$，则其 normalized
+contribution 至多
+\[
+ \sum_{b\ne1}C_b^2\le\sum_r|D_w(r)|^4\le\frac{L}{p-L}.\tag{TPC.10}
+\]
+临界 $L\asymp p^{1/2}$ 时恰为 $O(p^{-1/2})$；唯一 inversion fixed point
+$(1,-1,-1)$ 更小，为 $O(p^{-1})$。
+
+四个 squarefree cofactors 的 shared primes 必须按 incidence set
+$I_\ell=\{j:\ell\mid q_j\}$ 分层。令
+$g_I=\prod_{I_\ell=I}\ell$，则十五个 $g_I$ 两两互素，且
+\[
+ q_j=g_\star s_jE_j\prod_{k\ne j}t_k,                \tag{TPC.11}
+\]
+在 sign vector $(-1,1,1,-1)$ 下
+\[
+ \sum_j\epsilon_j\Omega(q_j)
+ =\sum_j\epsilon_j(\Omega(s_j)-\Omega(t_j))
+ +2(\Omega(e_{23})-\Omega(e_{14})).                 \tag{TPC.12}
+\]
+故 common 与 pair-incidence carriers parity-neutral，odd-incidence carriers
+才携带 legwise sign。此重参数化精确，但 shared-small-prime branches 的总量并非
+自动 power-small。
+
+\subsection{Vieta double cover 与 discriminant cone}
+
+generic surface $\mathcal S_{\rm gen}=\{(a,b,c)\in\mathcal S_{\rm pf}:a\ne1\}$
+由
+\[
+ \eta^2=1+4\sigma r(r-1),\quad
+ (a,b,c)=\left(\frac{1+\eta}{2},\sigma r,\sigma\right),             \tag{VC.1}
+\]
+作二次 cover；并且
+\[
+ (b,c,a^2-a+b)=(\sigma r,\sigma,\sigma r^2),         \tag{VC.2}
+\]
+落在 rank-one cone $u^2=vw$。两张 sheet 在实际 packet 上一般线性独立，
+不能压成 scalar cone。
+
+discriminant 的 exact Fourier identity 是
+\[
+ \sum_{X,Y,Z\in\F_p}\chi_2(X^2-4YZ)\e_p(aX+bY+cZ)
+ =p(p\1_{a^2=bc}-1).                                 \tag{VC.3}
+\]
+因此对 raw transform $\widehat F$，
+\[
+ \sum F\chi_2(X^2-4YZ)
+ =p^{-1}\sum_{s\ne0,r}\widehat F(sr,s,sr^2)
+ +p^{-1}\sum_c\widehat F(0,0,c)-pF(0).              \tag{VC.4}
+\]
+$p^{-1}$ 是 exact normalization，不是 saving；vertical line 与 $F(0)$ 是 typed
+endpoint。
+
+\begin{theorem}[slotwise mixed Vieta--cone reconstruction，\PROVED]
+对 (TPC.7) 的两个 orientation 保留 $\eta=\pm\sqrt{1+4\sigma r(r-1)}$ 的
+even/odd Hadamard channel，逐 slot 定义 $K_{\mathbf w}(\sigma,r)$，再置
+\[
+ F_{\mathbf w}^{\rm VCR}(X,Y,Z)=p^{-3}\sum_{\sigma,r\ne1}
+ K_{\mathbf w}(\sigma,r)\e_p(-\sigma(rX+Y+r^2Z)).   \tag{VC.5}
+\]
+则 generic mixed contribution 满足
+\[
+ \boxed{\mathfrak T_{\rm gen}(\mathbf w)
+ =\sum_{\sigma,r\ne1}K_{\mathbf w}(\sigma,r)
+ =p\sum_{X,Y,Z}F_{\mathbf w}^{\rm VCR}(X,Y,Z)
+ \Delta_p^\#(X,Y,Z),}                               \tag{VC.6}
+\]
+其中
+$\Delta_p^\#=\chi_2(X^2-4YZ)+p\1_{(0,0,0)}$。
+\end{theorem}
+\begin{proof}
+Vieta 参数化与 opposite-orientation Weyl lift 均逐 packet slot 保持，给第一等式。
+(VC.5) 的 character orthogonality把频谱限制到 cone；
+$\widehat{\Delta_p^\#}=p^2\1_{a^2=bc}$，Fourier inversion给第二等式。
+\end{proof}
+
+\section{当前 G1--G2 前沿：G1-ASM 与 PCCJS}
+\label{sec:frontier}
+
+\begin{obligation}[G1-ASM：orientation assembly，\OPEN]
+对每个实际 coherent balanced shell $\mathfrak b$，必须在任何 separated absolute
+value 之前证明
+\[
+ TT^*\!\left(\sum_{\lambda\in\mathcal L_{\mathfrak b}}
+ c_\lambda\mathcal K_\lambda^{\rm bal}\right)
+ =\kappa_{\mathfrak b}\sum_{\boldsymbol\lambda}
+ \Gamma_{\mathfrak b}(\boldsymbol\lambda)
+ \mathfrak T(w_{\lambda_1},\ldots,w_{\lambda_8})
+ +\mathcal R_{\mathfrak b},                         \tag{ASM}
+\]
+并显示全部 shift、Poisson、gcd、companion-prime、orientation、endpoint
+prefactor。若 compiler 产生 common packet $W_{\mathfrak b}=\sum c_\lambda w_\lambda$，
+$\Gamma$ 必须推导成 (TPC.8) 的 conjugation pattern；不能猜测。
+\end{obligation}
+
+WP、RP、KRP 已分别解决 cutoff、Poisson 与 Kloosterman-to-packet，
+mixed VCR 已解决 (ASM) 之后的 generic algebra。故 G1 当前最早缺口是有限的
+orientation-by-orientation assembly，不需要新 cancellation theorem，但必须逐指标完成。
+
+\begin{obligation}[PCCJS：parity-carrying coherent cone covariance，\OPEN]
+对 G1 实际产生的 parity-fibred divisor-incidence packet，在临界
+$p\asymp H_{\mathfrak b}^2$ 上证明
+\[
+ \left|\sum_{s\ne0}\sum_r
+ \mathcal V_{\pi,\mathfrak b}(sr,s,sr^2)
+ \mathcal J_{\mathfrak b}(sr,sr^2)\right|
+ \ll \left(\frac{H_{\mathfrak b}}p\right)^{1/2}p^{o(1)}
+ \|\mathcal V_{\pi,\mathfrak b}\|_2
+ \|\mathcal J_{\mathfrak b}\|_2.                  \tag{PCCJS}
+\]
+临界 prefactor 是 $H^{-1/2}$，正是 separated Cauchy 丢掉的半次幂。
+\end{obligation}
+
+PCCJS 的 arbitrary-vector 版本为假：任取非零 $J$ 并置 $V=\bar J$ 即达到
+Cauchy equality。命题只能依赖 $V,J$ 由同一个 actual packet 共同生成。
+
+\subsection{VST--DR/CLCJS 与 CJS 的正确联系}
+
+旧 VST--DR 处理三因子 equal-sum/equal-product 所生的 six-wave single-chamber
+coefficient；actual KRP 先已双线性，而 TPC4 再到 degree eight，coherent
+polarization 后有十六个短 slots。因此旧 VST--DR 不能仅因都出现“Vieta”或
+“connected”就直接代入 PCCJS。
+
+可严格保留的共同点只有 (CJS.3)：删除 principal characters、equal differences
+与 pairing 后，短变量通过
+\(
+ (\ell-m)(k-n)
+\)
+进入 Kloosterman kernel。下一刀应把一次 connected $TT^*$ \emph{逐 slot}
+插进 mixed form (TPC.8)/(VC.6)，再检查所生 equal-sum/equal-product 与 nonzero
+wrap 是否恰属 VST--DR/CLCJS3 型 fibre。此桥目前是 \OPEN；standalone VST--DR
+既未被假设，也不足以闭合 PCCJS。
+
+\subsection{逐壳层回代义务}
+
+每个 local estimate 还必须证明以下 global budget：
+\begin{enumerate}
+\item 在 critical shell $H(D)\asymp N$ 先精确删除 principal/background/pairing；
+\item 对全部 directions $r$ 与 shifts $t$ 在同一 covariance 内求和；
+\item 把 local $p,H,D$ prefactor 与 RP 的 $Q^{-2}$、WP 的 coefficient mass 相乘；
+\item 对低壳层/critical shell 交界给统一 bound，不能留下尺度空隙或重复计数；
+\item endpoint、ramified $\delta>1$、guard divisor 与 shared-prime descent 分别入账；
+\item 只有总和达到 $N(\log N)^{-A}$ 才可把 G2 从 \OPEN 改为 \PROVED。
+\end{enumerate}
+
+\section{G3：已证模块与剩余全局义务}
+\label{sec:g3}
+
+G3 的三层必须分开：typed finite algebra、local analytic backend、global leaf
+insertion。当前 cell catalog 是
+\[
+\begin{array}{c|c|c}
+\text{cell}&\text{guard}&\text{carrier}\\ \hline
+\mathrm{P1}&\lambda_1>2/3&p\\
+\mathrm{P2a}&\lambda_1\le2/3,\ \lambda_2>1/3&p_1p_2\\
+\mathrm{P2b}&\lambda_1\le2/3,\ \lambda_2\le1/3,\
+\ \lambda_1+\lambda_2>5/6&p_1p_2.
+\end{array}                                           \tag{G3.1}
+\]
+
+\begin{lemma}[bounded prime skeleton，\PROVED]
+若 $n\le X$，则大于 $X^{1/6}$ 的 prime occurrences 至多五个。
+\end{lemma}
+\begin{proof}
+六个的乘积严格大于 $X$，不可能整除 $n\le X$。
+\end{proof}
+
+\begin{theorem}[origin-labelled tensor reconstruction，\PROVED]
+若 $a=\prod m_{j,a}$、$b=\prod m_{j,b}$、$e=\prod m_{j,e}$，不同桶由
+disjoint occurrences 构成且 $\mu(a)\mu(e)\ne0$，则
+\[
+ \mu(a)\mu(e)\log b
+ =\sum_j\bigl[\mu(m_{j,a})\mu(m_{j,e})\log m_{j,b}\bigr]
+ \prod_{i\ne j}\mu(m_{i,a})\mu(m_{i,e}).            \tag{G3.2}
+\]
+\end{theorem}
+\begin{proof}
+squarefree 与 disjoint origins 使 Möbius 因子分乘，$\log b=\sum_j\log m_{j,b}$。
+\end{proof}
+
+\begin{theorem}[PCRS carrier extraction，\PROVED]
+若 typed Type-II leaf 中 $Abf+Bdh=N$，且 $Abf=PC$，其中 $P$ 由至多两个
+marked prime occurrences 构成，则可精确分成至多三个 log branches，每支为
+\[
+ PC+Bdh=N.                                            \tag{G3.3}
+\]
+若 $(P,N)=1$，则 $Bdh\equiv N\pmod P$ 且所有需要的 inverse 合法。
+\end{theorem}
+\begin{proof}
+把 $P$ 在 $a,b,e,f$ 四个 origin 的部分逐一提出。Möbius legs 只产生显式符号，
+$f$ 无 coefficient；$b$ 使用
+$\log(P_bb_0)=\log b_0+\sum_{p\mid P_b}\log p$，因 $P$ 至多二素所以至多三支。
+\end{proof}
+
+\begin{lemma}[fixed-$N$ gcd downgrade，\PROVED]
+若 $p\mid(P,N)$，则 $p\mid Bdh$。按 $(v_p(B),v_p(d),v_p(h))$ 分割后从等式
+两边除一个 $p$，carrier depth 严格下降；至多二素时两步终止。
+\end{lemma}
+
+\begin{theorem}[double Poisson Kloosterman normal form，\PROVED]
+若 $(a,P)=1$，则
+\[
+ \sum_{d,h}u(d)v(h)\1_{dh\equiv a\ (P)}
+ =P^{-2}\sum_{k,\ell\bmod P}\widehat u_P(k)\widehat v_P(\ell)
+ S(k,a\ell;P).                                       \tag{G3.4}
+\]
+\end{theorem}
+\begin{proof}
+对 $d,h$ 的 residue classes 分别用有限 Poisson，再在 unit $d$ 上置
+$h\equiv a\bar d$；内和正是 Kloosterman sum。
+\end{proof}
+
+\begin{theorem}[cross-prime incidence，\PROVED]
+设 $3\le H_2\le H_1$，$p\in\mathcal P\subset[H_1,2H_1]$、
+$r\in\mathcal R\subset[H_2,2H_2]$ 为不同素数，
+\[
+ \mathscr U_{(p,\chi),(r,\psi)}=\chi(r)^2\psi(p)^2.
+\]
+则
+\[
+ \|\mathscr U\|_{2\to2}\ll H_1H_2^{1/2}
+ \left(1+\frac{\log(4H_1)}{\log H_2}\right)^{1/2}. \tag{G3.5}
+\]
+同一界对 $\mathscr U\otimes I_{\mathcal H}$ 成立。
+\end{theorem}
+\begin{proof}
+计算 $\mathscr U\mathscr U^*$。角色正交使 off-diagonal block 只在
+$r\mid p^2-p'^2$ 时非零；给定 $p,p'$ 可出现的 $r$ 数由乘积大小给对数上界。
+diagonal block 中 $r^2\equiv r'^2\pmod p$，短区间内每个符号类只有 $O(1)$
+代表。两次 block Schur test 得平方范数
+$\ll H_1^2H_2(1+\log(4H_1)/\log H_2)$，开方即得。
+\end{proof}
+
+\begin{theorem}[P1 fixed-prime triple Mellin，\PROVED]
+若 $p$ 素、$(N,p)=1$，三个 interval 长度 $O(\sqrt p)$，则
+\[
+ \left|\sum_{B,k,\ell}\beta_B\alpha_k\nu_\ell
+ S(Nk\bar B,-\ell;p)\right|
+ \ll_{\varepsilon}p^{1+\varepsilon}
+ \|\alpha\|_2\|\nu\|_2\|\beta\|_2.               \tag{G3.6}
+\]
+\end{theorem}
+\begin{proof}
+用
+$S(a,b;p)=Q^{-1}\sum_\chi\tau(\chi)^2\bar\chi(ab)$，再对三个 Mellin
+transform 使用 H\"older $(4,4,2)$。长度 $O(\sqrt p)$ 时 product fibre 由整数
+因子界为 $p^\varepsilon$，故两个四次矩各为 $O(p^{1+\varepsilon}\|\cdot\|_2^4)$。
+\end{proof}
+
+该 fixed-$p$ bound 在 $p\asymp H^2$ 且三个 bounded packets 长 $H$ 时为
+$H^{7/2+o(1)}$；对 $O(H^2)$ moduli 绝对求和为 $H^{11/2+o(1)}$，相对目标
+$H^{5-o(1)}$ 仍缺 outer $H^{-1/2}$。
+
+\begin{lemma}[BP trace 坐标与 divisor rigidity，\PROVED]
+对
+$R(a,b,c,d)=abcd-(a+c)(b+d)$，置
+$x=ac,y=a+c,u=bd,v=b+d$，则
+\[
+ R=xu-yv,qquad (ac\,b-(a+c))(ac\,d-(a+c))=ac\,R+(a+c)^2.\tag{G3.7}
+\]
+因此 $(a,c)\mapsto(ac,a+c)$ fibre 至多二；固定 $a,c,R$ 后 $(b,d)$ 受一个
+divisor equation 控制。
+\end{lemma}
+
+\begin{proposition}[当前粗 BPTPE，\PROVED]
+若四变量在 $[H,2H]$ 且 $a_R$ 是按 (G3.7) pushforward 的 weighted sum，则
+\[
+ \sum_R|a_R|^2\ll_\varepsilon H^{2+\varepsilon}
+ \prod_{j=1}^4\|Y_j\|_2^2.                           \tag{G3.8}
+\]
+bounded packets 时为 $H^{6+\varepsilon}$。
+\end{proposition}
+\begin{proof}
+固定 $a,c,R$ 后 (G3.7) 给 $O_\varepsilon(H^\varepsilon)$ 个 $(b,d)$；每个
+$R$ fibre 至多 $H^{2+\varepsilon}$。fibrewise Cauchy 后对 $R$ 求和。
+\end{proof}
+
+\begin{obligation}[G3 的三项未闭合证书，\OPEN]
+\begin{enumerate}
+\item 恢复 (G3.1) 对所有实际 G1 polarized leaves 的完整 finite polytope
+      admissibility、disjointness 与 exhaustiveness；
+\item 逐 basis 证明 actual P2 leaf 到 canonical spectral form 的 measure、CRT、
+      gcd 与 prefactor 插入，之后才能调用 external fixed-modulus theorem 与 (G3.5)；
+\item central P1 证明 weighted square-core BPTPE：若 $F(R)=R(R+4)$，控制
+\[
+ \sum_{F(R_1)F(R_2)=\square}|a_{R_1}a_{R_2}|
+ \ll H^\varepsilon\prod_j\|Y_j\|_2^2.              \tag{G3.9}
+\]
+裸 $R$ 值的 square-paucity 不能自动控制高重数 weights $a_R$。
+\end{enumerate}
+\end{obligation}
+
+\section{最值得保存的 exact toolkit}
+\label{sec:toolkit}
+
+本节列出独立于 Goldbach closure、可直接复用的定理。前文已完整证明 WP、RP、
+KRP、CJS、TPC4、mixed VCR、carrier 与 cross-prime 模块，下面补其余核心。
+
+\begin{theorem}[finite hit-count projector，\PROVED]
+若 $0\le r,j<K$，则
+\[
+ \1_{r=j}=K^{-1}\sum_{\ell=0}^{K-1}\exp(2\pi i\ell(r-j)/K).\tag{TK.1}
+\]
+若无 $0\le r<K$ 的先验范围，右端只选择 congruence class，不能当 equality selector。
+\end{theorem}
+
+\begin{theorem}[sum--product Gram，\PROVED]
+定义
+\[
+ (\mathcal AF)(R,P)=\sum_{\substack{x+z=R\\xz=P}}F(x,z),\quad
+ (\mathcal JF)(R,\eta)=Q^{-1/2}\sum_{x+z=R}F(x,z)\eta(xz).
+\]
+若 $\mathsf S$ 交换 $(x,z)$，$\mathsf D$ 投影到 $x=z$，则
+\[
+ \boxed{\mathcal A^*\mathcal A=\mathcal J^*\mathcal J
+ =I+\mathsf S-\mathsf D},\qquad
+ \|\mathcal A\|,\|\mathcal J\|\le\sqrt2.          \tag{TK.2}
+\]
+\end{theorem}
+\begin{proof}
+同一 $(R,P)$ fibre 中，$(x,z)$ 与 $(x',z')$ 是
+$T^2-RT+P$ 的有序根，故只可能相同或交换；diagonal 被重复一次，须减 $\mathsf D$。
+\end{proof}
+
+\begin{theorem}[reciprocal fibre，\PROVED]
+若 Mellin inverse 采用 (N.3)，而 Jacobi support 给
+$yax=1$、$y'b(1-x)=1$，其中
+$a=(z-z')/z$、$b=(z'-z)/z'$，则
+\[
+ z(y^{-1}-1)=z'(y'^{-1}-1),\qquad
+ yz=\frac{z^2}{z+q},\ q=z(y^{-1}-1).                 \tag{TK.3}
+\]
+因此真实几何是 projective，不是 $z\mapsto z+q$。
+\end{theorem}
+
+\begin{theorem}[Vieta diagonal 与 Cayley--Kloosterman，\PROVED]
+映射 $r\mapsto(r^{-1},(1-r)^{-1})$ 双射到
+$\{(x,z)\in(\G)^2:x+z=xz\}$，交换坐标对应 $r\mapsto1-r$。并且
+\[
+ \sum_{r\ne0,1}\e_p(A/r+C/(1-r))
+ =\e_p(A+C)S(A,C;p)-1.                               \tag{TK.4}
+\]
+\end{theorem}
+\begin{proof}
+第一式直接算 $x+z=xz$ 并由 $r=x^{-1}$ 反解。第二式置
+$t=r/(1-r)$，补上缺失的 $t=-1$ 项。
+\end{proof}
+
+\begin{theorem}[Jacobi coboundary，\PROVED]
+若 $\alpha,\beta,\alpha\beta$ 均非主角色，令
+$\rho(\chi)=\tau(\chi)/\sqrt p$、
+$\jmath(\alpha,\beta)=J(\alpha,\beta)/\sqrt p$，则
+\[
+ \jmath(\alpha,\beta)=\rho(\alpha)\rho(\beta)
+ \overline{\rho(\alpha\beta)}.                     \tag{TK.5}
+\]
+故 closed character cycle 上 intermediate vertex phases 望远镜相消。
+\end{theorem}
+\begin{proof}
+用 Gauss--Jacobi 恒等式
+$J(\alpha,\beta)=\tau(\alpha)\tau(\beta)/\tau(\alpha\beta)$ 与
+$|\tau(\chi)|=\sqrt p$。principal exceptions 必须另列。
+\end{proof}
+
+\begin{theorem}[Gauss-square/Mellin--Kloosterman 对偶，\PROVED]
+对 $t\in\G$，
+\[
+ \sum_{\chi\in\Gh}\frac{\tau(\chi)^2}{p}\chi(t)
+ =\frac Qp S(1,t^{-1};p).                            \tag{TK.6}
+\]
+\end{theorem}
+\begin{proof}
+打开两个 Gauss sums；角色正交强迫 $xyt=1$，剩下一维 Kloosterman sum。
+\end{proof}
+
+\begin{theorem}[centered Parseval，\PROVED]
+\[
+ \sum_{h\ne0}|\widehat f(h)|^2
+ =\sum_x|f(x)|^2-p^{-1}|\sum_xf(x)|^2.               \tag{TK.7}
+\]
+raw convention 时右侧整体乘 $p$。这是删除 principal mode 的恒等式，不是额外 saving。
+\end{theorem}
+
+\begin{theorem}[fibrewise dilation 与 Schatten transport，\PROVED]
+若 $R\in\G$，映射 $U_Rf(x)=f(Rx)$ 是 $\ell^2(\G)$ 上的酉算子。因而对有限维
+operator $T$ 与酉 $U,V$，任意 Schatten-$q$ norm 满足
+\[
+ \|UTV\|_{S_q}=\|T\|_{S_q}.                          \tag{TK.7a}
+\]
+更一般地，$\|ATB\|_{S_q}\le\|A\|_{\rm op}\|T\|_{S_q}\|B\|_{\rm op}$。
+但依赖 row 的 column shear 是 entry bijection 而不一定是 $UTV$，故不能据此宣称
+Schatten norm 守恒；必须给 intertwining identity 或独立 Gram 计算。
+\end{theorem}
+\begin{proof}
+$x\mapsto Rx$ 是 $\G$ 的双射，故 $U_R$ 保持内积。$UTV$ 与 $T$ 有相同 singular
+values；ideal inequality 是 singular-value theory 的标准有限维结论。
+\end{proof}
+
+\begin{theorem}[multiplicative Wiener--Khinchin，\PROVED]
+若 $C_a(t)=\sum_xa(tx)\overline{a(x)}$，则
+\[
+ (\mathcal MC_a)(\chi)=\sqrt Q|\mathcal Ma(\chi)|^2,
+ \qquad \sum_t|C_a(t)|^2=Q\sum_\chi|\mathcal Ma(\chi)|^4.\tag{TK.8}
+\]
+\end{theorem}
+
+\begin{theorem}[GCD-carried factor-scale allocation，\PROVED]
+若 $\mu(c)\mu(d)\ne0$，写 $c=ga,d=gb,g=(c,d)$，则 $g,a,b$ 两两互素且
+$\mu(c)\mu(d)=\mu(a)\mu(b)$。若 $m=ab$、
+$u=(t_1+t_2)/2,v=(t_1-t_2)/2$，则
+\[
+ \sum_{\substack{ab=m\\(a,b)=1,(ab,g)=1}}\mu(a)\mu(b)a^{-it_1}b^{-it_2}
+ =\1_{(m,g)=1}\mu^2(m)m^{-iu}\prod_{q\mid m}(-2\cos(v\log q)).\tag{TK.9}
+\]
+其 Dirichlet series 为两个 reciprocal zeta factors 乘一个在
+$\Re s>1/2$ 绝对收敛的 Euler product，外加显式有限 $q\mid g$ 因子。
+\end{theorem}
+
+\begin{theorem}[interval autocorrelation，\PROVED]
+若 $I$ 长 $H<p/2$，$w=H^{-1/2}\1_I$，
+$\Phi(s)=\sum_xw(x)\e_p(sx)$，则
+\[
+ |\Phi(s)|^2=\sum_v\left(1-\frac{|v|}{H}\right)_+\e_p(sv),\quad
+ \supp Y\subset[-H,H],\ \|Y\|_\infty\le1,\ \operatorname{TV}(Y)=2.\tag{TK.10}
+\]
+\end{theorem}
+
+\begin{theorem}[Exact Parity--Gauge Decomposition，\PROVED]
+令 $h(n)=(-1)^{\Omega(n)}$。对任意算术函数 $\lambda$，置
+\[
+ L_\lambda=\lambda*1,\qquad
+ D_\lambda=\mu^2*(h\log)-(\lambda h)*h.
+\]
+则对所有 $n\ge1$，
+\[
+ \boxed{\Lambda(n)=L_\lambda(n)+h(n)D_\lambda(n).}  \tag{TK.11}
+\]
+\end{theorem}
+\begin{proof}
+$h$ 完全乘法、$h^2=1$、$\mu h=\mu^2$。由 $\Lambda=\mu*\log$ 得
+$h\Lambda=\mu^2*(h\log)$，而 $hL_\lambda=(\lambda h)*h$；相减。
+\end{proof}
+
+\begin{theorem}[finite ModelGlue 与 repartition no-go，\PROVED]
+若双线性 $\mathfrak M:U\times V\to W$，
+$u=\sum_t\kappa_tu_t$、$v=\sum_s\ell_sv_s$，且
+$\sum_\sigma P_\sigma=I_{U\otimes V}$，则
+\[
+ \sum_{\sigma,t,s}\kappa_t\ell_s
+ \widetilde{\mathfrak M}(P_\sigma(u_t\otimes v_s))=\mathfrak M(u,v).\tag{TK.12}
+\]
+另一方面，若 $a_x\ne0$ 且 $\sum_\sigma\rho_\sigma(x)=1$，至少一个
+$\rho_\sigma(x)a_x\ne0$；pure repartition 不会让 bad term 消失。
+\end{theorem}
+
+\begin{theorem}[factor-scale Newton reconstruction，\PROVED]
+若 $n\le X$ 且每个 $p\mid n$ 满足 $p\ge X^\delta$，令
+$K=\lfloor1/\delta\rfloor$，则
+\[
+ \bigl(\Omega(n),P_1^{(X)}(n),\ldots,P_K^{(X)}(n)\bigr)\tag{TK.13}
+\]
+唯一确定带重数的 multiset $\{\log p/\log X:p\mid n\}$。
+\end{theorem}
+\begin{proof}
+素因子个数 $k\le K$；给定前 $k$ 个 power sums 后 Newton identities 恢复
+elementary symmetric polynomials，继而恢复以这些 log-scales 为根的首一多项式。
+\end{proof}
+
+\begin{theorem}[finite alternating endpoint jet，\PROVED]
+对有限集 $A$、$K:A\to\mathbb N$、权 $w$，令
+$J_j=\sum_aw(a)\binom{K(a)}j$、
+$T_M=\sum_{K(a)>M}w(a)\binom{K(a)-1}M$，则
+\[
+ \sum_{K(a)=0}w(a)=\sum_{j=0}^M(-1)^jJ_j+(-1)^{M+1}T_M.\tag{TK.14}
+\]
+\end{theorem}
+\begin{proof}
+交换有限和并用
+$\sum_{j=0}^M(-1)^j\binom kj=0$（$1\le k\le M$）及
+$(-1)^M\binom{k-1}M$（$k>M$）。
+\end{proof}
+
+\begin{theorem}[finite witness/Bellman comparison，\PROVED]
+实数族的 supremum 严格正当且仅当某个有限成员严格正。若 $\mathcal F$ 单调，
+$V_0\le\Phi$ 且 $\mathcal F\Phi\le\Phi$，则迭代
+$V_{r+1}=\mathcal FV_r$ 满足 $V_r\le\Phi$，其逐点 supremum 亦然。
+\end{theorem}
+
+\section{禁用捷径与反例登记}
+\label{sec:forbidden}
+
+下列推理已被严格推翻，后续不得再次作为隐含步骤：
+\begin{enumerate}
+\item \REJECTED：在 minor arc 上直接用 full-circle $m+n=N$；正确替代是 (WP.1)。
+\item \REJECTED：sharp cutoff 有全局有限 Wiener $\ell^1$；只有 active finite band
+      有 (WP.2)，或改用 smooth cutoff 得 (WP.3)。
+\item \REJECTED：$C^\infty$ cutoff 自动有 annular holomorphic continuation。
+\item \REJECTED：把 Mellin inverse 的 $D(y)$ 与 $\overline{D(y)}$ convention 混用；
+      这会把 reciprocal fibre 错写成 affine fibre。
+\item \REJECTED：用旧 affine SWAFM/WJCTLS 链闭合修正后的 projective G2。
+\item \REJECTED：从 entrywise Weil/CJS $p^{-1/2}$ 直接推出 Schatten 或四复制 saving。
+\item \REJECTED：把两张 Vieta sheet 压成 scalar cone；已有小素数实际 packet rank-two 反例。
+\item \REJECTED：删除 TPC4 的 $-1$ background；$w\equiv1$ 显示其与主项大规模相消。
+\item \REJECTED：把 $\prod_j\mu(q_j)$ 写成 $\mu(\prod_jq_j)$，除非先证 pairwise coprime。
+\item \REJECTED：所有 shared-prime branches 自动 power-negligible；只能先 exact descent。
+\item \REJECTED：G1 逐 leaf diagonal bound 可替代 coherent mixed tensor；它漏掉 (TPC.8)。
+\item \REJECTED：standalone VST--DR 可直接代入 PCCJS；degree、chamber 与 slot type 不同。
+\item \REJECTED：arbitrary-vector PCCJS；Cauchy equality 给反例。
+\item \REJECTED：exact ModelGlue、unitary dilation 或 repartition 自身创造 parity saving。
+\item \REJECTED：外部 fixed-modulus Kloosterman bound 自动覆盖 actual leaf；必须验证
+      interval、coprimality、measure、coefficient 与 outer averaging。
+\item \REJECTED：裸 polynomial-value square paucity 自动控制 weighted pushforward $a_R$。
+\end{enumerate}
+
+\section{总状态表}
+\label{sec:status}
+
+\begin{longtable}{p{0.48\textwidth}p{0.16\textwidth}p{0.27\textwidth}}
+\toprule
+对象&状态&严格备注\\ \midrule
+\endfirsthead
+\toprule 对象&状态&严格备注\\ \midrule\endhead
+finite error-budget bridge 与 prime-power correction&\PROVED&完整有限证明。\\
+smooth major arc + ZOT&\EXTERNAL&依赖经典 zero-free/Siegel--Walfisz/MV tail。\\
+finite-band fixed-$N$ Wiener compiler&\PROVED&保留全部 shifts；总变差 polylog。\\
+G1 complete typed manifest&\OPEN&前端多模块已证；ASM 尚缺。\\
+guarded cofactor compression 与 factor-origin norm&\PROVED&单一 parity carrier。\\
+ramified Poisson、KRP actual packet&\PROVED&含 gcd strata 与 $Q^{-2}$。\\
+CJS.1--CJS.6 actual packet bilinear form&\PROVED&首个 connected difference-product Gram。\\
+actual parabolic kernel、complex TPC4、mixed polarization&\PROVED&cross-leaf terms保留。\\
+pairing curve与 fixed point&\PROVED&临界尺度达到 $p^{-1/2}$。\\
+shared-prime incidence normal form&\PROVED&非自动 negligible。\\
+Vieta double cover、opposite orientation、mixed VCR&\PROVED&必须保留 rank-two sheet。\\
+G1 orientation assembly (ASM)&\OPEN&最早缺失的有限代数箭头。\\
+PCCJS/connected four-copy CJS&\OPEN&首个新解析定理。\\
+G2 stable coherent estimate&\OPEN&已归约到 ASM + PCCJS + shell replay。\\
+G3 finite carrier/tensor/Poisson algebra&\PROVED&在显式 typed leaf 域内。\\
+G3 fixed-modulus published inputs&\EXTERNAL&只按原 theorem hypotheses 调用。\\
+G3 cross-prime operator 与 P1 fixed-prime&\PROVED&不等于 global insertion。\\
+G3 full theorem&\OPEN&manifest、P2 insertion、P1 BPTPE 未齐。\\
+G1+G2+G3+MA $\Rightarrow$ sufficiently-large Goldbach&\CONDITIONAL&由 bridge 严格推出。\\
+完整二元 Goldbach&\OPEN&还需开放模块及有效有限验证。\\
+\bottomrule
+\end{longtable}
+
+\section{Lean 4 形式化蓝图}
+\label{sec:lean}
+
+\begin{audit}[关于“Lean 语言”]
+以下是 machine-oriented signature blueprint，不是已编译代码。证明迁移时应先把
+有限定理放入一个独立 package；解析外部定理只能作为含全部 hypotheses 的 record，
+不能用无参数 axiom 代替。
+\end{audit}
+
+\begin{lstlisting}[language={},caption={建议的核心状态与 Goldbach bridge 签名；省略号仅表示尚待定义的项目类型}]
+inductive AuditStatus
+| proved | external | conditional | reduced | open_ | rejected
+
+structure ErrorBudget where
+  rLam rPrime major zero nonzero balanced polarized defect target : Real
+  eps0 eps1 eps2 eps3 epsPP : Real
+  eps_nonneg : 0 <= eps0 /\ 0 <= eps1 /\ 0 <= eps2 /\
+               0 <= eps3 /\ 0 <= epsPP
+  split : rLam = major + zero + nonzero
+  compile : nonzero = balanced + polarized + defect
+  main_bound : |major + zero - target| <= eps0
+  defect_bound : |defect| <= eps1
+  balanced_bound : |balanced| <= eps2
+  polarized_bound : |polarized| <= eps3
+  prime_power_bound : |rLam - rPrime| <= epsPP
+
+theorem finite_bridge (B : ErrorBudget) :
+  B.rPrime >= B.target -
+    (B.eps0 + B.eps1 + B.eps2 + B.eps3 + B.epsPP) := by
+  -- linarith [abs_le.mp ...]
+
+structure LeafMeta where
+  shift : Int
+  shell : Shell
+  factorOrigins : Finset FactorOrigin
+  gcdBranch : GcdBranch
+  theta : Real
+  companion : Option (ZMod p)
+  orientation : Orientation
+  sheet : SheetTag
+  endpoint : EndpointTag
+  poissonPrefactor : Complex
+  proofOfGuards : GuardPredicate ...
+\end{lstlisting}
+
+\begin{lstlisting}[language={},caption={有限域核心接口；这是 signature schema，不声称已编译}]
+theorem mobius_guard (m d e : Nat) :
+  mobius (m*d*e) * mobius d =
+    (mobius (m*d*e))^2 * mobius (m*e)
+
+theorem sum_product_gram (F : (ZMod p)^* x (ZMod p)^* -> C) :
+  adjoint A (A F) = F + swap F - diagonal F
+
+theorem difference_product_gram
+  (p : Nat) [Fact p.Prime] (alpha beta : ZMod p -> C) :
+  normSq (T c alpha beta) =
+    ((p-1)^2 / p^2) *
+      (p * normSq alpha * normSq beta +
+       sum h,d, R alpha h * R beta d * Kloosterman 1 (c*h*d) p)
+
+structure G1Certificate (N : Nat) where
+  balanced polarized : Finset Leaf
+  disjoint_routes : Disjoint balanced polarized
+  exhaustive : ActualNonzeroLeaves N = balanced union polarized union exceptions
+  exact_reconstruction : nonzeroContribution N = ...
+  l1_budget : ...
+  defect_budget : ...
+
+structure OrientationAssembly (C : G1Certificate N) where
+  exactTTstar : ... = mixedTPC4Tensor ... + endpointRemainder
+  normalization : ...
+  preservesCoherence : ...
+\end{lstlisting}
+
+优先形式化顺序：
+\begin{enumerate}
+\item finite orthogonality、Möbius guard、有限 projector、bridge；
+\item sum--product Gram、Cayley、Gauss/Jacobi、centered Parseval；
+\item KRP/CJS 与 TPC4/mixed polarization/Vieta cover；
+\item G1 leaf AST、route disjointness/exhaustiveness、ASM；
+\item external records：major arcs、zero-free region、Kloosterman backends；
+\item 最后才是 PCCJS 与 global shell budget。
+\end{enumerate}
+
+\section{下一阶段研究计划}
+
+最值得执行的“下一刀”按依赖次序是：
+\begin{enumerate}
+\item \textbf{完成 G1-ASM。} 从 WP 的每个 active shift 开始，逐 orientation 重放
+RP/KRP，证明 common packet 或 mixed tensor 的 exact $TT^*$ identity，并列出
+endpoint remainder；这是有限工作，不应与 analytic conjecture 混在一起。
+\item \textbf{在 mixed tensor 内做一次 connected CJS $TT^*$。} 把 (CJS.3) 逐 slot
+代入 (TPC.8)/(VC.6)，先删除 principal、equal-difference、pairing，保留
+$(\ell-m)(k-n)$ 的符号与 companion scalar。
+\item \textbf{验证 VST--DR/CLCJS3 bridge。} 只有当所生 fibre 确实是 equal-sum/
+equal-product 且 nonzero-wrap、两 sheet 与 opposite orientation 均可逆时，才调用
+或推广旧 VST 方法；否则重新命名新 target，避免伪等价。
+\item \textbf{证明 actual-class PCCJS。} 目标不是任意系数，而是短自相关、
+divisor-incidence、parity-fibred、all-direction coherent class。优先尝试同时利用
+CJS.5 的 difference product 与 VCR 的 rank-one cone，而不是逐 direction Weil。
+\item \textbf{逐壳层回代。} 同时审计 critical $H(D)\asymp N$ 与低壳层交界；
+WP mass、RP physical factors、gcd descent 与 endpoint 必须进入同一总预算。
+\item \textbf{并行保持 G3 三个接口。} 先补 finite manifest 与 P2 basis insertion；
+P1 则专攻 weighted square-core BPTPE，而不是重复 fixed-$p$ bound。
+\end{enumerate}
+
+\section{计算审计与非定理证据}
+
+本节只用于发现 normalization、conjugation 与 sheet 错误；它不参与任何证明。
+\begin{enumerate}
+\item \EVIDENCE：KRP.2--CJS.6 的有限和恒等式曾对
+$p=7,11,13,17$ 作直接枚举，包含 principal 与 generic characters，符号与
+conjugation 均一致。其证明仍以第~\ref{sec:cjs} 节的代数推导为准。
+\item \EVIDENCE：在 $p=31,43,61,83,127$、长度
+$H=\lfloor\sqrt p\rfloor$ 的 translated intervals 上，以随机 unit phases 测试
+actual KRP packet。记录的
+$\sqrt p\,|\Sigma_{\rm gen}|/Z_w^4$ 最大值为
+\[
+\begin{array}{c|ccccc}
+p&31&43&61&83&127\\ \hline
+\text{single packet}&.0199&.00767&.00562&.00296&.00152\\
+\text{$H$-leaf coherent packet}&.0141&.00862&.00406&.00444&.00227
+\end{array}
+\]
+这只说明实际 packet class 在小样本中没有立即反驳 PCCJS，不能外推 uniform bound。
+\item \EVIDENCE：小素数枚举已经发现 actual two-sheet fibres 可有 rank two，故
+scalar-sheet 版本不仅缺证明，而且在对象层面错误。这条计算只辅助发现反例；
+正式禁用结论来自保留两 sheet 后的精确 Vieta 参数化与线性独立性检查。
+\end{enumerate}
+
+\section{来源、版本与可追溯性}
+
+本稿合并并重新分层了下列本地来源；SHA-256 用于以后确认是否换了底稿：
+\begin{longtable}{p{0.45\textwidth}p{0.47\textwidth}}
+\toprule
+文件&SHA-256\\ \midrule
+\texttt{g2\_closure\_\allowbreak failure\_and\_\allowbreak repair (1)(1).tex}&
+\texttt{70f39b6418f4ebd8\allowbreak e5f15d5f5eabac84\allowbreak
+19deeed41cbcf0c7\allowbreak 2f4219619eea9e7b}\\
+\texttt{gft\_verified\_\allowbreak toolkit\_and\_\allowbreak
+beautiful\_identities (1)(1).tex}&
+\texttt{d079ebb7315ebd04\allowbreak 2229c463c0396641\allowbreak
+aba28b3bd04c5cb0\allowbreak 46729f0c9bb9835a}\\
+\texttt{goldbach\_g1\_g2\_g3\_\allowbreak audited (1)(1).tex}&
+\texttt{da122ea706ccd4ce\allowbreak ae2db921ff820ab4\allowbreak
+d8fbf64a02359957\allowbreak a8ed72c3c7b38b1e}\\
+\texttt{ChatGPT-复对称变换提取对角线.md}&
+\texttt{90cf17e7027c3569\allowbreak 174f57d01ff88db7\allowbreak
+55a5840f5c894cac\allowbreak 1adfc7d6684a810e}\\
+\texttt{pcct\_parity\_cofactor\_\allowbreak transfer\_audit\_\allowbreak
+2026-09-02.tex}&
+\texttt{a868d582ac95d917\allowbreak a192cc989a8f1378\allowbreak
+da096e274aa31551\allowbreak 930aecfec932e1f7}\\
+\bottomrule
+\end{longtable}
+
+旧 G2 稿用于保存 reciprocal-vs-affine 的失败证据；最新 PCCT 稿覆盖其 DCCS/KPA8
+候选正向结论。任何命名冲突按本文对象的显式定义解决，不按时间较早的“CLOSED”标签解决。
+
+\section{外部输入与调用边界}
+
+\begin{itemize}
+\item Friedlander--Iwaniec asymptotic sieve：证明在额外 bilinear hypothesis 下突破
+parity；不证明本项目 packet 的 bilinear hypothesis。
+\item Blomer--Pascadi/Pascadi 型 Kloosterman bounds：只在原 coefficient、interval、
+modulus、coprimality 与 averaging 假设全部满足时调用；不能把多个弱 saving 形式相乘。
+\item classical zeta zero-free、Siegel--Walfisz major arcs、Montgomery--Vaughan tail：
+用于 MA/ZOT；形式化时是参数完整的 external records。
+\item polynomial-value square paucity：只控制裸值计数；不自动控制 weighted
+pushforward multiplicity。
+\end{itemize}
+
+\begin{thebibliography}{9}
+\bibitem{FI}
+J.~Friedlander and H.~Iwaniec,
+\emph{Asymptotic sieve for primes},
+Ann. of Math. (2) \textbf{148} (1998), 1041--1065;
+arXiv:math/9811186.
+
+\bibitem{Vaughan}
+R.~C. Vaughan, \emph{The Hardy--Littlewood Method}, 2nd ed., Cambridge, 1997.
+
+\bibitem{MV}
+H.~L. Montgomery and R.~C. Vaughan,
+\emph{Multiplicative Number Theory I: Classical Theory}, Cambridge, 2007.
+
+\bibitem{BP}
+V.~Blomer and A.~Pascadi,
+\emph{Bilinear forms with Kloosterman sums via quadratic characters},
+arXiv:2607.24311v1 (2026).
+
+\bibitem{Pascadi}
+A.~Pascadi,
+\emph{Non-abelian amplification and bilinear forms with Kloosterman sums},
+arXiv:2511.08445v2 (2026).
+
+\bibitem{Kable}
+A.~C. Kable,
+\emph{Legendre sums, Soto--Andrade sums and Kloosterman sums},
+Pacific J. Math. \textbf{206} (2002), 139--157.
+\end{thebibliography}
+
+\section*{最终接管结论}
+\addcontentsline{toc}{section}{最终接管结论}
+
+目前不能诚实声称 G1、G2、G3 或 Goldbach 已闭合。可以诚实声称的是：
+从 parity cofactor 到 actual KRP，再到 CJS difference-product Gram、complex
+mixed TPC4、two-sheet Vieta cone 的有限代数链已经建立；pairing 与 principal
+异常已经被定位，错误的 affine、scalar-sheet、arbitrary-vector 路线已排除。
+因此下一步不应再重新发明 GFT 名称，而应首先完成 (ASM)，随后在 actual mixed
+packet 类上证明 PCCJS；这正是拿回临界半次幂的最短已审计路线。
+
+\end{document}
